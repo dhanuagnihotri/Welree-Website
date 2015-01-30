@@ -1,18 +1,16 @@
-<div id="header" class="navbar navbar-top">
-  <div class="navbar-inner">
-    <div class="container container-full-width">
-      <a href="/" class="navbar-brand nav-text">PROJECT_NAME</a>
+<div id="header" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header"><a href="/" class="navbar-brand nav-text">Welree</a></div>
 
-      <ul class="nav pull-right logged-out nav-text">
+      <ul class="nav navbar-nav pull-right logged-out nav-text">
         <li><a href="{{ url("signup") }}">Sign Up</a></li>
         <li><a href="{{ url("login") }}">Log In</a></li>
       </ul>
 
-      <ul class="nav pull-right logged-in nav-text">
+      <ul class="nav navbar-nav pull-right logged-in nav-text">
         <li><a href="/account">Account</a></li>
         <li><a href="/logout" id="header-logout">Log Out</a></li>
         <li class="divider-vertical"></li>
       </ul>
     </div>
-  </div>
 </div>
