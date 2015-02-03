@@ -1,3 +1,4 @@
+# add your application-specific requirements here:
 # base requirements:
 BeautifulSoup<4.0
 Pillow
@@ -5,6 +6,7 @@ bpython
 cssselect
 django
 django-forms-bootstrap
+django-jinja
 django-nose
 django-smtp-ssl
 django_compressor
@@ -14,8 +16,6 @@ lxml
 pbdeploy==1.8
 python-cjson
 python-memcached
+pytz
 raven
 sorl-thumbnail
-pytz
-django-jinja
-# add your application-specific requirements here:
