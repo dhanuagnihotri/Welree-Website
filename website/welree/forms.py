@@ -13,7 +13,7 @@ from welree import models
 class SignupForm(forms.ModelForm):
     class Meta:
         model = models.CustomUser
-        fields = ['first_name', 'last_name', 'email', 'password']
+        fields = ['first_name', 'last_name', 'email', 'password', 'is_designer']
 
     def __init__(self, *args, **kwargs):
         super(SignupForm, self).__init__(*args, **kwargs)
