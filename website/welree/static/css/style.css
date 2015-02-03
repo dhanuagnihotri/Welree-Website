@@ -4,3 +4,19 @@
 body {
     margin-top: 60px;
 }
+
+div.signup-option {
+    float: left;
+    width: 45%;
+}
+div.signup-middle {
+    float: left;
+    width: 5%;
+}
+div.btn-facebook {
+    margin: auto;
+    width: 300px;
+}
+div.btn-facebook a {
+    width: 100%;
+}

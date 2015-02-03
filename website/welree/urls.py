@@ -25,5 +25,7 @@ urlpatterns = patterns('',
     url(r'^$', 'welree.views.home', name="home"),
     url(r'^email/confirm/(?P<token>[\w-]{36})/$', 'welree.views.email_confirm', name="email_confirm"),
 
+    url('', include('social.apps.django_app.urls', namespace='social')),
+
     *app_urls
 )

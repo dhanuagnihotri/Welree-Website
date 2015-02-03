@@ -40,6 +40,7 @@ def home(request):
     return r2r("index.jinja", request)
 
 def login(request):
+    error_msg = ''
     def failure(error_msg):
         return r2r("login.jinja", request, locals())
 
@@ -66,6 +67,7 @@ def logout(request):
     return redirect("home")
 
 def signup(request):
+    error_msg = ''
     usermodel = get_user_model()
     if request.method == "GET":
         return r2r("signup.jinja", request, locals())
@@ -114,7 +116,7 @@ def account(request):
                 error = "Passwords do not match."
         message = "Settings successfully updated."
 
-    return r2r("settings.jinja", request, locals())
+    return r2r("account.jinja", request, locals())
 
 def password_reset(request, is_admin_site=False,
                    template_name='registration/password_reset_form.html',

@@ -117,6 +117,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.core.context_processors.request',
     'welree.context_processors.processor',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
 )
 
 FIXTURE_DIRS = (
@@ -138,11 +140,29 @@ INSTALLED_APPS = (
     'django_forms_bootstrap',
     'sorl.thumbnail',
     'welree',
+    'social.apps.django_app.default',
 )
 if not (DEBUG or TESTING):
     INSTALLED_APPS += (
         'raven.contrib.django',
     )
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+URL_PATH = ''
+if DEBUG:
+    SOCIAL_AUTH_FACEBOOK_KEY = '1538527306401099'
+    SOCIAL_AUTH_FACEBOOK_SECRET = '91a93feed5351fa471d97b23d7ef05c0'
+else:
+    SOCIAL_AUTH_FACEBOOK_KEY = '1538526893067807'
+    SOCIAL_AUTH_FACEBOOK_SECRET = '5482c01cacf9d877865bde102fb4d684'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
