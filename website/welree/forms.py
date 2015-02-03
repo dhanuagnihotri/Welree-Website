@@ -8,6 +8,20 @@ from django.conf import settings
 
 from django.utils.translation import ugettext, ugettext_lazy as _
 
+from welree import models
+
+class SignupForm(forms.ModelForm):
+    class Meta:
+        model = models.CustomUser
+        fields = ['first_name', 'last_name', 'email', 'password']
+
+    def __init__(self, *args, **kwargs):
+        super(SignupForm, self).__init__(*args, **kwargs)
+
+        self.fields['email'].required = True
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+
 class PasswordResetForm(forms.Form):
     error_messages = {
         'unknown': _("That e-mail address doesn't have an associated "

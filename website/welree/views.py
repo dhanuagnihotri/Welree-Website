@@ -13,6 +13,7 @@ import uuid
 import re
 
 from welree import models
+from welree.forms import SignupForm
 
 email_re = re.compile(
      r"(^[-!#$%&'*+/=?^_`{}|~0-9A-Z]+(\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*"  # dot-atom
@@ -25,9 +26,6 @@ email_re = re.compile(
 def r2r(template, request, data=None):
     data = data or {}
     return render_to_response(template, data, context_instance=RequestContext(request))
-
-def is_valid_email(email):
-    return True if email_re.match(email) else False
 
 def superuser_required(function):
     def _inner(request, *args, **kwargs):
@@ -69,30 +67,32 @@ def logout(request):
 def signup(request):
     error_msg = ''
     usermodel = get_user_model()
+    signup_form = SignupForm()
     if request.method == "GET":
         return r2r("signup.jinja", request, locals())
     else:
-        email = request.POST['email']
-        password = request.POST['password']
-        if not is_valid_email(email):
-            error_msg = "Please enter a valid email address."
+        signup_form = SignupForm(request.POST, request.FILES)
+        if signup_form.is_valid():
+            print usermodel.objects.filter(email=signup_form.cleaned_data['email']).exists()
+            if usermodel.objects.filter(email=signup_form.cleaned_data['email']).exists():
+                signup_form.add_error('email', 'This email address is already registered with Welree.')
+                return r2r("signup.jinja", request, locals())
+            password = signup_form.cleaned_data['password']
+            user = signup_form.save()
+            user.username = user.email
+            user.set_password(password)
+            user.save()
+            user = authenticate(username=user.username, password=signup_form.cleaned_data['password'])
+            if user is not None:
+                login_user(request, user)
+        else:
             return r2r("signup.jinja", request, locals())
-        if len(password) < 6:
-            error_msg = "Please enter a password of at least 6 characters."
-            return r2r("signup.jinja", request, locals())
-        if usermodel.objects.filter(username=email).count():
-            error_msg = "An account with this email address already exists."
-            return r2r("signup.jinja", request, locals())
-
-        user = usermodel.objects.create_user(email, email, password=password)
-        user.save()
-        user = authenticate(username=email, password=password)
-        login_user(request, user)
 
         # Send email confirmation.
         email_confirm_url = reverse('email_confirm', args=[str(uuid.uuid4())])
-        msg = "Thanks for signing up for welree!\n\nPlease confirm your email address by clicking the following link: {0}{1}. You won't be able to receive further emails from us until confirming your address.\n\nIf you didn't sign up, take no action, and this is the last email you'll receive from us.\n\nThanks,\n{0}".format(settings.WEBSITE_URL, email_confirm_url)
-        user.email_user("Welcome to welree", msg, ignore_confirmed=True)
+        msg = "Thanks for signing up for Welree!\n\nPlease confirm your email address by clicking the following link: {0}{1}. You won't be able to receive further emails from us until confirming your address.\n\nIf you didn't sign up, take no action, and this is the last email you'll receive from us.\n\nThanks,\n{0}".format(settings.WEBSITE_URL, email_confirm_url)
+        user.email_user("Welcome to Welree", msg, ignore_confirmed=True)
+        messages.success(request, "You've successfully signed up! Please confirm your email address in order to receive future communication from Welree.")
 
         return redirect("home")
 
