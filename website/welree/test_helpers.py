@@ -1,3 +1,4 @@
+import cjson
 from django.utils import unittest
 import django.test
 from django.test.client import Client
@@ -49,19 +50,24 @@ class ExtendedTestCase(django.test.TestCase):
         return cls._http_verb('get', path, client=client, **kwargs)
 
     @classmethod
-    def post(cls, path, data=None, client=None, **kwargs):
+    def post(cls, path, data=None, client=None, as_string=False, **kwargs):
         data = data or {}
+        if as_string:
+            data = cjson.encode(data)
+            kwargs['content_type'] = 'application/json'
+
         return cls._http_verb('post', path, data=data, client=client, **kwargs)
 
     @classmethod
-    def _api_call(cls, path, data=None, client=None, method="post"):
+    def _api_call(cls, path, data=None, client=None, method="post", **kwargs):
         data = data or {}
         response = getattr(cls, method)(path,
-                                        data=util.dumps(data),
+                                        data=cjson.encode(data),
                                         client=client,
-                                        content_type="application/json")
+                                        content_type="application/json",
+                                        **kwargs)
         try:
-            content = util.loads(response.content)
+            content = cjson.decode(response.content)
         except ValueError:
             # Probably not a JSON response, so just return a string.
             content = response.content

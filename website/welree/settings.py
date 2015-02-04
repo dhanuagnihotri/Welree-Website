@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'welree',
     'social.apps.django_app.default',
+    'tastypie',
 )
 if not (DEBUG or TESTING):
     INSTALLED_APPS += (

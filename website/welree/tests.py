@@ -4,6 +4,13 @@ from django.core import mail
 from welree.test_helpers import ExtendedTestCase
 from welree import models
 
+class welreeApiTests(ExtendedTestCase):
+    def test_login_logout(self):
+        self.assertStatus(401, '/api/v1/user/logout/?format=json')
+        self.assertStatus(405, '/api/v1/user/login/?format=json')
+        response = self.api_post('/api/v1/user/login/', {}, raise_errors=False)
+        self.assertEquals(response, {'success': False, 'reason': 'incorrect'})
+
 class welreeTests(ExtendedTestCase):
     def signup_user(self):
         model = get_user_model()

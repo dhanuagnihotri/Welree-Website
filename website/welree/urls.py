@@ -3,6 +3,8 @@ from django.conf import settings
 from django.contrib import admin
 from django.core.urlresolvers import reverse_lazy
 
+from welree.api import v1
+
 admin.autodiscover()
 
 app_urls = (
@@ -25,7 +27,9 @@ urlpatterns = patterns('',
     url(r'^$', 'welree.views.home', name="home"),
     url(r'^email/confirm/(?P<token>[\w-]{36})/$', 'welree.views.email_confirm', name="email_confirm"),
 
-    url('', include('social.apps.django_app.urls', namespace='social')),
+    url(r'', include('social.apps.django_app.urls', namespace='social')),
+
+    url(r'^api/', include(v1.urls)),
 
     *app_urls
 )
