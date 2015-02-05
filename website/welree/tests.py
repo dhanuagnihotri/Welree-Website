@@ -1,10 +1,10 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, logout
 from django.core import mail
 
 from welree.test_helpers import ExtendedTestCase
 from welree import models
 
-def signup_user(self):
+def create_and_login_user(self):
     model = get_user_model()
     users = model.objects.count()
     email = "user{}@example.com".format(users)
@@ -22,15 +22,14 @@ class welreeApiTests(ExtendedTestCase):
         response = self.api_post('/api/v1/user/login/', {}, raise_errors=False)
         self.assertEquals(response, {'success': False, 'reason': 'incorrect'})
 
-        user = signup_user(self)
+        user = create_and_login_user(self)
         response = self.api_post('/api/v1/user/login/', {'username': user.username, 'password': 'foobar'}, raise_errors=False)
         self.assertEquals(response, {'success': True})
         response = self.api_get('/api/v1/user/logout/')
         self.assertEquals(response, {'success': True})
 
     def test_consumer_photo_upload(self):
-        client = self.get_client()
-        #self.fail()
+        self.assertStatus(404, '/api/v1/collection/upload/')
 
 
 class welreeTests(ExtendedTestCase):

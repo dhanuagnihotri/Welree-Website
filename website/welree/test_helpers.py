@@ -25,8 +25,11 @@ class ExtendedTestCase(django.test.TestCase):
             response = self.get(path, **kwargs)
         except NotOkay, no:
             response = no.response
-            
         self.assertEqual(status, response.status_code)
+            
+    def assertNumCssMatches(self, num, response, css_selector):
+        found = len(self.css_select(response, css_selector))
+        self.assertEqual(num, found, "Expected {0} but found {1}.".format(num, found))
         
     @classmethod
     def get_client(cls, user=None):
@@ -91,8 +94,4 @@ class ExtendedTestCase(django.test.TestCase):
         document = self.parse_response(response)
         expression = HTMLTranslator().css_to_xpath(css_selector)
         return document.xpath(expression)
-
-    def assertNumCssMatches(self, num, response, css_selector):
-        found = len(self.css_select(response, css_selector))
-        self.assertEqual(num, found, "Expected {0} but found {1}.".format(num, found))
 
