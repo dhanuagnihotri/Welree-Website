@@ -13,17 +13,21 @@ def signup_user(self):
 
 class welreeApiTests(ExtendedTestCase):
     def test_login_logout(self):
-        client = self.get_client()
-        self.assertStatus(401, '/api/v1/user/logout/', client=client)
-        self.assertStatus(405, '/api/v1/user/login/', client=client)
-        response = self.api_post('/api/v1/user/login/', {}, raise_errors=False, client=client)
+        self.persist_client()
+        self.assertStatus(401, '/api/v1/user/logout/')
+        self.assertStatus(405, '/api/v1/user/login/')
+        response = self.api_post('/api/v1/user/login/', {}, raise_errors=False)
         self.assertEquals(response, {'success': False, 'reason': 'incorrect'})
 
         user = signup_user(self)
-        response = self.api_post('/api/v1/user/login/', {'username': user.username, 'password': 'foobar'}, raise_errors=False, client=client)
+        response = self.api_post('/api/v1/user/login/', {'username': user.username, 'password': 'foobar'}, raise_errors=False)
         self.assertEquals(response, {'success': True})
-        response = self.api_get('/api/v1/user/logout/', client=client)
+        response = self.api_get('/api/v1/user/logout/')
         self.assertEquals(response, {'success': True})
+
+    def test_consumer_photo_upload(self):
+        client = self.get_client()
+        self.fail()
 
 
 class welreeTests(ExtendedTestCase):

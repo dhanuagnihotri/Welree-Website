@@ -13,12 +13,13 @@ class NotOkay(Exception):
         self.status = response.status_code
 
 class ExtendedTestCase(django.test.TestCase):
-    def after_setUp(self):
-        """ Override this to do extra setup. """
+    def setUp(self):
+        ExtendedTestCase.client = None
+
+    @classmethod
+    def persist_client(cls):
+        cls.client = cls.get_client()
     
-    def before_tearDown(self):
-        """ Override this to do extra tear-down. """
-        
     def assertStatus(self, status, path, **kwargs):
         try:
             response = self.get(path, **kwargs)
@@ -29,7 +30,7 @@ class ExtendedTestCase(django.test.TestCase):
         
     @classmethod
     def get_client(cls, user=None):
-        client = Client()
+        client = cls.client or Client()
         if user:
             assert client.login(username=user.username, password="foobar")
         return client
