@@ -13,3 +13,31 @@ class CustomUser(AbstractUser):
 
         AbstractUser.email_user(self, subject, message, from_email)
         return True
+
+class DesignerJewelryManager(models.Manager):
+    def get_queryset(self):
+        return super(DesignerJewelryManager, self).get_queryset().filter(collection__kind=JewelryCollection.KIND_DESIGNER)
+
+class JewelryCollection(models.Model):
+    KIND_DESIGNER = 0
+    KIND_JEWELBOX = 1
+    KIND_IDEABOOK = 2
+    KIND_CHOICES = (
+            (KIND_DESIGNER, "Designer"),
+            (KIND_JEWELBOX, "JewelBox"),
+            (KIND_IDEABOOK, "IdeaBook"),
+    )
+    
+    kind = models.IntegerField(choices=KIND_CHOICES, db_index=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    name = models.CharField(max_length=63)
+
+class JewelryItem(models.Model):
+    uploader = models.ForeignKey(settings.AUTH_USER_MODEL)
+    collection = models.ForeignKey(JewelryCollection)
+    primary_photo = SorlImageField(upload_to='jewelry')
+    description = models.CharField(max_length=255)
+    url = models.URLField(blank=True, null=True)
+
+    everything = models.Manager()
+    objects = DesignerJewelryManager()

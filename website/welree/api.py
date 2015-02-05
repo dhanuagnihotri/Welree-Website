@@ -5,7 +5,30 @@ from tastypie.http import HttpUnauthorized, HttpForbidden
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
+from welree import models
+
 v1 = Api('v1')
+
+class JewelryItemResource(ModelResource):
+    class Meta:
+        queryset = models.JewelryItem.objects.all()
+        fields = []
+        allowed_methods = ['get', 'post']
+        resource_name = 'jewelry'
+
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/upload%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('upload'), name="api_upload"),
+        ]
+
+    def upload(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+        if not (request.user and request.user.is_authenticated()):
+            return self.create_response(request, {'success': False, 'reason': 'loggedout'})
+
+        return self.create_response(request, {'success': True})
 
 class UserResource(ModelResource):
     class Meta:
@@ -59,3 +82,4 @@ class UserResource(ModelResource):
             return self.create_response(request, { 'success': False }, HttpUnauthorized)
 
 v1.register(UserResource())
+v1.register(JewelryItemResource())
