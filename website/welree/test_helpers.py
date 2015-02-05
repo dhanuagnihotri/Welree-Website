@@ -72,9 +72,9 @@ class ExtendedTestCase(django.test.TestCase):
                                         **kwargs)
         try:
             content = cjson.decode(response.content)
-        except ValueError:
+        except cjson.DecodeError:
             # Probably not a JSON response, so just return a string.
-            content = response.content
+            content = response
         return content
 
     @classmethod

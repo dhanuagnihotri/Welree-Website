@@ -1,7 +1,8 @@
 from django.conf.urls import url
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from tastypie.api import Api
-from tastypie.authorization import DjangoAuthorization
+from tastypie.authorization import Authorization, DjangoAuthorization
+from tastypie.exceptions import Unauthorized
 from tastypie.http import HttpUnauthorized, HttpForbidden
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
@@ -10,14 +11,55 @@ from welree import models
 
 v1 = Api('v1')
 
+
+class OwnerObjectsOnlyAuthorization(Authorization):
+    def read_list(self, object_list, bundle):
+        # This assumes a ``QuerySet`` from ``ModelResource``.
+        return object_list.filter(uploader=bundle.request.user.id)
+
+    def read_detail(self, object_list, bundle):
+        # Is the requested object owned by the user?
+        return bundle.obj.uploader == bundle.request.user.id
+
+    def create_list(self, object_list, bundle):
+        # Assuming they're auto-assigned to ``user``.
+        return object_list
+
+    def create_detail(self, object_list, bundle):
+        return bundle.obj.uploader == bundle.request.user.id
+
+    def update_list(self, object_list, bundle):
+        allowed = []
+
+        # Since they may not all be saved, iterate over them.
+        for obj in object_list:
+            if obj.uploader == bundle.request.user.id:
+                allowed.append(obj)
+
+        return allowed
+
+    def update_detail(self, object_list, bundle):
+        return bundle.obj.uploader == bundle.request.user.id
+
+    def delete_list(self, object_list, bundle):
+        raise Unauthorized("Sorry, no deletes.")
+
+    def delete_detail(self, object_list, bundle):
+        raise Unauthorized("Sorry, no deletes.")
+
 class JewelryItemResource(ModelResource):
     class Meta:
         queryset = models.JewelryItem.objects.all()
         fields = []
         allowed_methods = ['get', 'post']
         resource_name = 'jewelry'
-        authorization = DjangoAuthorization()
+        authorization = OwnerObjectsOnlyAuthorization()
 
+    def hydrate(self, bundle, request=None):
+            bundle.obj.uploader = get_user_model().objects.filter(pk=bundle.request.user.id).first()
+            return bundle
+
+    """
     def prepend_urls(self):
         return [
             url(r"^(?P<resource_name>%s)/upload%s$" %
@@ -31,6 +73,7 @@ class JewelryItemResource(ModelResource):
             return self.create_response(request, {'success': False, 'reason': 'loggedout'})
 
         return self.create_response(request, {'success': True})
+    """
 
 class UserResource(ModelResource):
     class Meta:

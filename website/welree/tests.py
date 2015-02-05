@@ -29,13 +29,14 @@ class welreeApiTests(ExtendedTestCase):
         self.assertEquals(response, {'success': True})
 
     def test_consumer_photo_upload(self):
-        self.assertStatus(405, '/api/v1/jewelry/upload/')
-        response = self.api_post('/api/v1/jewelry/upload/', {}, raise_errors=False)
-        self.assertEquals(response, {'success': False, 'reason': 'loggedout'})
+        response = self.api_get('/api/v1/jewelry/')
+        self.assertEquals(response['objects'], [])
+        response = self.api_post('/api/v1/jewelry/', {}, raise_errors=False)
+        self.assertEquals(response.status_code, 401)
 
         user = create_and_login_user(self)
-        response = self.api_post('/api/v1/jewelry/upload/', {}, raise_errors=False)
-        self.assertEquals(response, {'success': True})
+        response = self.api_post('/api/v1/jewelry/', {}, raise_errors=False)
+        self.assertEquals(response, {1:2})
 
 class welreeTests(ExtendedTestCase):
     def test_404(self):
