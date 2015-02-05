@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from tastypie.api import Api
+from tastypie.authorization import DjangoAuthorization
 from tastypie.http import HttpUnauthorized, HttpForbidden
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
@@ -15,6 +16,7 @@ class JewelryItemResource(ModelResource):
         fields = []
         allowed_methods = ['get', 'post']
         resource_name = 'jewelry'
+        authorization = DjangoAuthorization()
 
     def prepend_urls(self):
         return [
@@ -36,6 +38,7 @@ class UserResource(ModelResource):
         fields = ['first_name', 'last_name', 'email']
         allowed_methods = ['get', 'post']
         resource_name = 'user'
+        authorization = DjangoAuthorization()
 
     def prepend_urls(self):
         return [
