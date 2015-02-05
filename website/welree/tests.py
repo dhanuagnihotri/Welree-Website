@@ -4,20 +4,29 @@ from django.core import mail
 from welree.test_helpers import ExtendedTestCase
 from welree import models
 
+def signup_user(self):
+    model = get_user_model()
+    users = model.objects.count()
+    email = "user{}@example.com".format(users)
+    response = self.post("/signup/", {"email": email, "password": "foobar", "first_name": "Charles", "last_name": "Atterly"})
+    return model.objects.get(email=email)
+
 class welreeApiTests(ExtendedTestCase):
     def test_login_logout(self):
-        self.assertStatus(401, '/api/v1/user/logout/?format=json')
-        self.assertStatus(405, '/api/v1/user/login/?format=json')
-        response = self.api_post('/api/v1/user/login/', {}, raise_errors=False)
+        client = self.get_client()
+        self.assertStatus(401, '/api/v1/user/logout/?format=json', client=client)
+        self.assertStatus(405, '/api/v1/user/login/?format=json', client=client)
+        response = self.api_post('/api/v1/user/login/', {}, raise_errors=False, client=client)
         self.assertEquals(response, {'success': False, 'reason': 'incorrect'})
 
-class welreeTests(ExtendedTestCase):
-    def signup_user(self):
-        model = get_user_model()
-        users = model.objects.count()
-        self.post("/signup/", {"email": "user{}@example.com".format(users), "password": "foobar"})
-        return model.objects.get(id=users+1)
+        user = signup_user(self)
+        response = self.api_post('/api/v1/user/login/', {'username': user.username, 'password': 'foobar'}, raise_errors=False, client=client)
+        self.assertEquals(response, {'success': True})
+        response = self.api_get('/api/v1/user/logout/?format=json', client=client)
+        self.assertEquals(response, {'success': True})
 
+
+class welreeTests(ExtendedTestCase):
     def test_404(self):
         self.assertStatus(404, '/foobar/')
 

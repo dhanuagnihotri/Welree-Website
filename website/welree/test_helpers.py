@@ -59,12 +59,12 @@ class ExtendedTestCase(django.test.TestCase):
         return cls._http_verb('post', path, data=data, client=client, **kwargs)
 
     @classmethod
-    def _api_call(cls, path, data=None, client=None, method="post", **kwargs):
+    def _api_call(cls, path, data=None, client=None, method='post', **kwargs):
         data = data or {}
         response = getattr(cls, method)(path,
                                         data=cjson.encode(data),
                                         client=client,
-                                        content_type="application/json",
+                                        content_type='application/json',
                                         **kwargs)
         try:
             content = cjson.decode(response.content)
@@ -76,6 +76,10 @@ class ExtendedTestCase(django.test.TestCase):
     @classmethod
     def api_post(cls, *args, **kwargs):
         return cls._api_call(*args, **kwargs)
+
+    @classmethod
+    def api_get(cls, *args, **kwargs):
+        return cls._api_call(*args, method='get', **kwargs)
 
     def parse_response(self, response):
         if isinstance(response, basestring):
