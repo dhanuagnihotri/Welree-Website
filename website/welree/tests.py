@@ -14,15 +14,15 @@ def signup_user(self):
 class welreeApiTests(ExtendedTestCase):
     def test_login_logout(self):
         client = self.get_client()
-        self.assertStatus(401, '/api/v1/user/logout/?format=json', client=client)
-        self.assertStatus(405, '/api/v1/user/login/?format=json', client=client)
+        self.assertStatus(401, '/api/v1/user/logout/', client=client)
+        self.assertStatus(405, '/api/v1/user/login/', client=client)
         response = self.api_post('/api/v1/user/login/', {}, raise_errors=False, client=client)
         self.assertEquals(response, {'success': False, 'reason': 'incorrect'})
 
         user = signup_user(self)
         response = self.api_post('/api/v1/user/login/', {'username': user.username, 'password': 'foobar'}, raise_errors=False, client=client)
         self.assertEquals(response, {'success': True})
-        response = self.api_get('/api/v1/user/logout/?format=json', client=client)
+        response = self.api_get('/api/v1/user/logout/', client=client)
         self.assertEquals(response, {'success': True})
 
 
