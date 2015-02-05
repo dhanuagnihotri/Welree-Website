@@ -209,6 +209,11 @@ CACHES = {
     }
 }
 
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_ACCESS_KEY_ID = 'AKIAJPDYLUAPY2TAV2OA'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'djangostorages-welree'
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '1w*!f7srzy(lq%6m&y!uhz1rrl#id6qzzlqyl-i8t$rmi59+if'
 
