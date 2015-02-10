@@ -29,7 +29,7 @@ class JewelryCollection(models.Model):
     )
     
     kind = models.IntegerField(choices=KIND_CHOICES, db_index=True)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="collections")
     name = models.CharField(max_length=63)
 
 class JewelryItem(models.Model):

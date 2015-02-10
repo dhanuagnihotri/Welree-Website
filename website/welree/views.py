@@ -13,10 +13,11 @@ import uuid
 import re
 
 from welree import models
-from welree.forms import SignupForm
+from welree.forms import SignupForm, DesignerCollectionForm
 
 def r2r(template, request, data=None):
     data = data or {}
+    data['error_msg'] = data.get('error_msg', '')
     return render_to_response(template, data, context_instance=RequestContext(request))
 
 def superuser_required(function):
@@ -57,7 +58,6 @@ def logout(request):
     return redirect("home")
 
 def signup(request):
-    error_msg = ''
     usermodel = get_user_model()
     signup_form = SignupForm()
     if request.method == "GET":
@@ -88,10 +88,16 @@ def signup(request):
         return redirect("home")
 
 @login_required
+def designer_upload(request):
+    form_collection_new = DesignerCollectionForm()
+    collections = request.user.collections.all()
+    return r2r('designer/upload.jinja', request, locals())
+
+@login_required
 def email_confirm(request, token):
     request.user.email_confirmed = True
     request.user.save()
-    return r2r("email_confirmed.jinja", request, locals())
+    return r2r('email_confirmed.jinja', request, locals())
 
 @login_required
 def account(request):

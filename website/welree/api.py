@@ -48,15 +48,22 @@ class OwnerObjectsOnlyAuthorization(Authorization):
     def delete_detail(self, object_list, bundle):
         raise Unauthorized("Sorry, no deletes.")
 
-class JewelryCollectionResource(ModelResource):
+
+class OwnerModelResource(ModelResource):
+    def hydrate(self, bundle, request=None):
+        bundle.obj.owner = get_user_model().objects.filter(pk=bundle.request.user.id).first()
+        print bundle.obj.owner
+        return bundle
+
+class JewelryCollectionResource(OwnerModelResource):
     class Meta:
         queryset = models.JewelryCollection.objects.all()
         fields = []
-        allowed_methods = ['get']
+        allowed_methods = ['get', 'post']
         resource_name = 'collection'
         authorization = OwnerObjectsOnlyAuthorization()
 
-class JewelryItemResource(ModelResource):
+class JewelryItemResource(OwnerModelResource):
     collection = tastypie.fields.ForeignKey(JewelryCollectionResource, 'collection')
 
     class Meta:
@@ -65,10 +72,6 @@ class JewelryItemResource(ModelResource):
         allowed_methods = ['get', 'post']
         resource_name = 'jewelry'
         authorization = OwnerObjectsOnlyAuthorization()
-
-    def hydrate(self, bundle, request=None):
-        bundle.obj.owner = get_user_model().objects.filter(pk=bundle.request.user.id).first()
-        return bundle
 
 class UserResource(ModelResource):
     class Meta:

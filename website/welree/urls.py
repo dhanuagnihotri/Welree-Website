@@ -8,11 +8,12 @@ from welree.api import v1
 admin.autodiscover()
 
 app_urls = (
-    url(r'^%s/'%name, 'welree.views.%s'%name, name=name) for name in (
+    url(r'^%s/'%name, 'welree.views.%s'%name.replace('/', '_'), name=name.replace('/', '_')) for name in (
         'login',
         'logout',
         'signup',
         'account',
+        'designer/upload',
     )
 )
 
