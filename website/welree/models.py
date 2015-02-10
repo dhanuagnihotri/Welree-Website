@@ -33,7 +33,7 @@ class JewelryCollection(models.Model):
     name = models.CharField(max_length=63)
 
 class JewelryItem(models.Model):
-    uploader = models.ForeignKey(settings.AUTH_USER_MODEL)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
     collection = models.ForeignKey(JewelryCollection)
     primary_photo = SorlImageField(upload_to='jewelry')
     description = models.CharField(max_length=255)

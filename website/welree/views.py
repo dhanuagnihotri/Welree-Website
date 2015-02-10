@@ -65,7 +65,6 @@ def signup(request):
     else:
         signup_form = SignupForm(request.POST, request.FILES)
         if signup_form.is_valid():
-            print usermodel.objects.filter(email=signup_form.cleaned_data['email']).exists()
             if usermodel.objects.filter(email=signup_form.cleaned_data['email']).exists():
                 signup_form.add_error('email', 'This email address is already registered with Welree.')
                 return r2r("signup.jinja", request, locals())

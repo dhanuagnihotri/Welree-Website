@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model, logout
 from django.core import mail
+from django.db import IntegrityError
 
 from welree.test_helpers import ExtendedTestCase
 from welree import models
@@ -31,12 +32,24 @@ class welreeApiTests(ExtendedTestCase):
     def test_consumer_photo_upload(self):
         response = self.api_get('/api/v1/jewelry/')
         self.assertEquals(response['objects'], [])
-        response = self.api_post('/api/v1/jewelry/', {}, raise_errors=False)
-        self.assertEquals(response.status_code, 401)
+
+        with self.assertRaises(ValueError):
+            response = self.api_post('/api/v1/jewelry/', {}, raise_errors=False)
 
         user = create_and_login_user(self)
         response = self.api_post('/api/v1/jewelry/', {}, raise_errors=False)
-        self.assertEquals(response, {1:2})
+        self.assertEquals(response, {'error': "The 'collection' field has no data and doesn't allow a default or null value."})
+
+        self.assertEquals(0, models.JewelryItem.objects.count())
+        collection = models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_DESIGNER, name='foo')
+        response = self.api_post('/api/v1/jewelry/', {
+            'collection': '/api/v1/collection/{}/'.format(collection.id),
+            'primary_photo': '/Users/mrooney/Desktop/passions.jpg',
+            'description': 'foo'
+        }, raise_errors=False)
+        self.assertEquals(response.status_code, 201)
+        self.assertEquals(1, models.JewelryItem.objects.count())
+        self.assertEquals(collection, models.JewelryItem.objects.all()[0].collection)
 
 class welreeTests(ExtendedTestCase):
     def test_404(self):

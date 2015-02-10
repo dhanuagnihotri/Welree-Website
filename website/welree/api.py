@@ -6,6 +6,7 @@ from tastypie.exceptions import Unauthorized
 from tastypie.http import HttpUnauthorized, HttpForbidden
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
+import tastypie
 
 from welree import models
 
@@ -15,31 +16,31 @@ v1 = Api('v1')
 class OwnerObjectsOnlyAuthorization(Authorization):
     def read_list(self, object_list, bundle):
         # This assumes a ``QuerySet`` from ``ModelResource``.
-        return object_list.filter(uploader=bundle.request.user.id)
+        return object_list.filter(owner=bundle.request.user.id)
 
     def read_detail(self, object_list, bundle):
         # Is the requested object owned by the user?
-        return bundle.obj.uploader == bundle.request.user.id
+        return bundle.obj.owner.id == bundle.request.user.id
 
     def create_list(self, object_list, bundle):
         # Assuming they're auto-assigned to ``user``.
         return object_list
 
     def create_detail(self, object_list, bundle):
-        return bundle.obj.uploader == bundle.request.user.id
+        return bundle.obj.owner.id == bundle.request.user.id
 
     def update_list(self, object_list, bundle):
         allowed = []
 
         # Since they may not all be saved, iterate over them.
         for obj in object_list:
-            if obj.uploader == bundle.request.user.id:
+            if obj.owner.id == bundle.request.user.id:
                 allowed.append(obj)
 
         return allowed
 
     def update_detail(self, object_list, bundle):
-        return bundle.obj.uploader == bundle.request.user.id
+        return bundle.obj.owner.id == bundle.request.user.id
 
     def delete_list(self, object_list, bundle):
         raise Unauthorized("Sorry, no deletes.")
@@ -47,7 +48,17 @@ class OwnerObjectsOnlyAuthorization(Authorization):
     def delete_detail(self, object_list, bundle):
         raise Unauthorized("Sorry, no deletes.")
 
+class JewelryCollectionResource(ModelResource):
+    class Meta:
+        queryset = models.JewelryCollection.objects.all()
+        fields = []
+        allowed_methods = ['get']
+        resource_name = 'collection'
+        authorization = OwnerObjectsOnlyAuthorization()
+
 class JewelryItemResource(ModelResource):
+    collection = tastypie.fields.ForeignKey(JewelryCollectionResource, 'collection')
+
     class Meta:
         queryset = models.JewelryItem.objects.all()
         fields = []
@@ -56,24 +67,8 @@ class JewelryItemResource(ModelResource):
         authorization = OwnerObjectsOnlyAuthorization()
 
     def hydrate(self, bundle, request=None):
-            bundle.obj.uploader = get_user_model().objects.filter(pk=bundle.request.user.id).first()
-            return bundle
-
-    """
-    def prepend_urls(self):
-        return [
-            url(r"^(?P<resource_name>%s)/upload%s$" %
-                (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('upload'), name="api_upload"),
-        ]
-
-    def upload(self, request, **kwargs):
-        self.method_check(request, allowed=['post'])
-        if not (request.user and request.user.is_authenticated()):
-            return self.create_response(request, {'success': False, 'reason': 'loggedout'})
-
-        return self.create_response(request, {'success': True})
-    """
+        bundle.obj.owner = get_user_model().objects.filter(pk=bundle.request.user.id).first()
+        return bundle
 
 class UserResource(ModelResource):
     class Meta:
@@ -129,3 +124,4 @@ class UserResource(ModelResource):
 
 v1.register(UserResource())
 v1.register(JewelryItemResource())
+v1.register(JewelryCollectionResource())
