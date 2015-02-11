@@ -48,6 +48,9 @@ welree.tastypie_form_callback = function(e) {
 
 $(function() {
     $('.modal-tastypie form').on('submit', welree.tastypie_form_callback);
+    $('.modal-tastypie').on('shown.bs.modal', function() {
+        $(this).find('form *:input[type!=hidden]:first').focus();
+    });
     $('.modal-tastypie .btn-primary').on('click', welree.tastypie_form_callback);
 })
 

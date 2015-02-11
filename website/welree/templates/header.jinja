@@ -7,10 +7,23 @@
         <li><a href="{{ url("login") }}">Log In</a></li>
       </ul>
 
-      <ul class="nav navbar-nav pull-right logged-in nav-text">
-        <li><a href="/account">Account</a></li>
-        <li><a href="/logout" id="header-logout">Log Out</a></li>
-        <li class="divider-vertical"></li>
+      <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown logged-in pull-right">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Welree <span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+          {% if request.user.is_designer %}
+              <li><a href="#">My Collections</a></li>
+          {% else %}
+              <li><a href="#">My IdeaBooks</a></li>
+              <li><a href="#">My Jewel Box</a></li>
+          {% endif %}
+          <li class="divider"></li>
+          <li><a href="{{ url("designer_upload") if request.user.is_designer else url("consumer_upload") }}">Upload Photos</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Profile</a></li>
+          <li><a href="/logout/">Sign out</a></li>
+        </ul>
+      </li>
       </ul>
     </div>
 </div>

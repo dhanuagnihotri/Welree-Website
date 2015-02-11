@@ -22,8 +22,8 @@ class SignupForm(forms.ModelForm):
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
 
-class DesignerCollectionForm(forms.ModelForm):
-    kind = forms.ChoiceField(choices=models.JewelryCollection.KIND_CHOICES, initial=models.JewelryCollection.KIND_DESIGNER, widget=forms.HiddenInput())
+class CollectionForm(forms.ModelForm):
+    kind = forms.ChoiceField(choices=models.JewelryCollection.KIND_CHOICES, widget=forms.HiddenInput())
 
     class Meta:
         model = models.JewelryCollection

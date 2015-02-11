@@ -14,6 +14,7 @@ app_urls = (
         'signup',
         'account',
         'designer/upload',
+        'consumer/upload',
     )
 )
 
