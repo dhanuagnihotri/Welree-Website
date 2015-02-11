@@ -1,0 +1,21 @@
+{% macro tastypie_modal_form(name, endpoint, form, title, action) -%}
+    <div class="modal fade modal-tastypie" id="modal-{{name}}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">{{ title }}</h4>
+          </div>
+          <div class="modal-body">
+            <form action="{{ endpoint }}">{% csrf_token%}
+                {{ form|as_bootstrap() }}
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary">{{ action }}</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{%- endmacro %}

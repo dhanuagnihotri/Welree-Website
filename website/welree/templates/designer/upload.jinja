@@ -1,4 +1,5 @@
 {% extends "base.jinja" %}
+{% import "macros.jinja" as macros %}
 {% block extra_css %}
 <style type="text/css">
     .collection-item {
@@ -10,7 +11,6 @@
     }
 </style>
 {% endblock %}
-{#{% block above_container %}<h1>Login</h1>{% endblock %}#}
 {% block content %}
     <p class="text-error">{{ error_msg }}</p>
     <h4>Collections</h4>
@@ -19,55 +19,5 @@
         <div class="collection-item">{{ collection.name }}</div>
     {% endfor %}
 
-    <div class="modal fade" id="modal-collection-new">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">New Designer Collection</h4>
-          </div>
-          <div class="modal-body">
-            <form action="/api/v1/collection/" id="form-collection-new">{% csrf_token%}
-            {{ form_collection_new|as_bootstrap() }}
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary btn-form-submit" data-form="#form-collection-new">Create Collection</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    {{ macros.tastypie_modal_form('collection-new', '/api/v1/collection/', form_collection_new, 'New Designer Collection', 'Create Collection') }}
 {% endblock %}
-
-{% block extra_js %}
-<script>
-    $(function() {
-        var on_form_submit = function(e) {
-            e.preventDefault();
-            var form = $(this);
-            if (form.is('button')) { form = $(form.attr('data-form')); }
-            $.ajax({
-              type: 'POST',
-              url: form.attr('action'),
-              data: JSON.stringify($(form).serializeObject()),
-              processData: false,
-              contentType: 'application/json'
-            })
-            .done(function(status, data, xhr) {
-                if (xhr.statusText === 'CREATED') {
-                    $('.modal:visible').modal('hide');
-                    window.location.reload(true);
-                }
-            })
-            .fail(function(b, c) {
-                console.log('error', arguments);
-                console.log(b, c);
-            })
-        }
-        $('form').on('submit', on_form_submit);
-        $('.btn-form-submit').on('click', on_form_submit);
-    })
-</script>
-{% endblock %}
-
