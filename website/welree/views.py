@@ -13,7 +13,7 @@ import uuid
 import re
 
 from welree import models
-from welree.forms import SignupForm, CollectionForm
+from welree.forms import SignupForm, CollectionForm, JewelryItemForm
 
 def r2r(template, request, data=None):
     data = data or {}
@@ -90,12 +90,14 @@ def signup(request):
 @login_required
 def consumer_upload(request):
     form_collection_new = CollectionForm(initial={'kind': models.JewelryCollection.KIND_IDEABOOK})
+    form_jewelryitem_new = JewelryItemForm()
     collections = request.user.collections.all()
     return r2r('consumer/upload.jinja', request, locals())
 
 @login_required
 def designer_upload(request):
     form_collection_new = CollectionForm(initial={'kind': models.JewelryCollection.KIND_DESIGNER})
+    form_jewelryitem_new = JewelryItemForm()
     collections = request.user.collections.all()
     return r2r('designer/upload.jinja', request, locals())
 

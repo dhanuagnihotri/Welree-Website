@@ -29,6 +29,11 @@ class CollectionForm(forms.ModelForm):
         model = models.JewelryCollection
         fields = ['name']
 
+class JewelryItemForm(forms.ModelForm):
+    class Meta:
+        model = models.JewelryItem
+        fields = ['collection', 'primary_photo', 'description', 'url', 'type', 'material', 'color', 'tags']
+
 class PasswordResetForm(forms.Form):
     error_messages = {
         'unknown': _("That e-mail address doesn't have an associated "

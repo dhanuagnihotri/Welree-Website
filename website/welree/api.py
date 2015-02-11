@@ -52,7 +52,6 @@ class OwnerObjectsOnlyAuthorization(Authorization):
 class OwnerModelResource(ModelResource):
     def hydrate(self, bundle, request=None):
         bundle.obj.owner = get_user_model().objects.filter(pk=bundle.request.user.id).first()
-        print bundle.obj.owner
         return bundle
 
 class JewelryCollectionResource(OwnerModelResource):
@@ -72,6 +71,11 @@ class JewelryItemResource(OwnerModelResource):
         allowed_methods = ['get', 'post']
         resource_name = 'jewelry'
         authorization = OwnerObjectsOnlyAuthorization()
+
+    def hydrate_collection(self, bundle):
+        if 'collection' in bundle.data:
+            bundle.data['collection'] = '/api/v1/collection/{}/'.format(bundle.data['collection'])
+        return bundle
 
 class UserResource(ModelResource):
     class Meta:

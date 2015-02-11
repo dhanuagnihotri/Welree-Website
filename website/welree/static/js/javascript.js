@@ -29,10 +29,12 @@ welree.tastypie_form_callback = function(e) {
     e.preventDefault();
     var form = $(this);
     if (form.is('button')) { form = form.closest('.modal-tastypie').find('form'); }
+    var data = JSON.stringify($(form).serializeObject());
+    console.log(data);
     $.ajax({
       type: 'POST',
       url: form.attr('action'),
-      data: JSON.stringify($(form).serializeObject()),
+      data: data,
       processData: false,
       contentType: 'application/json'
     })
@@ -47,7 +49,7 @@ welree.tastypie_form_callback = function(e) {
 }
 
 $(function() {
-    $('.modal-tastypie form').on('submit', welree.tastypie_form_callback);
+    $('.modal-tastypie form, form.form-tastypie').on('submit', welree.tastypie_form_callback);
     $('.modal-tastypie').on('shown.bs.modal', function() {
         $(this).find('form *:input[type!=hidden]:first').focus();
     });

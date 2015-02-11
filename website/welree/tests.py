@@ -43,7 +43,7 @@ class welreeApiTests(ExtendedTestCase):
         self.assertEquals(0, models.JewelryItem.objects.count())
         collection = models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_DESIGNER, name='foo')
         response = self.api_post('/api/v1/jewelry/', {
-            'collection': '/api/v1/collection/{}/'.format(collection.id),
+            'collection': collection.id,
             'primary_photo': '/Users/mrooney/Desktop/passions.jpg',
             'description': 'foo'
         }, raise_errors=False)
@@ -104,5 +104,6 @@ class welreeTests(ExtendedTestCase):
         user = create_and_login_user(self)
         response = self.get('/designer/upload/')
         self.assertTrue('form_collection_new' in response.context)
+        self.assertTrue('form_jewelryitem_new' in response.context)
         self.assertNumCssMatches(1, response, 'div.collection-new')
 
