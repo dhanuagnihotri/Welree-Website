@@ -5,6 +5,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.db.models.fields.related import RelatedField
 from django.forms import ModelForm
 from django.forms.models import model_to_dict
+from tastypie import fields
 from tastypie.api import Api
 from tastypie.authorization import Authorization, DjangoAuthorization
 from tastypie.exceptions import Unauthorized
@@ -108,8 +109,19 @@ class OwnerObjectsOnlyAuthorization(Authorization):
     def delete_detail(self, object_list, bundle):
         raise Unauthorized("Sorry, no deletes.")
 
+class MultipartResource(object):
+    def deserialize(self, request, data, format=None):
+        if not format:
+            format = request.META.get('CONTENT_TYPE', 'application/json')
+        if format == 'application/x-www-form-urlencoded':
+            return request.POST
+        if format.startswith('multipart'):
+            data = request.POST.copy()
+            data.update(request.FILES)
+            return data
+        return super(MultipartResource, self).deserialize(request, data, format)
 
-class OwnerModelResource(ModelResource):
+class OwnerModelResource(MultipartResource, ModelResource):
     def hydrate(self, bundle, request=None):
         bundle.obj.owner = get_user_model().objects.filter(pk=bundle.request.user.id).first()
         return bundle
@@ -126,6 +138,7 @@ class JewelryCollectionResource(OwnerModelResource):
             return ModelFormValidation(form_class=forms.CollectionForm, resource=JewelryCollectionResource)
 
 class JewelryItemResource(OwnerModelResource):
+    primary_photo = fields.FileField(attribute="primary_photo")
     collection = tastypie.fields.ForeignKey(JewelryCollectionResource, 'collection')
 
     class Meta:

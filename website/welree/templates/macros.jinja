@@ -7,7 +7,7 @@
             <h4 class="modal-title">{{ title }}</h4>
           </div>
           <div class="modal-body">
-            <form action="{{ endpoint }}">{% csrf_token%}
+            <form action="{{ endpoint }}" enctype="multipart/form-data">{% csrf_token%}
                 {{ form|as_bootstrap() }}
             </form>
           </div>

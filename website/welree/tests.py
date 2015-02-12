@@ -47,6 +47,15 @@ class welreeApiTests(ExtendedTestCase):
             'primary_photo': '/Users/mrooney/Desktop/passions.jpg',
             'description': 'foo'
         }, raise_errors=False)
+        self.assertTrue(response['jewelry']['color'] == ['This field is required.'])
+        self.assertEquals(0, models.JewelryItem.objects.count())
+
+        response = self.api_post('/api/v1/jewelry/', {
+            'collection': collection.id,
+            'primary_photo': '/Users/mrooney/Desktop/passions.jpg',
+            'description': 'foo',
+            'color': 'foo', 'material': 'foo', 'type': 'foo', 'tags': 'foo',
+        }, raise_errors=False)
         self.assertEquals(response.status_code, 201)
         self.assertEquals(1, models.JewelryItem.objects.count())
         self.assertEquals(collection, models.JewelryItem.objects.all()[0].collection)

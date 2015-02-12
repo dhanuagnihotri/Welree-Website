@@ -29,7 +29,7 @@ welree.tastypie_form_callback = function(e) {
     e.preventDefault();
     var form = $(this);
     if (form.is('button')) { form = form.closest('.modal-tastypie').find('form'); }
-    var data = JSON.stringify($(form).serializeObject());
+    var data = new FormData(form.get(0));
     console.log(data);
     form.find('p.text-error').text('');
     $.ajax({
@@ -37,7 +37,7 @@ welree.tastypie_form_callback = function(e) {
       url: form.attr('action'),
       data: data,
       processData: false,
-      contentType: 'application/json'
+      contentType: false,
     })
     .done(function(status, data, xhr) {
         $('.modal:visible').modal('hide');
