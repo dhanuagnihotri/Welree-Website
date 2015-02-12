@@ -30,9 +30,7 @@
                 {% endfor %}
             </div>
             {% block above_container %}{% endblock %}
-            <div class="container well">
-                {% block content %}{% endblock %}
-            </div>
+            <div class="container well container-base">{% block content %}{% endblock %}</div>
             {% block below_container %}{% endblock %}
         </div>
 
