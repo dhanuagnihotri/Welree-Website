@@ -119,6 +119,16 @@ class welreeTests(ExtendedTestCase):
         self.assertNumCssMatches(1, response, 'div.ideabooks .collection-item')
         self.assertNumCssMatches(1, response, 'div.jewelboxes .collection-item')
 
+        models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_IDEABOOK, name='foo')
+        response = self.get('/consumer/upload/')
+        self.assertNumCssMatches(2, response, 'div.ideabooks .collection-item')
+        self.assertNumCssMatches(1, response, 'div.jewelboxes .collection-item')
+
+        models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_JEWELBOX, name='foo')
+        response = self.get('/consumer/upload/')
+        self.assertNumCssMatches(2, response, 'div.ideabooks .collection-item')
+        self.assertNumCssMatches(2, response, 'div.jewelboxes .collection-item')
+
     def test_designer_upload(self):
         self.assertStatus(301, '/designer/upload')
 
