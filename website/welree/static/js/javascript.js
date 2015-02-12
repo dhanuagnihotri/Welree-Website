@@ -31,6 +31,7 @@ welree.tastypie_form_callback = function(e) {
     if (form.is('button')) { form = form.closest('.modal-tastypie').find('form'); }
     var data = JSON.stringify($(form).serializeObject());
     console.log(data);
+    form.find('p.text-error').text('');
     $.ajax({
       type: 'POST',
       url: form.attr('action'),
@@ -42,17 +43,19 @@ welree.tastypie_form_callback = function(e) {
         $('.modal:visible').modal('hide');
         window.location.reload(true);
     })
-    .fail(function(b, c) {
-        console.log('error', arguments);
-        console.log(b, c);
+    .fail(function(data, status) {
+        if (status == 'error') {
+            form.find('p.text-error').text(data.responseText);
+        };
     })
 }
 
 $(function() {
     $('.modal-tastypie form, form.form-tastypie').on('submit', welree.tastypie_form_callback);
+    $('.modal-tastypie .btn-primary').on('click', welree.tastypie_form_callback);
     $('.modal-tastypie').on('shown.bs.modal', function() {
         $(this).find('form *:input[type!=hidden]:first').focus();
     });
-    $('.modal-tastypie .btn-primary').on('click', welree.tastypie_form_callback);
+    $('.modal-tastypie form label.required-field, form.form-tastypie label.required-field').each(function(i, el) { $(el).parent().find(':input').prop('required', true); });
 })
 

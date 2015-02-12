@@ -28,6 +28,7 @@
     <div class="container well">
         <h4>Add a new piece:</h4>
         <form class="form-tastypie" action="/api/v1/jewelry/">{% csrf_token %}
+            <p class="text-error"></p>
             {{ form_jewelryitem_new|as_bootstrap() }}
             <input type="submit" value="Upload" class="btn btn-primary">
         </form>

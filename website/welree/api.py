@@ -1,17 +1,64 @@
 from django.conf.urls import url
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.core.exceptions import ImproperlyConfigured
+from django.db.models.fields.related import RelatedField
 from tastypie.api import Api
 from tastypie.authorization import Authorization, DjangoAuthorization
 from tastypie.exceptions import Unauthorized
+#from tastypie.fields import RelatedField
 from tastypie.http import HttpUnauthorized, HttpForbidden
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
+from tastypie.validation import CleanedDataFormValidation, FormValidation
 import tastypie
 
-from welree import models
+from welree import models, forms
 
 v1 = Api('v1')
 
+
+# https://github.com/django-tastypie/django-tastypie/issues/152
+class ModelFormValidation(FormValidation):
+    """
+    Override tastypie's standard ``FormValidation`` since this does not care
+    about URI to PK conversion for ``ToOneField`` or ``ToManyField``.
+    """
+
+    resource = ModelResource
+
+    def __init__(self, **kwargs):
+        if not 'resource' in kwargs:
+            raise ImproperlyConfigured("You must provide a 'resource' to 'ModelFormValidation' classes.")
+
+        self.resource = kwargs.pop('resource')
+
+        super(ModelFormValidation, self).__init__(**kwargs)
+
+
+    def _get_pk_from_resource_uri(self, resource_field, resource_uri):
+        """ Return the pk of a resource URI """
+        base_resource_uri = resource_field.to().get_resource_uri()
+        if not resource_uri.startswith(base_resource_uri):
+            raise Exception("Couldn't match resource_uri {0} with {1}".format(
+                                        resource_uri, base_resource_uri))
+        before, after = resource_uri.split(base_resource_uri)
+        return after[:-1] if after.endswith('/') else after
+
+    def form_args(self, bundle):
+        rsc = self.resource()
+        kwargs = super(ModelFormValidation, self).form_args(bundle)
+
+        for name, rel_field in rsc.fields.items():
+            data = kwargs['data']
+            if not issubclass(rel_field.__class__, RelatedField):
+                continue # Not a resource field
+            if name in data and data[name] is not None:
+                resource_uri = (data[name] if rel_field.full is False
+                                            else data[name]['resource_uri'])
+                pk = self._get_pk_from_resource_uri(rel_field, resource_uri)
+                kwargs['data'][name] = pk
+
+        return kwargs
 
 class OwnerObjectsOnlyAuthorization(Authorization):
     def read_list(self, object_list, bundle):
@@ -61,6 +108,9 @@ class JewelryCollectionResource(OwnerModelResource):
         allowed_methods = ['get', 'post']
         resource_name = 'collection'
         authorization = OwnerObjectsOnlyAuthorization()
+        @property
+        def validation(self):
+            return ModelFormValidation(form_class=forms.CollectionForm, resource=JewelryCollectionResource)
 
 class JewelryItemResource(OwnerModelResource):
     collection = tastypie.fields.ForeignKey(JewelryCollectionResource, 'collection')
@@ -71,6 +121,9 @@ class JewelryItemResource(OwnerModelResource):
         allowed_methods = ['get', 'post']
         resource_name = 'jewelry'
         authorization = OwnerObjectsOnlyAuthorization()
+        @property
+        def validation(self):
+            return ModelFormValidation(form_class=forms.JewelryItemForm, resource=JewelryItemResource)
 
     def hydrate_collection(self, bundle):
         if 'collection' in bundle.data:
