@@ -1,11 +1,13 @@
+#from tastypie.fields import RelatedField
 from django.conf.urls import url
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models.fields.related import RelatedField
+from django.forms import ModelForm
+from django.forms.models import model_to_dict
 from tastypie.api import Api
 from tastypie.authorization import Authorization, DjangoAuthorization
 from tastypie.exceptions import Unauthorized
-#from tastypie.fields import RelatedField
 from tastypie.http import HttpUnauthorized, HttpForbidden
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
@@ -19,46 +21,57 @@ v1 = Api('v1')
 
 # https://github.com/django-tastypie/django-tastypie/issues/152
 class ModelFormValidation(FormValidation):
-    """
-    Override tastypie's standard ``FormValidation`` since this does not care
-    about URI to PK conversion for ``ToOneField`` or ``ToManyField``.
-    """
-
-    resource = ModelResource
-
-    def __init__(self, **kwargs):
-        if not 'resource' in kwargs:
-            raise ImproperlyConfigured("You must provide a 'resource' to 'ModelFormValidation' classes.")
-
-        self.resource = kwargs.pop('resource')
-
-        super(ModelFormValidation, self).__init__(**kwargs)
-
-
-    def _get_pk_from_resource_uri(self, resource_field, resource_uri):
-        """ Return the pk of a resource URI """
-        base_resource_uri = resource_field.to().get_resource_uri()
-        if not resource_uri.startswith(base_resource_uri):
-            raise Exception("Couldn't match resource_uri {0} with {1}".format(
-                                        resource_uri, base_resource_uri))
-        before, after = resource_uri.split(base_resource_uri)
-        return after[:-1] if after.endswith('/') else after
-
     def form_args(self, bundle):
-        rsc = self.resource()
-        kwargs = super(ModelFormValidation, self).form_args(bundle)
+        '''
+        Use the model data to generate the form arguments to be used for
+        validation.  In the case of fields that had to be hydrated (such as
+        FK relationships), be sure to use the hydrated value (comes from 
+        model_to_dict()) rather than the value in bundle.data, since the latter
+        would likely not validate as the form won't expect a URI.
+        '''
+        data = bundle.data
 
-        for name, rel_field in rsc.fields.items():
-            data = kwargs['data']
-            if not issubclass(rel_field.__class__, RelatedField):
-                continue # Not a resource field
-            if name in data and data[name] is not None:
-                resource_uri = (data[name] if rel_field.full is False
-                                            else data[name]['resource_uri'])
-                pk = self._get_pk_from_resource_uri(rel_field, resource_uri)
-                kwargs['data'][name] = pk
+        # Ensure we get a bound Form, regardless of the state of the bundle.
+        if data is None:
+            data = {}
 
+        kwargs = {'data': {}}
+        if hasattr(bundle.obj, 'pk'):
+            if issubclass(self.form_class, ModelForm):
+                kwargs['instance'] = bundle.obj
+
+            kwargs['data'] = model_to_dict(bundle.obj)
+            # iterate over the fields in the object and find those that are
+            # related fields - FK, M2M, O2M, etc.  In those cases, we need
+            # to *not* use the data in the bundle, since it is a URI to a
+            # resource.  Instead, use the output of model_to_dict for 
+            # validation, since that is already properly hydrated.
+            for field in bundle.obj._meta.fields:
+                if field.name in bundle.data: 
+                    if not isinstance(field, RelatedField):
+                        kwargs['data'][field.name]=bundle.data[field.name]
+        else:
+            kwargs['data'].update(data)
         return kwargs
+
+    def is_valid(self, bundle, request=None):
+        """
+        Checks ``bundle.data``to ensure it is valid & replaces it with the
+        cleaned results.
+        If the form is valid, an empty list (all valid) will be returned. If
+        not, a list of errors will be returned.
+        """
+        form = self.form_class(**self.form_args(bundle))
+
+        if form.is_valid():
+            # We're different here & relying on having a reference to the same
+            # bundle the rest of the process is using.
+            bundle.data = form.cleaned_data
+            return {}
+
+        # The data is invalid. Let's collect all the error messages & return
+        # them.
+        return form.errors
 
 class OwnerObjectsOnlyAuthorization(Authorization):
     def read_list(self, object_list, bundle):
