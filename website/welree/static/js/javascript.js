@@ -30,7 +30,6 @@ welree.tastypie_form_callback = function(e) {
     var form = $(this);
     if (form.is('button')) { form = form.closest('.modal-tastypie').find('form'); }
     var data = new FormData(form.get(0));
-    console.log(data);
     form.find('p.text-error').text('');
     $.ajax({
       type: 'POST',

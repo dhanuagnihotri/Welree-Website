@@ -1,0 +1,15 @@
+.container-base {
+    display: none;
+}
+
+.collection-item {
+    height: 100px;
+    width: 100px;
+    border: 1px solid black;
+    text-align: center;
+    display: inline-block;
+}
+
+.upload-sidebar {
+    padding-right: 0px;
+}

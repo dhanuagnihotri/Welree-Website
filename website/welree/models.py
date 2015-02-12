@@ -14,6 +14,14 @@ class CustomUser(AbstractUser):
         AbstractUser.email_user(self, subject, message, from_email)
         return True
 
+    @property
+    def ideabooks(self):
+        return self.collections.filter(kind=JewelryCollection.KIND_IDEABOOK)
+
+    @property
+    def jewelboxes(self):
+        return self.collections.filter(kind=JewelryCollection.KIND_JEWELBOX)
+
 class DesignerJewelryManager(models.Manager):
     def get_queryset(self):
         return super(DesignerJewelryManager, self).get_queryset().filter(collection__kind=JewelryCollection.KIND_DESIGNER)

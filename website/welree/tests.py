@@ -29,7 +29,7 @@ class welreeApiTests(ExtendedTestCase):
         response = self.api_get('/api/v1/user/logout/')
         self.assertEquals(response, {'success': True})
 
-    def test_designer_photo_upload(self):
+    def test_jewelryitem_post(self):
         response = self.api_get('/api/v1/jewelry/')
         self.assertEquals(response['objects'], [])
 
@@ -106,6 +106,18 @@ class welreeTests(ExtendedTestCase):
 
     def test_password_reset(self):
         self.assertStatus(200, '/password_reset')
+
+    def test_consumer_upload(self):
+        self.assertStatus(301, '/consumer/upload')
+
+        user = create_and_login_user(self)
+        response = self.get('/consumer/upload/')
+        self.assertTrue('form_ideabook_new' in response.context)
+        self.assertTrue('form_jewelbox_new' in response.context)
+        self.assertTrue('form_jewelryitem_new' in response.context)
+        self.assertNumCssMatches(2, response, 'div.collection-new')
+        self.assertNumCssMatches(1, response, 'div.ideabooks .collection-item')
+        self.assertNumCssMatches(1, response, 'div.jewelboxes .collection-item')
 
     def test_designer_upload(self):
         self.assertStatus(301, '/designer/upload')
