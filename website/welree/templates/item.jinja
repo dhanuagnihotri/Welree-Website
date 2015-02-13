@@ -1,0 +1,19 @@
+{% extends "base.jinja" %}
+{% import "macros.jinja" as macros %}
+{% block extra_css %}
+{% endblock %}
+{% block below_container %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="{{ item.primary_photo.url }}" width="100%">
+            </div>
+            <div class="col-lg-6 well">
+                <h4>Details:</h4>
+                <p>{{ item.description }}</p>
+                <p>Part of collection "{{ item.collection.name }}."</p>
+                {% if item.url %}<p>From: {{ item.url|urlize }}</p>{% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

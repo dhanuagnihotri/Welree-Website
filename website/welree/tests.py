@@ -56,7 +56,7 @@ class welreeApiTests(ExtendedTestCase):
             'description': 'foo',
             'color': 'foo', 'material': 'foo', 'type': 'foo', 'tags': 'foo',
         }, raise_errors=False)
-        self.assertEquals(response.status_code, 201)
+        self.assertEquals(response['id'], 1)
         self.assertEquals(1, models.JewelryItem.objects.count())
         self.assertEquals(collection, models.JewelryItem.objects.all()[0].collection)
 

@@ -33,5 +33,7 @@ urlpatterns = patterns('',
 
     url(r'^api/', include(v1.urls)),
 
+    url(r'^item/(?P<pk>[\d]+)/$', 'welree.views.item', name="item"),
+
     *app_urls
 )

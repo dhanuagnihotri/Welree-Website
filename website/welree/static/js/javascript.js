@@ -28,6 +28,7 @@ welree = {}
 welree.tastypie_form_callback = function(e) {
     e.preventDefault();
     var form = $(this);
+    var redirect = form.attr('redirect');
     if (form.is('button')) { form = form.closest('.modal-tastypie').find('form'); }
     var data = new FormData(form.get(0));
     form.find('p.text-error').text('');
@@ -38,9 +39,13 @@ welree.tastypie_form_callback = function(e) {
       processData: false,
       contentType: false,
     })
-    .done(function(status, data, xhr) {
-        $('.modal:visible').modal('hide');
-        window.location.reload(true);
+    .done(function(data, status, xhr) {
+        if (redirect) {
+            window.location.href = redirect.replace(999, data.id);
+        } else {
+            $('.modal:visible').modal('hide');
+            window.location.reload(true);
+        }
     })
     .fail(function(data, status) {
         if (status == 'error') {

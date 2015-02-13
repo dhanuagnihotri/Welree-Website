@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, JsonResponse, HttpResponseForbidden, HttpResponseServerError
-from django.shortcuts import redirect, render_to_response
+from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 
 import cjson
@@ -86,6 +86,10 @@ def signup(request):
         messages.success(request, "You've successfully signed up! Please confirm your email address in order to receive future communication from Welree.")
 
         return redirect("home")
+
+def item(request, pk):
+    item = get_object_or_404(models.JewelryItem, pk=pk)
+    return r2r('item.jinja', request, locals())
 
 @login_required
 def consumer_upload(request):

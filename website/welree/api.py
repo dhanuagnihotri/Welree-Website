@@ -142,6 +142,7 @@ class JewelryItemResource(OwnerModelResource):
     collection = tastypie.fields.ForeignKey(JewelryCollectionResource, 'collection')
 
     class Meta:
+        always_return_data = True
         queryset = models.JewelryItem.objects.all()
         fields = []
         allowed_methods = ['get', 'post']
