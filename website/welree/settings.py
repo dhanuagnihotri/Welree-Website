@@ -240,10 +240,8 @@ else:
     EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
     EMAIL_PORT = 465
     EMAIL_USE_TLS = True
-    AWS_CREDENTIALS_PATH = os.path.join(WEBSITE_DIR, 'aws.credentials')
-    if os.path.exists(AWS_CREDENTIALS_PATH):
-        EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = open(AWS_CREDENTIALS_PATH).read().splitlines()
-
+    EMAIL_HOST_USER = 'AKIAJISIJMLE52DNX5CA'
+    EMAIL_HOST_PASSWORD = '3iNzrBcw87rT7HjdfLh8MHEw1iNomTKl/7tGufBJ'
 
 AUTH_USER_MODEL = "welree.CustomUser"
 LOGIN_URL = "login"
