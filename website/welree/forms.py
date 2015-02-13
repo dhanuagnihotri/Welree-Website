@@ -34,11 +34,12 @@ class JewelryItemForm(forms.ModelForm):
         model = models.JewelryItem
         fields = ['collection', 'primary_photo', 'description', 'url', 'type', 'material', 'color', 'tags']
 
+"""
 class ConsumerJewelryItemForm(JewelryItemForm):
     class Meta:
         model = models.JewelryItem
         fields = ['collection', 'primary_photo', 'description', 'url', 'tags']
-
+"""
 
 class PasswordResetForm(forms.Form):
     error_messages = {
