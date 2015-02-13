@@ -6,6 +6,8 @@
  * sudo easy_install pip
 * [optional] virtualenv
  * pip install virtualenv
+* [homebrew](http://brew.sh/)
+* brew install libmemcached memcached nginx libxml2
 
 # Installation:
 From the directory of the repository:
