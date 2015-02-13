@@ -240,8 +240,8 @@ else:
     EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
     EMAIL_PORT = 465
     EMAIL_USE_TLS = True
-    EMAIL_HOST_USER = 'AKIAJISIJMLE52DNX5CA'
-    EMAIL_HOST_PASSWORD = '3iNzrBcw87rT7HjdfLh8MHEw1iNomTKl/7tGufBJ'
+    EMAIL_HOST_USER = 'AKIAJ5TFOHLOCRWWP62Q'
+    EMAIL_HOST_PASSWORD = 'AljcIns2RYU/kjPyHPxxtnSv1bDDGMBHB/0qUx+4lQXK'
 
 AUTH_USER_MODEL = "welree.CustomUser"
 LOGIN_URL = "login"

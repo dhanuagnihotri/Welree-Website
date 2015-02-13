@@ -11,6 +11,8 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from welree import models
 
 class SignupForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
     class Meta:
         model = models.CustomUser
         fields = ['first_name', 'last_name', 'email', 'password', 'is_designer']
