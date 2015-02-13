@@ -44,7 +44,17 @@ welree.tastypie_form_callback = function(e) {
     })
     .fail(function(data, status) {
         if (status == 'error') {
-            form.find('p.text-error').text(data.responseText);
+            var errors = JSON.parse(data.responseText);
+            $.each(errors, function(i, type) {
+                $.each(type, function(field, field_msgs) {
+                    var error_node = '<ul>';
+                    $.each(field_msgs, function(i, msg) {
+                        error_node += '<li>' + msg + '</li>';
+                    });
+                    $(error_node+'</ul>').insertAfter(form.find('label[for=id_'+field+']'));
+                    form.find('#div_id_'+field).addClass('has-error');
+                });
+            });
         };
     })
 }
