@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.core.urlresolvers import reverse
 from django.db import models
+from django.template import defaultfilters
 
 from sorl.thumbnail import ImageField as SorlImageField
 
@@ -24,7 +26,7 @@ class CustomUser(AbstractUser):
 
 class DesignerJewelryManager(models.Manager):
     def get_queryset(self):
-        return super(DesignerJewelryManager, self).get_queryset().filter(collection__kind=JewelryCollection.KIND_DESIGNER)
+        return super(DesignerJewelryManager, self).get_queryset().filter(collection__kind=JewelryCollection.KIND_DESIGNER).exclude(primary_photo='')
 
 class JewelryCollection(models.Model):
     KIND_DESIGNER = 0
@@ -55,8 +57,12 @@ class JewelryItem(models.Model):
     type = models.CharField(max_length=255)
     tags = models.CharField(max_length=255, help_text="Separate multiple hashtags with spaces")
 
-    everything = models.Manager()
-    objects = DesignerJewelryManager()
+    objects = models.Manager()
+    curated = DesignerJewelryManager()
 
     def __unicode__(self):
         return self.description
+
+    def get_absolute_url(self):
+        return "{}/{}".format(reverse("item", kwargs={"pk": self.id}), defaultfilters.slugify(self.description))
+

@@ -28,7 +28,8 @@ def superuser_required(function):
     return _inner
 
 def home(request):
-    return r2r("index.jinja", request)
+    curated = models.JewelryItem.curated.order_by('-id')
+    return r2r("index.jinja", request, locals())
 
 def login(request):
     error_msg = ''

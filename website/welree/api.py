@@ -143,7 +143,7 @@ class JewelryItemResource(OwnerModelResource):
 
     class Meta:
         always_return_data = True
-        queryset = models.JewelryItem.objects.all()
+        queryset = models.JewelryItem.curated.all()
         fields = []
         allowed_methods = ['get', 'post']
         resource_name = 'jewelry'
