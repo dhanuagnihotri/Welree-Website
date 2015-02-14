@@ -32,8 +32,8 @@ def home(request):
     return r2r("index.jinja", request, locals())
 
 def login(request):
-    error_msg = ''
-    def failure(error_msg):
+    def failure(msg):
+        messages.error(request, msg)
         return r2r("login.jinja", request, locals())
 
     if request.method == "GET":
