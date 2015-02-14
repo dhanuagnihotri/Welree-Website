@@ -37,7 +37,7 @@
               </a>
               <a href="{{ item.get_absolute_url() }}">
                   <div class="carousel-caption">
-                    <h4>caption.</h4>
+                    <h4>{{ item.description|truncatechars(80) }}</h4>
                   </div>
               </a>
           </div>
