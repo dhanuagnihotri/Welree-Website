@@ -118,16 +118,25 @@ class welreeTests(ExtendedTestCase):
         self.assertNumCssMatches(2, response, 'div.collection-new')
         self.assertNumCssMatches(1, response, 'div.ideabooks .collection-item')
         self.assertNumCssMatches(1, response, 'div.jewelboxes .collection-item')
+        self.assertNumCssMatches(1, response, 'select#id_collection option')
 
         models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_IDEABOOK, name='foo')
         response = self.get('/consumer/upload/')
         self.assertNumCssMatches(2, response, 'div.ideabooks .collection-item')
         self.assertNumCssMatches(1, response, 'div.jewelboxes .collection-item')
+        self.assertNumCssMatches(2, response, 'select#id_collection option')
 
         models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_JEWELBOX, name='foo')
         response = self.get('/consumer/upload/')
         self.assertNumCssMatches(2, response, 'div.ideabooks .collection-item')
         self.assertNumCssMatches(2, response, 'div.jewelboxes .collection-item')
+        self.assertNumCssMatches(3, response, 'select#id_collection option')
+
+        # someone else's collection should not appear here!
+        models.JewelryCollection.objects.create(owner_id=9, kind=models.JewelryCollection.KIND_IDEABOOK, name='foo')
+        response = self.get('/consumer/upload/')
+        self.assertNumCssMatches(2, response, 'div.ideabooks .collection-item')
+        self.assertNumCssMatches(3, response, 'select#id_collection option')
 
     def test_designer_upload(self):
         self.assertStatus(301, '/designer/upload')

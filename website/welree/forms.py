@@ -32,6 +32,12 @@ class CollectionForm(forms.ModelForm):
         fields = ['name']
 
 class JewelryItemForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        owner = kwargs.pop('owner', None)
+        super(JewelryItemForm, self).__init__(*args, **kwargs)
+        if owner:
+            self.fields['collection'].queryset = models.JewelryCollection.objects.filter(owner=owner)
+
     class Meta:
         model = models.JewelryItem
         fields = ['collection', 'primary_photo', 'description', 'url', 'type', 'material', 'color', 'tags']
