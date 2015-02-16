@@ -84,15 +84,15 @@ $(function() {
             dropdown += '<li><a href="#" class="dropdown-suggestion">'+suggestion+'</a></li>';
         });
         parent
-            .addClass('btn-group input-group')
+            .addClass('btn-group clearfix')
+            .css('display', 'block')
             .append('<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>')
-            .append(dropdown+'</ul>');
-        //.val(suggestions[0]);
+            .append(dropdown+'</ul>')
+            .find('input').css({'width': 'auto', 'float': 'left'});
     });
     $('.dropdown-suggestion').on('click', function(e) {
         e.preventDefault();
         var val = $(this).text();
-        console.log(val);
         $(this).closest('div.btn-group').find('input').val(val);
     })
 })
