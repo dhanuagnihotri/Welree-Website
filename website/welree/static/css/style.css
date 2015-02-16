@@ -20,3 +20,7 @@ div.btn-facebook {
 div.btn-facebook a {
     width: 100%;
 }
+
+.input-append .btn.dropdown-toggle {
+    float: none;
+}

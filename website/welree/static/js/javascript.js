@@ -25,6 +25,11 @@ $.fn.serializeObject = function()
 };
 
 welree = {}
+welree.suggestion_fields = {
+    '#id_type': ['Rings', 'Necklaces & Pendants', 'Bracelets', 'Earrings', 'Brooches'],
+    '#id_material': ['Gold', 'Silver', 'Pearl', 'Gemstone', 'Beads', 'Aluminum', 'Copper', 'Stainless Steel', 'Titanium', 'Tungsten', 'Platinum'],
+    '#id_color': ['Gold', 'Silver', 'Black', 'White', 'Red', 'Blue', 'Green', 'Grey', 'Brown', 'Orange', 'Pink', 'Purple', 'Turquoise', 'Yellow'],
+}
 welree.tastypie_form_callback = function(e) {
     e.preventDefault();
     var form = $(this);
@@ -71,5 +76,24 @@ $(function() {
         $(this).find('form *:input[type!=hidden]:first').focus();
     });
     $('.modal-tastypie form label.required-field, form.form-tastypie label.required-field').each(function(i, el) { $(el).parent().find(':input').prop('required', true); });
+
+    $.each(welree.suggestion_fields, function(name, suggestions) {
+        var parent = $(name).parent();
+        var dropdown = '<ul class="dropdown-menu" role="menu">'
+        $.each(suggestions, function(i, suggestion) {
+            dropdown += '<li><a href="#" class="dropdown-suggestion">'+suggestion+'</a></li>';
+        });
+        parent
+            .addClass('btn-group input-group')
+            .append('<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>')
+            .append(dropdown+'</ul>');
+        //.val(suggestions[0]);
+    });
+    $('.dropdown-suggestion').on('click', function(e) {
+        e.preventDefault();
+        var val = $(this).text();
+        console.log(val);
+        $(this).closest('div.btn-group').find('input').val(val);
+    })
 })
 
