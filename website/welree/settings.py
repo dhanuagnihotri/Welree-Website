@@ -143,11 +143,14 @@ INSTALLED_APPS = (
     'welree',
     'social.apps.django_app.default',
     'tastypie',
+    'tastypie_swagger',
 )
 if not (DEBUG or TESTING):
     INSTALLED_APPS += (
         'raven.contrib.django',
     )
+
+TASTYPIE_SWAGGER_API_MODULE = 'welree.api.v1'
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',

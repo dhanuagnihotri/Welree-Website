@@ -164,6 +164,37 @@ class UserResource(ModelResource):
         allowed_methods = ['get', 'post']
         resource_name = 'user'
         authorization = DjangoAuthorization()
+        extra_actions = [
+            {
+                "name": "login",
+                "http_method": "POST",
+                "description": "login a user",
+                "resource_type": "list",
+                "fields": {
+                    "username": {"type": "string", "required": True},
+                    "password": {"type": "string", "required": True},
+                }
+            },
+            {
+                "name": "logout",
+                "http_method": "GET",
+                "description": "logout the currently logged-in user",
+                "resource_type": "list",
+                "fields": {},
+            },
+            {
+                "name": "signup",
+                "http_method": "POST",
+                "description": "sign up a new user",
+                "resource_type": "list",
+                "fields": {
+                    "email": {"type": "string", "required": True},
+                    "first_name": {"type": "string", "required": True},
+                    "last_name": {"type": "string", "required": True},
+                    "password": {"type": "string", "required": True},
+                }
+            }
+        ]
 
     def prepend_urls(self):
         return [

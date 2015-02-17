@@ -31,9 +31,14 @@ urlpatterns = patterns('',
 
     url(r'', include('social.apps.django_app.urls', namespace='social')),
 
-    url(r'^api/', include(v1.urls)),
 
     url(r'^item/(?P<pk>[\d]+)/$', 'welree.views.item', name="item"),
+
+    url(r'^api/', include(v1.urls, namespace='tastypie')),
+    url(r'^api/docs/',
+      include('tastypie_swagger.urls', namespace='tastypie_swagger'),
+      kwargs={'tastypie_api_module': 'welree.api.v1', 'namespace':'tastypie_swagger'}
+    ),
 
     *app_urls
 )
