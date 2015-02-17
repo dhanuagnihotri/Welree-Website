@@ -1,8 +1,11 @@
 from django.conf import settings
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import AbstractUser
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.template import defaultfilters
+
+import uuid
 
 from sorl.thumbnail import ImageField as SorlImageField
 
@@ -23,6 +26,21 @@ class CustomUser(AbstractUser):
     @property
     def jewelboxes(self):
         return self.collections.filter(kind=JewelryCollection.KIND_JEWELBOX)
+
+    @classmethod
+    def signup(cls, signup_form):
+        password = signup_form.cleaned_data['password']
+        user = signup_form.save()
+        user.username = user.email
+        user.set_password(password)
+        user.save()
+        user = authenticate(username=user.username, password=signup_form.cleaned_data['password'])
+
+        # Send email confirmation.
+        email_confirm_url = reverse('email_confirm', args=[str(uuid.uuid4())])
+        msg = "Thanks for signing up for Welree!\n\nPlease confirm your email address by clicking the following link: {0}{1}. You won't be able to receive further emails from us until confirming your address.\n\nIf you didn't sign up, take no action, and this is the last email you'll receive from us.\n\nThanks,\n{0}".format(settings.WEBSITE_URL, email_confirm_url)
+        user.email_user("Welcome to Welree", msg, ignore_confirmed=True)
+        return user
 
 class DesignerJewelryManager(models.Manager):
     def get_queryset(self):

@@ -9,7 +9,6 @@ from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 
 import cjson
-import uuid
 import re
 
 from welree import models
@@ -66,24 +65,12 @@ def signup(request):
     else:
         signup_form = SignupForm(request.POST, request.FILES)
         if signup_form.is_valid():
-            if usermodel.objects.filter(email=signup_form.cleaned_data['email']).exists():
-                signup_form.add_error('email', 'This email address is already registered with Welree.')
-                return r2r("signup.jinja", request, locals())
-            password = signup_form.cleaned_data['password']
-            user = signup_form.save()
-            user.username = user.email
-            user.set_password(password)
-            user.save()
-            user = authenticate(username=user.username, password=signup_form.cleaned_data['password'])
+            user = models.CustomUser.signup(signup_form)
             if user is not None:
                 login_user(request, user)
         else:
             return r2r("signup.jinja", request, locals())
 
-        # Send email confirmation.
-        email_confirm_url = reverse('email_confirm', args=[str(uuid.uuid4())])
-        msg = "Thanks for signing up for Welree!\n\nPlease confirm your email address by clicking the following link: {0}{1}. You won't be able to receive further emails from us until confirming your address.\n\nIf you didn't sign up, take no action, and this is the last email you'll receive from us.\n\nThanks,\n{0}".format(settings.WEBSITE_URL, email_confirm_url)
-        user.email_user("Welcome to Welree", msg, ignore_confirmed=True)
         messages.success(request, "You've successfully signed up! Please confirm your email address in order to receive future communication from Welree.")
 
         return redirect("home")

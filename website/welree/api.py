@@ -173,11 +173,13 @@ class UserResource(ModelResource):
             url(r'^(?P<resource_name>%s)/logout%s$' %
                 (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('logout'), name='api_logout'),
+            url(r'^(?P<resource_name>%s)/signup%s$' %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('signup'), name='api_signup'),
         ]
 
     def login(self, request, **kwargs):
         self.method_check(request, allowed=['post'])
-
         data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
 
         username = data.get('username', '')
@@ -208,6 +210,24 @@ class UserResource(ModelResource):
             return self.create_response(request, { 'success': True })
         else:
             return self.create_response(request, { 'success': False }, HttpUnauthorized)
+
+    def signup(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+        data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
+
+        signup_form = forms.SignupForm(data)
+        if signup_form.is_valid():
+            user = models.CustomUser.signup(signup_form)
+            response = {
+                    'success': True,
+                    'user_id': user.id,
+            }
+        else:
+            response = {
+                    'success': False,
+                    'reason': signup_form.errors,
+            }
+        return self.create_response(request, response)
 
 v1.register(UserResource())
 v1.register(JewelryItemResource())

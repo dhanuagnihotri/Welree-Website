@@ -29,6 +29,25 @@ class welreeApiTests(ExtendedTestCase):
         response = self.api_get('/api/v1/user/logout/')
         self.assertEquals(response, {'success': True})
 
+    def test_signup(self):
+        self.assertStatus(405, '/api/v1/user/signup/')
+
+        response = self.api_post('/api/v1/user/signup/', {}, raise_errors=False)
+        self.assertEquals(response, {'success': False, 'reason':
+            {'email': ['This field is required.'],
+             'first_name': ['This field is required.'],
+             'last_name': ['This field is required.'],
+             'password': ['This field is required.']}
+        })
+        self.assertEqual(0, models.CustomUser.objects.count())
+
+        response = self.api_post('/api/v1/user/signup/', {'email': 'foo@example.com', 'first_name': 'foo', 'last_name': 'bar', 'password': 'foobar'}, raise_errors=False)
+        self.assertEqual(1, models.CustomUser.objects.count())
+
+        response = self.api_post('/api/v1/user/signup/', {'email': 'foo@example.com', 'first_name': 'foo', 'last_name': 'bar', 'password': 'foobar'}, raise_errors=False)
+        self.assertEquals(response, {'success': False, 'reason': {'email': ['This email address is already registered with Welree.']}})
+        self.assertEqual(1, models.CustomUser.objects.count())
+
     def test_jewelryitem_post(self):
         response = self.api_get('/api/v1/jewelry/')
         self.assertEquals(response['objects'], [])

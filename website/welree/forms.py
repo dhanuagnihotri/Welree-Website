@@ -24,6 +24,16 @@ class SignupForm(forms.ModelForm):
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
 
+    def is_valid(self):
+        valid = super(SignupForm, self).is_valid()
+        if not valid:
+            return False
+
+        if get_user_model().objects.filter(email=self.cleaned_data['email']).exists():
+            self.add_error('email', 'This email address is already registered with Welree.')
+            return False
+        return True
+
 class CollectionForm(forms.ModelForm):
     kind = forms.ChoiceField(choices=models.JewelryCollection.KIND_CHOICES, widget=forms.HiddenInput())
 
