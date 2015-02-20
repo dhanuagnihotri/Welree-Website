@@ -48,6 +48,25 @@ class welreeApiTests(ExtendedTestCase):
         self.assertEquals(response, {'success': False, 'reason': {'email': ['This email address is already registered with Welree.']}})
         self.assertEqual(1, models.CustomUser.objects.count())
 
+    def test_jewelrycollection_post(self):
+        response = self.api_get('/api/v1/collection/')
+        self.assertEquals(response['objects'], [])
+
+        with self.assertRaises(ValueError):
+            response = self.api_post('/api/v1/collection/', {}, raise_errors=False)
+
+        user = create_and_login_user(self)
+        response = self.api_post('/api/v1/collection/', {}, raise_errors=False)
+        self.assertEquals(response, {'collection': {'kind': ['This field is required.'], 'name': ['This field is required.']}})
+
+        response = self.api_post('/api/v1/collection/', { 'name': 'foo', 'kind': models.JewelryCollection.KIND_DESIGNER }, raise_errors=False)
+        self.assertEquals(1, models.JewelryCollection.objects.count())
+        self.assertEquals(response['id'], 1)
+
+        response = self.api_post('/api/v1/collection/', { 'name': 'foo', 'kind': models.JewelryCollection.KIND_DESIGNER }, raise_errors=False)
+        self.assertEquals(1, models.JewelryCollection.objects.count())
+        self.assertEquals(response, {'collection': {'__all__': ['Jewelry collection with this Owner and Name already exists.']}})
+
     def test_jewelryitem_post(self):
         response = self.api_get('/api/v1/jewelry/')
         self.assertEquals(response['objects'], [])
@@ -145,14 +164,14 @@ class welreeTests(ExtendedTestCase):
         self.assertNumCssMatches(1, response, 'div.jewelboxes .collection-item')
         self.assertNumCssMatches(2, response, 'select#id_collection option')
 
-        models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_JEWELBOX, name='foo')
+        models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_JEWELBOX, name='foo2')
         response = self.get('/consumer/upload/')
         self.assertNumCssMatches(2, response, 'div.ideabooks .collection-item')
         self.assertNumCssMatches(2, response, 'div.jewelboxes .collection-item')
         self.assertNumCssMatches(3, response, 'select#id_collection option')
 
         # someone else's collection should not appear here!
-        models.JewelryCollection.objects.create(owner_id=9, kind=models.JewelryCollection.KIND_IDEABOOK, name='foo')
+        models.JewelryCollection.objects.create(owner_id=9, kind=models.JewelryCollection.KIND_IDEABOOK, name='foo3')
         response = self.get('/consumer/upload/')
         self.assertNumCssMatches(2, response, 'div.ideabooks .collection-item')
         self.assertNumCssMatches(3, response, 'select#id_collection option')

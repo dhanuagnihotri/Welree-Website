@@ -70,8 +70,7 @@ class ModelFormValidation(FormValidation):
             bundle.data = form.cleaned_data
             return {}
 
-        # The data is invalid. Let's collect all the error messages & return
-        # them.
+        # The data is invalid. Let's collect all the error messages & return them.
         return form.errors
 
 class OwnerObjectsOnlyAuthorization(Authorization):
@@ -128,6 +127,7 @@ class OwnerModelResource(MultipartResource, ModelResource):
 
 class JewelryCollectionResource(OwnerModelResource):
     class Meta:
+        always_return_data = True
         queryset = models.JewelryCollection.objects.all()
         fields = []
         allowed_methods = ['get', 'post']
@@ -135,7 +135,7 @@ class JewelryCollectionResource(OwnerModelResource):
         authorization = OwnerObjectsOnlyAuthorization()
         @property
         def validation(self):
-            return ModelFormValidation(form_class=forms.CollectionForm, resource=JewelryCollectionResource)
+            return ModelFormValidation(form_class=forms.TastyCollectionForm, resource=JewelryCollectionResource)
 
 class JewelryItemResource(OwnerModelResource):
     primary_photo = fields.FileField(attribute="primary_photo")
@@ -259,6 +259,7 @@ class UserResource(ModelResource):
                     'reason': signup_form.errors,
             }
         return self.create_response(request, response)
+
 
 v1.register(UserResource())
 v1.register(JewelryItemResource())

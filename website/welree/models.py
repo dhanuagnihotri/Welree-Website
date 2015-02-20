@@ -61,6 +61,9 @@ class JewelryCollection(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="collections")
     name = models.CharField(max_length=63)
 
+    class Meta:
+        unique_together = (('owner', 'name'),)
+
     def __unicode__(self):
         return self.name
 

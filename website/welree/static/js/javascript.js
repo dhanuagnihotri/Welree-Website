@@ -37,6 +37,7 @@ welree.tastypie_form_callback = function(e) {
     if (form.is('button')) { form = form.closest('.modal-tastypie').find('form'); }
     var data = new FormData(form.get(0));
     form.find('p.text-error').text('');
+    form.find('.has-error').removeClass('has-error').find('.ajax-errors').remove();
     $.ajax({
       type: 'POST',
       url: form.attr('action'),
@@ -57,11 +58,17 @@ welree.tastypie_form_callback = function(e) {
             var errors = JSON.parse(data.responseText);
             $.each(errors, function(i, type) {
                 $.each(type, function(field, field_msgs) {
-                    var error_node = '<ul>';
+                    var parent;
+                    if (field == '__all__') {
+                        parent = form;
+                    } else {
+                        parent = form.find('label[for=id_'+field+']');
+                    }
+                    var error_node = '<ul class="ajax-errors">';
                     $.each(field_msgs, function(i, msg) {
                         error_node += '<li>' + msg + '</li>';
                     });
-                    $(error_node+'</ul>').insertAfter(form.find('label[for=id_'+field+']'));
+                    $(error_node+'</ul>').insertAfter(parent);
                     form.find('#div_id_'+field).addClass('has-error');
                 });
             });

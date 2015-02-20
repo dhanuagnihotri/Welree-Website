@@ -41,6 +41,11 @@ class CollectionForm(forms.ModelForm):
         model = models.JewelryCollection
         fields = ['name']
 
+class TastyCollectionForm(CollectionForm):
+    class Meta:
+        model = models.JewelryCollection
+        fields = ['owner', 'name']
+
 class JewelryItemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         owner = kwargs.pop('owner', None)
