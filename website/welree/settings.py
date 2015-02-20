@@ -179,15 +179,29 @@ else:
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
     'handlers': {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': os.path.join(WEBSITE_DIR, 'run', 'gunicorn.log'),
+            'formatter': 'verbose',
         },
     },
     'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
         'django.request': {
             'handlers': ['file'],
             'level': 'DEBUG',
@@ -233,7 +247,7 @@ jinja2.filters.FILTERS['as_bootstrap'] = as_bootstrap
 jinja2.filters.FILTERS['as_bootstrap_inline'] = as_bootstrap_inline
 jinja2.filters.FILTERS['as_bootstrap_horizontal'] = as_bootstrap_horizontal
 
-if DEBUG:
+if DEBUG and False:
     # Show emails in the console during developement.
     DEFAULT_FROM_EMAIL = "mrooney@gmail.com"
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -249,10 +263,10 @@ else:
 AUTH_USER_MODEL = "welree.CustomUser"
 LOGIN_URL = "login"
 
-WEBSITE_NAME = "welree"
+WEBSITE_NAME = "Welree"
 from settings_deploy import SERVICES
 if DEBUG:
-    WEBSITE_URL = "http://localhost:{}".format(SERVICES['nginx']['port'])
+    WEBSITE_URL = "http://local.welree.com:{}".format(SERVICES['nginx']['port'])
 else:
-    WEBSITE_URL = "http://example.com"
+    WEBSITE_URL = "http://dev.welree.com"
 

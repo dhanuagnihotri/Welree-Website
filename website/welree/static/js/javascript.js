@@ -70,7 +70,9 @@ welree.tastypie_form_callback = function(e) {
 }
 
 $(function() {
-    $('.modal-tastypie form, form.form-tastypie').on('submit', welree.tastypie_form_callback);
+    $('.modal-tastypie form, form.form-tastypie')
+        .on('submit', welree.tastypie_form_callback)
+        .find('input[type=url]').attr('type', 'text');
     $('.modal-tastypie .btn-primary').on('click', welree.tastypie_form_callback);
     $('.modal-tastypie').on('shown.bs.modal', function() {
         $(this).find('form *:input[type!=hidden]:first').focus();
