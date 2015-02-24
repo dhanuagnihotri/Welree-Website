@@ -9,7 +9,11 @@
 
       <ul class="nav navbar-nav navbar-right">
       <li class="dropdown logged-in pull-right">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Welree <span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            <span class="glyphicon glyphicon-{{ "sunglasses" if request.user.is_designer else "user" }} " aria-hidden="true"></span>
+            {{ request.user.username }}
+            <span class="caret"></span>
+        </a>
         <ul class="dropdown-menu" role="menu">
           {% if request.user.is_designer %}
               <li><a href="#">My Collections</a></li>
