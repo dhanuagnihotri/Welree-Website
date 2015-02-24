@@ -77,7 +77,7 @@ class JewelryItem(models.Model):
     material = models.CharField(max_length=255)
     color = models.CharField(max_length=255)
     type = models.CharField(max_length=255)
-    tags = models.CharField(max_length=255, help_text="Separate multiple hashtags with spaces")
+    tags = models.CharField(max_length=255, help_text="Separate multiple hashtags with spaces", blank=True, null=True)
 
     objects = models.Manager()
     curated = DesignerJewelryManager()

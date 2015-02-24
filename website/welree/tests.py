@@ -92,7 +92,7 @@ class welreeApiTests(ExtendedTestCase):
             'collection': collection.id,
             'primary_photo': '/Users/mrooney/Desktop/passions.jpg',
             'description': 'foo',
-            'color': 'foo', 'material': 'foo', 'type': 'foo', 'tags': 'foo',
+            'color': 'foo', 'material': 'foo', 'type': 'foo',
         }, raise_errors=False)
         self.assertEquals(response['id'], 1)
         self.assertEquals(1, models.JewelryItem.objects.count())
