@@ -45,7 +45,7 @@ class CustomUser(AbstractUser):
 
 class DesignerJewelryManager(models.Manager):
     def get_queryset(self):
-        return super(DesignerJewelryManager, self).get_queryset().filter(collection__kind=JewelryCollection.KIND_DESIGNER).exclude(primary_photo='')
+        return super(DesignerJewelryManager, self).get_queryset().filter(collection__kind=JewelryCollection.KIND_DESIGNER, is_approved=True).exclude(primary_photo='')
 
 class JewelryCollection(models.Model):
     KIND_DESIGNER = 0
@@ -78,6 +78,8 @@ class JewelryItem(models.Model):
     color = models.CharField(max_length=255)
     type = models.CharField(max_length=255)
     tags = models.CharField(max_length=255, help_text="Separate multiple hashtags with spaces", blank=True, null=True)
+
+    is_approved = models.BooleanField(default=False)
 
     objects = models.Manager()
     curated = DesignerJewelryManager()
