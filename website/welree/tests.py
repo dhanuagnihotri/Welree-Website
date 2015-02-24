@@ -5,11 +5,13 @@ from django.db import IntegrityError
 from welree.test_helpers import ExtendedTestCase
 from welree import models
 
-def create_and_login_user(self):
+def create_and_login_user(self, **kwargs):
     model = get_user_model()
     users = model.objects.count()
     email = "user{}@example.com".format(users)
-    response = self.post("/signup/", {"email": email, "password": "foobar", "first_name": "Charles", "last_name": "Atterly"})
+    data = {"email": email, "password": "foobar", "first_name": "Charles", "last_name": "Atterly"}
+    data.update(kwargs)
+    response = self.post("/signup/", data)
     return model.objects.get(email=email)
 
 class welreeApiTests(ExtendedTestCase):
@@ -179,9 +181,19 @@ class welreeTests(ExtendedTestCase):
     def test_designer_upload(self):
         self.assertStatus(301, '/designer/upload')
 
-        user = create_and_login_user(self)
+        user = create_and_login_user(self, is_designer=True)
         response = self.get('/designer/upload/')
         self.assertTrue('form_collection_new' in response.context)
         self.assertTrue('form_jewelryitem_new' in response.context)
         self.assertNumCssMatches(1, response, 'div.collection-new')
+
+        models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_IDEABOOK, name='foo')
+        response = self.get('/designer/upload/')
+        self.assertNumCssMatches(1, response, '.collection-item')
+        self.assertNumCssMatches(1, response, 'select#id_collection option')
+
+        models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_DESIGNER, name='foo2')
+        response = self.get('/designer/upload/')
+        self.assertNumCssMatches(2, response, '.collection-item')
+        self.assertNumCssMatches(2, response, 'select#id_collection option')
 

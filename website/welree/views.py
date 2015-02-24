@@ -93,7 +93,7 @@ def consumer_upload(request):
 def designer_upload(request):
     form_collection_new = CollectionForm(initial={'kind': models.JewelryCollection.KIND_DESIGNER})
     form_jewelryitem_new = JewelryItemForm(owner=request.user)
-    collections = request.user.collections.all()
+    collections = request.user.collections.filter(kind=models.JewelryCollection.KIND_DESIGNER)
     return r2r('designer/upload.jinja', request, locals())
 
 @login_required

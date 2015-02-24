@@ -50,8 +50,12 @@ class JewelryItemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         owner = kwargs.pop('owner', None)
         super(JewelryItemForm, self).__init__(*args, **kwargs)
+
         if owner:
-            self.fields['collection'].queryset = models.JewelryCollection.objects.filter(owner=owner)
+            qs_kwargs = {'owner': owner}
+            if owner.is_designer:
+                qs_kwargs['kind'] = models.JewelryCollection.KIND_DESIGNER
+            self.fields['collection'].queryset = models.JewelryCollection.objects.filter(**qs_kwargs)
 
     class Meta:
         model = models.JewelryItem
