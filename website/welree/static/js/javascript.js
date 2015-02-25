@@ -55,23 +55,29 @@ welree.tastypie_form_callback = function(e) {
     })
     .fail(function(data, status) {
         if (status == 'error') {
-            var errors = JSON.parse(data.responseText);
-            $.each(errors, function(i, type) {
-                $.each(type, function(field, field_msgs) {
-                    var parent;
-                    if (field == '__all__') {
-                        parent = form;
-                    } else {
-                        parent = form.find('label[for=id_'+field+']');
-                    }
-                    var error_node = '<ul class="ajax-errors">';
-                    $.each(field_msgs, function(i, msg) {
-                        error_node += '<li>' + msg + '</li>';
+            if (data.status == 413) {
+                var msg = '<div role="alert" class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>The selected image is too large. Please resize the image to be less than 10mb.</div>';
+                window.scrollTo(0,0);
+                $(msg).appendTo('div.message-container').hide().fadeIn(1000);
+            } else {
+                var errors = JSON.parse(data.responseText);
+                $.each(errors, function(i, type) {
+                    $.each(type, function(field, field_msgs) {
+                        var parent;
+                        if (field == '__all__') {
+                            parent = form;
+                        } else {
+                            parent = form.find('label[for=id_'+field+']');
+                        }
+                        var error_node = '<ul class="ajax-errors">';
+                        $.each(field_msgs, function(i, msg) {
+                            error_node += '<li>' + msg + '</li>';
+                        });
+                        $(error_node+'</ul>').insertAfter(parent);
+                        form.find('#div_id_'+field).addClass('has-error');
                     });
-                    $(error_node+'</ul>').insertAfter(parent);
-                    form.find('#div_id_'+field).addClass('has-error');
                 });
-            });
+            }
         };
     })
 }

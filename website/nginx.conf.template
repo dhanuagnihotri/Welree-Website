@@ -25,6 +25,7 @@ http {{
 
     server {{
         listen {port} default_server;
+        client_max_body_size 10M;
 
         location /favicon.ico {{
             return 204;
