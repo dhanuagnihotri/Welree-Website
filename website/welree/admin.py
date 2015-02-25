@@ -4,7 +4,7 @@ from welree import models
 from sorl.thumbnail import get_thumbnail
 from sorl.thumbnail.admin import AdminImageMixin
 
-def image_file(image, short_description='Image'):
+def image_file(image, short_description='Primary thumbnail'):
     def image_thumb(self, obj):
         image = eval(image_thumb.image)
         if image:
@@ -25,9 +25,22 @@ class JewelryItemAdmin(ImageAdmin):
     search_fields = ('description', 'description', 'url')
     list_display = ('thumbnail', 'description', 'owner', 'material', 'color', 'type')
     list_filter = ('material', 'type', 'color')
-    #list_editable = ('is_approved',)
 
     thumbnail = image_file('obj.primary_photo')
+
+    class Media:
+        css = {'all': ['/static/css/admin/admin.css']}
+
+class DesignerItem(models.JewelryItem):
+    class Meta:
+        proxy = True
+
+class DesignerItemAdmin(JewelryItemAdmin):
+    def queryset(self, request):
+        return self.model.objects.filter(collection__kind=models.JewelryCollection.KIND_DESIGNER)
+
+    list_display = ('thumbnail', 'is_approved', 'description', 'owner', 'material', 'color', 'type')
+    list_editable = ('is_approved',)
 
 class JewelryCollectionAdmin(ImageAdmin):
     search_fields = ('name',)
@@ -35,5 +48,6 @@ class JewelryCollectionAdmin(ImageAdmin):
     list_filter = ('kind',)
 
 admin.site.register(models.JewelryItem, JewelryItemAdmin)
+admin.site.register(DesignerItem, DesignerItemAdmin)
 admin.site.register(models.JewelryCollection, JewelryCollectionAdmin)
 admin.site.register(models.CustomUser)
