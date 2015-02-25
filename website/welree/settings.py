@@ -252,7 +252,7 @@ if DEBUG and False:
     DEFAULT_FROM_EMAIL = "mrooney@gmail.com"
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
-    DEFAULT_FROM_EMAIL = "mrooney@gmail.com"
+    DEFAULT_FROM_EMAIL = "support@welree.com"
     EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
     EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
     EMAIL_PORT = 465
