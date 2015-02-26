@@ -1,18 +1,55 @@
 {% extends "base.jinja" %}
 {% import "macros.jinja" as macros %}
 {% block extra_css %}
+<style type="text/css">
+    .row {
+        overflow: hidden; 
+    }
+
+    [class*="col-"] {
+        margin-bottom: -99999px;
+        padding-bottom: 99999px;
+    }
+
+    img.img-thumbnail {
+        height: 140px;
+        width: 140px;
+    }
+</style>
 {% endblock %}
 {% block below_container %}
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6">
-                <img src="{{ item.primary_photo.url }}" width="100%">
+                {{ macros.individual_carousel(item) }}
             </div>
             <div class="col-lg-6 well">
                 <h4>Details:</h4>
                 <p>{{ item.description }}</p>
                 <p>Part of collection "{{ item.collection.name }}."</p>
                 {% if item.url %}<p>From: {{ item.url|urlize }}</p>{% endif %}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-6">
+                <h4>About this {{ request.user.noun }}:</h4>
+                {{ request.user.bio.rendered|safe }}
+            </div>
+            <div class="col-lg-6">
+                <div>
+                    <h4>Photos in this collection:</h4>
+                    <img src="" class="img-thumbnail">
+                    <img src="" class="img-thumbnail">
+                    <img src="" class="img-thumbnail">
+                </div>
+                    
+                <div>
+                    <h4>Similar to this photo:</h4>
+                    <img src="" class="img-thumbnail">
+                    <img src="" class="img-thumbnail">
+                    <img src="" class="img-thumbnail">
+                </div>
             </div>
         </div>
     </div>

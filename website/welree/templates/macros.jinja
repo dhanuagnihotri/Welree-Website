@@ -20,6 +20,34 @@
     </div><!-- /.modal -->
 {%- endmacro %}
 
+{% macro individual_carousel(jewelryitem, w=580, h=400) %}
+<div>
+    <div id="top-carousel" class="carousel slide">
+      <ol class="carousel-indicators">
+        {% for item in jewelryitems %}
+            <li data-target="#top-carousel" data-slide-to="{{ loop.index0 }}" class="{{ "active" if loop.first else "" }}"></li>
+        {% endfor %}
+      </ol>
+      <!-- Carousel items -->
+      <div class="carousel-inner">
+      {% for photo in [jewelryitem.primary_photo] %}
+          <div class="item {{ "active" if loop.first else "" }}">
+              {{ sorlimgtag(photo, "%sx%s"%(w,h), crop="center")|safe }}
+          </div>
+      {% endfor %}
+      </div>
+      <!-- Controls -->
+      <a class="left carousel-control" href="#top-carousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#top-carousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+</div>
+{% endmacro %}
 {% macro home_carousel(jewelryitems, w=580, h=400) %}
 <div>
     <div id="top-carousel" class="carousel slide" style="width:{{w}}px;margin:auto;">
@@ -53,4 +81,5 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
+</div>
 {% endmacro %}

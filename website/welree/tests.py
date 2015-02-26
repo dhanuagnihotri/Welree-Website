@@ -5,6 +5,8 @@ from django.db import IntegrityError
 from welree.test_helpers import ExtendedTestCase
 from welree import models
 
+DEFAULT_TEST_IMAGE = 'jewelry/10892026_10101402515514571_743122767897543427_n.jpg'
+
 def create_and_login_user(self, **kwargs):
     model = get_user_model()
     users = model.objects.count()
@@ -18,7 +20,7 @@ class welreeApiTests(ExtendedTestCase):
     def setUp(self):
         ExtendedTestCase.setUp(self)
         self.persist_client()
-        
+
     def test_login_logout(self):
         self.assertStatus(401, '/api/v1/user/logout/')
         self.assertStatus(405, '/api/v1/user/login/')
@@ -84,7 +86,7 @@ class welreeApiTests(ExtendedTestCase):
         collection = models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_DESIGNER, name='foo')
         response = self.api_post('/api/v1/jewelry/', {
             'collection': collection.id,
-            'primary_photo': '/Users/mrooney/Desktop/passions.jpg',
+            'primary_photo': DEFAULT_TEST_IMAGE,
             'description': 'foo'
         }, raise_errors=False)
         self.assertTrue(response['jewelry']['color'] == ['This field is required.'])
@@ -113,13 +115,21 @@ class welreeTests(ExtendedTestCase):
                 'color': 'Black',
                 'type': 'Earring',
                 'collection': collection or models.JewelryCollection.objects.get_or_create(owner=owner, kind=models.JewelryCollection.KIND_JEWELBOX, name='My First Collection')[0],
-                'primary_photo': '/tmp/foo',
+                'primary_photo': DEFAULT_TEST_IMAGE,
         }
         defaults.update(kwargs)
         return models.JewelryItem.objects.create(owner=owner, **defaults)
-        
+
     def test_404(self):
         self.assertStatus(404, '/foobar/')
+
+    def test_user_properties(self):
+        user = create_and_login_user(self)
+
+        self.assertEquals(user.noun, "User")
+
+        user.is_designer = True
+        self.assertEquals(user.noun, "Designer")
 
     def test_home(self):
         self.assertStatus(200, '/')
@@ -212,6 +222,10 @@ class welreeTests(ExtendedTestCase):
 
     def test_individual_item(self):
         user = create_and_login_user(self)
+        user.bio = '*fancy*'
+        user.save()
         item = self.createItem(owner=user)
-        self.get(item.get_absolute_url())
+
+        response = self.get(item.get_absolute_url())
+        self.assertTrue('<p><em>fancy</em></p>' in response.content)
 

@@ -144,11 +144,17 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'tastypie',
     'tastypie_swagger',
+    'markupfield',
 )
 if not (DEBUG or TESTING):
     INSTALLED_APPS += (
         'raven.contrib.django',
     )
+
+import markdown
+MARKUP_FIELD_TYPES = (
+    ('markdown', markdown.markdown),
+)
 
 TASTYPIE_SWAGGER_API_MODULE = 'welree.api.v1'
 

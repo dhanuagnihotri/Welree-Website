@@ -31,5 +31,5 @@ def sorlthumbnail(file_, geometry_string, **options):
 @debug_silence(error_output='')
 def sorlimgtag(file_, geometry_string, **options):
     im = sorlthumbnail(file_, geometry_string, **options)
-    return u"""<img src="{}" width="{}" height="{}">""".format(im.url, im.width, im.height)
+    return u"""<img src="{}" width="{}" height="{}" class="{}">""".format(im.url, im.width, im.height, options.get("classes", ""))
 
