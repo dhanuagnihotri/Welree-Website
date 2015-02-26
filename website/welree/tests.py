@@ -104,6 +104,19 @@ class welreeTests(ExtendedTestCase):
     def setUp(self):
         ExtendedTestCase.setUp(self)
         self.persist_client()
+
+    def createItem(self, owner, collection=None, **kwargs):
+        defaults = {
+                'description': 'description',
+                'url': 'http://www.example.com/foobar/',
+                'material': 'Wood',
+                'color': 'Black',
+                'type': 'Earring',
+                'collection': collection or models.JewelryCollection.objects.get_or_create(owner=owner, kind=models.JewelryCollection.KIND_JEWELBOX, name='My First Collection')[0],
+                'primary_photo': '/tmp/foo',
+        }
+        defaults.update(kwargs)
+        return models.JewelryItem.objects.create(owner=owner, **defaults)
         
     def test_404(self):
         self.assertStatus(404, '/foobar/')
@@ -196,4 +209,9 @@ class welreeTests(ExtendedTestCase):
         response = self.get('/designer/upload/')
         self.assertNumCssMatches(2, response, '.collection-item')
         self.assertNumCssMatches(2, response, 'select#id_collection option')
+
+    def test_individual_item(self):
+        user = create_and_login_user(self)
+        item = self.createItem(owner=user)
+        self.get(item.get_absolute_url())
 

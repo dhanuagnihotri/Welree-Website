@@ -88,5 +88,5 @@ class JewelryItem(models.Model):
         return self.description
 
     def get_absolute_url(self):
-        return "{}/{}".format(reverse("item", kwargs={"pk": self.id}), defaultfilters.slugify(self.description))
+        return "{}{}/".format(reverse("item", kwargs={"pk": self.id}), defaultfilters.slugify(self.description))
 
