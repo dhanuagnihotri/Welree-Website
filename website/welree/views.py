@@ -78,6 +78,8 @@ def signup(request):
 def item(request, pk):
     item = get_object_or_404(models.JewelryItem, pk=pk)
     owner = item.owner
+    related_collection = list(models.JewelryItem.objects.filter(collection=item.collection_id).exclude(id=item.id).exclude(primary_photo=None)[:3])
+    related_similar = []
     return r2r('item.jinja', request, locals())
 
 @login_required

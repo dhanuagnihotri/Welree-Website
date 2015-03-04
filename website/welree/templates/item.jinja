@@ -38,9 +38,16 @@
             <div class="col-lg-6">
                 <div>
                     <h4>Photos in this collection:</h4>
-                    <img src="" class="img-thumbnail">
-                    <img src="" class="img-thumbnail">
-                    <img src="" class="img-thumbnail">
+                        {% set count = 3 %}
+                        {% for item in related_collection %}
+                            {% if item.primary_photo %}
+                                <a href="{{ item.get_absolute_url() }}">{{ sorlimgtag(item.primary_photo, "140x140", crop="center", classes="img-thumbnail") }}</a>
+                                {% set count = count-1 %}
+                            {% endif %}
+                        {% endfor %}
+                        {% for i in range(1, count) %}
+                            <img src="" class="img-thumbnail">
+                        {% endfor %}
                 </div>
                     
                 <div>

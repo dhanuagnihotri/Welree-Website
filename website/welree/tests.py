@@ -114,7 +114,7 @@ class welreeTests(ExtendedTestCase):
                 'material': 'Wood',
                 'color': 'Black',
                 'type': 'Earring',
-                'collection': collection or models.JewelryCollection.objects.get_or_create(owner=owner, kind=models.JewelryCollection.KIND_JEWELBOX, name='My First Collection')[0],
+                'collection': collection or models.JewelryCollection.objects.get_or_create(owner=owner, kind=models.JewelryCollection.KIND_JEWELBOX, name='My Collection {}'.format(models.JewelryCollection.objects.count()))[0],
                 'primary_photo': DEFAULT_TEST_IMAGE,
         }
         defaults.update(kwargs)
@@ -227,6 +227,11 @@ class welreeTests(ExtendedTestCase):
         user.save()
         item = self.createItem(owner=user)
 
+        unrelated = self.createItem(owner=user)
+        other = self.createItem(owner=user, collection=item.collection)
+
         response = self.get(item.get_absolute_url())
         self.assertTrue('<p><em>fancy</em></p>' in response.content)
+        self.assertEqual([other], response.context['related_collection'])
+        self.assertEqual([], response.context['related_similar'])
 
