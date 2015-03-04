@@ -222,6 +222,7 @@ class welreeTests(ExtendedTestCase):
 
     def test_individual_item(self):
         user = create_and_login_user(self)
+        authed = create_and_login_user(self)
         user.bio = '*fancy*'
         user.save()
         item = self.createItem(owner=user)

@@ -3,9 +3,8 @@
 {% block extra_css %}
 <style type="text/css">
     .row {
-        overflow: hidden; 
+        overflow: hidden;
     }
-
     [class*="col-"] {
         margin-bottom: -99999px;
         padding-bottom: 99999px;
@@ -33,8 +32,8 @@
         <hr>
         <div class="row">
             <div class="col-lg-6">
-                <h4>About this {{ request.user.noun }}:</h4>
-                {{ request.user.bio.rendered|safe }}
+                <h4>About this {{ owner.noun }}:</h4>
+                {{ owner.bio.rendered|safe }}
             </div>
             <div class="col-lg-6">
                 <div>
