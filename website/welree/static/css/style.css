@@ -1,8 +1,24 @@
 /* http://paulirish.com/2012/box-sizing-border-box-ftw/ */
 * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
+@font-face {
+    font-family: "JennaSue";
+    src: url("/static/css/JennaSue.ttf") /* TTF file for CSS3 browsers */
+}
+
 body {
     margin-top: 60px;
+}
+body, p, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.navbar-brand {
+    font-family: 'JennaSue', sans-serif;
+    font-size: 4em;
+}
+.font-special {
+    font-family: 'JennaSue', sans-serif;
 }
 
 div.signup-option {
