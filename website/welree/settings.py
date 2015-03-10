@@ -244,6 +244,7 @@ SECRET_KEY = '1w*!f7srzy(lq%6m&y!uhz1rrl#id6qzzlqyl-i8t$rmi59+if'
 
 JINJA2_EXTENSIONS = [
     'compressor.contrib.jinja2ext.CompressorExtension',
+    'jinja2htmlcompress.SelectiveHTMLCompress',
 ]
 COMPRESS_ENABLED = True
 COMPRESS_PARSER = 'compressor.parser.LxmlParser'

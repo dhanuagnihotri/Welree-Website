@@ -18,7 +18,7 @@
             {% block extra_css %}{% endblock %}
         {% endcompress %}
     </head>
-    <body class="{% block body_class %}{% endblock %}">
+    <body class="{% block body_class %}{% endblock %}"><div class="body-container">
         {% include "header.jinja" %}
 
         <div class="container" id="main" role="main">
@@ -31,7 +31,7 @@
                 {% endfor %}
             </div>
             {% block above_container %}{% endblock %}
-            <div class="container well container-base">{% block content %}{% endblock %}</div>
+            <div class="container container-base">{% block content %}{% endblock %}</div>
             {% block below_container %}{% endblock %}
         </div>
 
@@ -41,5 +41,5 @@
             <script src="/static/js/javascript.js"></script>
         {% endcompress %}
         {% block extra_js %}{% endblock %}
-    </body>
+    </div></body>
 </html>

@@ -13,12 +13,34 @@ body, p, h1, h2, h3, h4, h5, h6 {
     font-family: 'Open Sans', sans-serif;
 }
 
+@media (min-width: 1200px) {
+    .container {
+    width: 1024px;
+}
+}
+
+div#header {
+    max-width: 1024px;
+    margin: auto;
+    background-image: url('/static/img/welree_0000_Header-Mask.png');
+    border: 0px;
+}
+div#main, div.container-base {
+    padding: 0px;
+}
+
+div.body-container {
+    max-width: 1024px;
+    margin: auto;
+}
+
 .navbar-brand {
     font-family: 'JennaSue', sans-serif;
     font-size: 4em;
 }
 .font-special {
     font-family: 'JennaSue', sans-serif;
+    font-size: 1.5em;
 }
 
 div.signup-option {
