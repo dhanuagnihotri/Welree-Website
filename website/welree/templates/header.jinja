@@ -1,6 +1,14 @@
 <div id="header" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-      <div class="navbar-header"><a href="/" class="navbar-brand nav-text">Welree</a></div>
+      <img src="/static/img/welree_0004_logo-with-icon.png" class="logo">
+
+      <form class="form-inline pull-left">
+          <div class="form-group has-feedback">
+              <img src="/static/img/triple.png" class="triple">
+              <input type="search" class="form-control input-small" placeholder="Search jewelry, designers, blogs, & more">
+              <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+          </div>
+      </form>
 
       <ul class="nav navbar-nav pull-right logged-out nav-text">
         <li><a href="{{ url("signup") }}">Sign Up</a></li>
