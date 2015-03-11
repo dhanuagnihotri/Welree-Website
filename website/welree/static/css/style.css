@@ -19,6 +19,16 @@ body, p, h1, h2, h3, h4, h5, h6 {
     }
 }
 
+.form-control::-moz-placeholder {
+  color: #fff;
+}
+.form-control:-ms-input-placeholder {
+  color: #fff;
+}
+.form-control::-webkit-input-placeholder {
+  color: #fff;
+}
+
 #header {
     max-width: 1024px;
     min-height: 30px;
@@ -31,18 +41,21 @@ body, p, h1, h2, h3, h4, h5, h6 {
 }
 #header img.triple {
     height: 28px;
-    padding-top: 5px;
+    padding-top: 4px;
 }
 #header input[type=search] {
     height: 1em;
     width: 360px;
+    margin-left: 10px;
     margin-top: 4px;
     background-color: #768079;
     border-radius: 3px;
     font-size: 0.9em;
 }
-#header .glyphicon-search {
-    margin-top: -5px;
+#header img.search {
+    height: 13px;
+    margin-top: -13px;
+    margin-left: 15px;
 }
 #header img.logo {
     width: 120px;
