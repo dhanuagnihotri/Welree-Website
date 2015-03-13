@@ -101,3 +101,44 @@ div.btn-facebook {
 div.btn-facebook a {
     width: 100%;
 }
+#footer {
+    background-color: #8c8c8c;
+    height: 100px;
+    margin-top: 20px;
+    text-align: center;
+    padding-top: 25px;
+}
+#footer .pull-left img {
+    height: 20px;
+}
+#footer .body-container {
+    height: 100px;
+}
+#footer img.app-store {
+    height: 50px;
+    margin-top: -15px;
+}
+#footer .footer-links a {
+    margin-right: 10px;
+}
+a {
+    color: white;
+    text-decoration: none;
+}
+a:hover {
+    color: white;
+}
+.hcenter {
+    position: relative;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.vcenter {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}

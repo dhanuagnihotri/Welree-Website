@@ -18,7 +18,8 @@
             {% block extra_css %}{% endblock %}
         {% endcompress %}
     </head>
-    <body class="{% block body_class %}{% endblock %}"><div class="body-container">
+    <body class="{% block body_class %}{% endblock %}">
+    <div class="body-container">
         {% include "header.jinja" %}
 
         <div class="container" id="main" role="main">
@@ -41,5 +42,23 @@
             <script src="/static/js/javascript.js"></script>
         {% endcompress %}
         {% block extra_js %}{% endblock %}
-    </div></body>
+    </div>
+    <div id="footer" class="clearfix">
+        <div class="body-container">
+            <div class="pull-left">
+                <a href="#"><img src="/static/img/facebook.png"></a>
+                <a href="#"><img src="/static/img/twitter.png"></a>
+                <a href="#"><img src="/static/img/email.png"></a>
+            </div>
+            <span class="footer-links">
+                <a href="#">ABOUT</a>
+                <a href="#">CONTACT US</a>
+                <a href="#">COPYRIGHT&copy; 2015</a>
+            </span>
+            <div class="pull-right">
+                <a href="#"><img class="app-store" src="/static/img/app-store.png"></a>
+            </div>
+        </div>
+    </div>
+    </body>
 </html>
