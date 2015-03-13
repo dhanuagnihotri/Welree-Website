@@ -3,6 +3,8 @@
 <style type="text/css">
     body {
         margin-top: 0px;
+        margin-bottom: 100px;
+        color: white;
     }
 
     div.editorials a {
@@ -14,7 +16,6 @@
         display: inline-block;
         margin-top: 10px;
         text-transform: uppercase;
-        margin-bottom: 100px;
         color: white;
     }
     div.editorial .inner {
@@ -59,7 +60,21 @@
     div.editorial.notfirst {
         padding-left: 10px;
     }
-    div.editorial img {
+    div.community-banner {
+        margin-top: 10px;
+        width: 100%;
+        height: 100px;
+        line-height: 100px;
+        background-color: rgb(85, 88, 84);
+    }
+    div.community-banner span {
+      display: inline-block;
+      vertical-align: middle;
+      line-height: normal; 
+      margin-left: 50px;
+    }
+    div.community-banner .community {
+        font-size: 4em;
     }
 
 </style>
@@ -83,4 +98,8 @@
         {% endfor %}
     </div>
     {% endstrip %}
+    <div class="community-banner">
+        <span class="community font-special">Community</span>
+        <span class="description">Ut massa menatibus auctor! Odio, risus aliquet platea duis, porta, sagittis.</span>
+    </div>
 {% endblock %}
