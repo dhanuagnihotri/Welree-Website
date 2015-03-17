@@ -48,7 +48,7 @@ class JewelryCollectionAdmin(ImageAdmin):
     list_display = ('name', 'kind', 'owner')
     list_filter = ('kind',)
 
-class EditorialAdmin(SortableAdminMixin, ImageAdmin):
+class EditorialAdmin(SortableAdminMixin, AdminImageAdmin):
     search_fields = ('category', 'title', 'url')
     list_filter = ('category',)
     list_display = ('thumbnail', 'category', 'title')
