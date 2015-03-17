@@ -20,8 +20,7 @@ def image_file(image, short_description='Primary thumbnail'):
     return image_thumb
 
 class ImageAdmin(AdminImageMixin, admin.ModelAdmin):
-    #actions = None
-    pass
+    actions = None
 
 class JewelryItemAdmin(ImageAdmin):
     search_fields = ('description', 'description', 'url')
