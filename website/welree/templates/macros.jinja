@@ -61,7 +61,7 @@
       {% for item in jewelryitems %}
           <div class="item {{ "active" if loop.first else "" }}">
               <a href="{{ item.get_absolute_url() }}">
-                  {{ sorlimgtag(item.primary_photo, "%sx%s"%(w,h), crop="center")|safe }}
+                  {{ sorlimgtag(item.primary_photo, "%sx%s"%(w,h), crop="center") }}
               </a>
               <a href="{{ item.get_absolute_url() }}">
                   <div class="carousel-caption">

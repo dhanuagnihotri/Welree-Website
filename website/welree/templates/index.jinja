@@ -126,13 +126,13 @@
     {{ macros.home_carousel(curated) }}
     {% strip %}
     <div class="editorials">
-        {% for i in [1,2,3,4] %}
-            <a href="#">
+        {% for editorial in editorials %}
+            <a href="{{ editorial.url }}" target="_blank">
             <div class="editorial {{ " notfirst" if not loop.first else "" }}">
                 <div class="inner">
-                    <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
-                    <div class="topper">Trends</div>
-                    <div class="title">Kate Middletown in NYC</div>
+                    {{ sorlimgtag(editorial.photo, "256", crop="center") }}
+                    <div class="topper">{{ editorial.category }}</div>
+                    <div class="title">{{ editorial.title }}</div>
                     <div class="read-more">Read More</div>
                 </div>
             </div>

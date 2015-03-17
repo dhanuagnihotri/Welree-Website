@@ -47,7 +47,15 @@ class JewelryCollectionAdmin(ImageAdmin):
     list_display = ('name', 'kind', 'owner')
     list_filter = ('kind',)
 
+class EditorialAdmin(ImageAdmin):
+    search_fields = ('category', 'title', 'url')
+    list_filter = ('category',)
+    list_display = ('thumbnail', 'category', 'title')
+
+    thumbnail = image_file('obj.photo')
+
 admin.site.register(models.JewelryItem, JewelryItemAdmin)
 admin.site.register(DesignerItem, DesignerItemAdmin)
 admin.site.register(models.JewelryCollection, JewelryCollectionAdmin)
 admin.site.register(models.CustomUser)
+admin.site.register(models.Editorial, EditorialAdmin)

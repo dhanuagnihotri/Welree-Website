@@ -28,6 +28,7 @@ def superuser_required(function):
 
 def home(request):
     curated = models.JewelryItem.curated.order_by('-id')
+    editorials = models.Editorial.objects.order_by('-id')
     return r2r("index.jinja", request, locals())
 
 def login(request):

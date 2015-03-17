@@ -51,6 +51,15 @@ class CustomUser(AbstractUser):
         user.email_user("Welcome to Welree", msg, ignore_confirmed=True)
         return user
 
+class Editorial(models.Model):
+    category = models.CharField(max_length=63)
+    title = models.CharField(max_length=255)
+    url = models.URLField()
+    photo = SorlImageField(upload_to='editorial')
+
+    def __unicode__(self):
+        return u"{} - {}".format(self.category, self.title)
+
 class DesignerJewelryManager(models.Manager):
     def get_queryset(self):
         return super(DesignerJewelryManager, self).get_queryset().filter(collection__kind=JewelryCollection.KIND_DESIGNER, is_approved=True).exclude(primary_photo='')
