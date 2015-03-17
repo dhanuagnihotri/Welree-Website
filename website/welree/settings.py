@@ -145,6 +145,7 @@ INSTALLED_APPS = (
     'tastypie',
     'tastypie_swagger',
     'markupfield',
+    'adminsortable',
 )
 if not (DEBUG or TESTING):
     INSTALLED_APPS += (
