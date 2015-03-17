@@ -158,14 +158,14 @@
         <div class="featured-collection clearfix">
             {% if loop.index is odd %}{{ collection_primary(collection) }}{% endif %}
             <div class="secondary"><div class="inner">
-                {% if collection.annotated.photos[1] %}
+                {% if collection.annotated_photos[1] %}
                     {{ sorlimgtag(collection.annotated_photos[1], "256x100", crop="center") }}
                 {% else %}
                     <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
                 {% endif %}
             </div></div>
             <div class="secondary"><div class="inner">
-                {% if collection.annotated.photos[2] %}
+                {% if collection.annotated_photos[2] %}
                     {{ sorlimgtag(collection.annotated_photos[2], "256x100", crop="center") }}
                 {% else %}
                     <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
