@@ -11,6 +11,7 @@ bpython==0.13.2
 cffi==0.8.6
 cryptography==0.7.2
 cssselect==0.9.1
+django-admin-sortable2==0.3.3
 django-appconf==0.6
 django-compressor==1.4
 django-forms-bootstrap==3.0.1
@@ -45,4 +46,3 @@ requests-oauthlib==0.4.2
 requests==2.5.1
 six==1.9.0
 sorl-thumbnail==12.2
-wsgiref==0.1.2

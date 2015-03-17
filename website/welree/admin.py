@@ -1,3 +1,4 @@
+from adminsortable.admin import SortableAdminMixin
 from django.contrib import admin
 
 from welree import models
@@ -47,7 +48,7 @@ class JewelryCollectionAdmin(ImageAdmin):
     list_display = ('name', 'kind', 'owner')
     list_filter = ('kind',)
 
-class EditorialAdmin(ImageAdmin):
+class EditorialAdmin(SortableAdminMixin, ImageAdmin):
     search_fields = ('category', 'title', 'url')
     list_filter = ('category',)
     list_display = ('thumbnail', 'category', 'title')

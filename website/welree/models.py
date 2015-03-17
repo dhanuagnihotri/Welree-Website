@@ -56,6 +56,10 @@ class Editorial(models.Model):
     title = models.CharField(max_length=255)
     url = models.URLField()
     photo = SorlImageField(upload_to='editorial')
+    order = models.PositiveIntegerField(default=0, blank=False, null=False)
+
+    class Meta(object):
+        ordering = ('order',)
 
     def __unicode__(self):
         return u"{} - {}".format(self.category, self.title)
