@@ -55,8 +55,16 @@ class EditorialAdmin(SortableAdminMixin, ImageAdmin):
 
     thumbnail = image_file('obj.photo')
 
+class FeaturedCollectionAdmin(SortableAdminMixin, ImageAdmin):
+    thumbnail = image_file('obj.collection.photo')
+
+    def queryset(self, request):
+        qs = super(FeaturedCollectionAdmin, self).queryset(request)
+        return qs.filter(collection__kind=models.JewelryCollection.KIND_DESIGNER)
+
 admin.site.register(models.JewelryItem, JewelryItemAdmin)
 admin.site.register(DesignerItem, DesignerItemAdmin)
 admin.site.register(models.JewelryCollection, JewelryCollectionAdmin)
 admin.site.register(models.CustomUser)
 admin.site.register(models.Editorial, EditorialAdmin)
+admin.site.register(models.FeaturedCollection, FeaturedCollectionAdmin)

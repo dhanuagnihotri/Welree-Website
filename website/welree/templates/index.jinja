@@ -148,22 +148,30 @@
     {% macro collection_primary(collection) %}
         <div class="collection-primary">
             <div class="inner">
-                <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
-                <p class="collection-name vcenter">Collection Name</p>
-                <p class="collection-owner font-special">Jane Doe</p>
+                {{ sorlimgtag(collection.annotated_photos[0], "512x100", crop="center") }}
+                <p class="collection-name vcenter">{{ collection.name }}</p>
+                <p class="collection-owner font-special">{{ collection.owner.first_name }} {{ collection.owner.last_name }}</p>
             </div>
         </div>
     {% endmacro %}
-    {% for i in [1, 2, 3] %}
+    {% for collection in featuredcollections %}
         <div class="featured-collection clearfix">
-            {% if loop.index is odd %}{{ collection_primary(0) }}{% endif %}
+            {% if loop.index is odd %}{{ collection_primary(collection) }}{% endif %}
             <div class="secondary"><div class="inner">
-                <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
+                {% if collection.annotated.photos[1] %}
+                    {{ sorlimgtag(collection.annotated_photos[1], "256x100", crop="center") }}
+                {% else %}
+                    <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
+                {% endif %}
             </div></div>
             <div class="secondary"><div class="inner">
-                <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
+                {% if collection.annotated.photos[2] %}
+                    {{ sorlimgtag(collection.annotated_photos[2], "256x100", crop="center") }}
+                {% else %}
+                    <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
+                {% endif %}
             </div></div>
-            {% if loop.index is even %}{{ collection_primary(0) }}{% endif %}
+            {% if loop.index is even %}{{ collection_primary(collection) }}{% endif %}
         </div>
     {% endfor %}
 {% endblock %}

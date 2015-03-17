@@ -64,6 +64,16 @@ class Editorial(models.Model):
     def __unicode__(self):
         return u"{} - {}".format(self.category, self.title)
 
+class FeaturedCollection(models.Model):
+    collection = models.ForeignKey('welree.JewelryCollection')
+    order = models.PositiveIntegerField(default=0, blank=False, null=False)
+
+    class Meta(object):
+        ordering = ('order',)
+
+    def __unicode__(self):
+        return unicode(self.collection)
+
 class DesignerJewelryManager(models.Manager):
     def get_queryset(self):
         return super(DesignerJewelryManager, self).get_queryset().filter(collection__kind=JewelryCollection.KIND_DESIGNER, is_approved=True).exclude(primary_photo='')
@@ -90,7 +100,7 @@ class JewelryCollection(models.Model):
 
 class JewelryItem(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="jewelryitems")
-    collection = models.ForeignKey(JewelryCollection)
+    collection = models.ForeignKey(JewelryCollection, related_name="items")
     primary_photo = SorlImageField(upload_to='jewelry')
     description = models.CharField(max_length=255)
     url = models.URLField(blank=True, null=True, verbose_name="Product link")

@@ -28,7 +28,10 @@ def superuser_required(function):
 
 def home(request):
     curated = models.JewelryItem.curated.order_by('-id')
-    editorials = models.Editorial.objects.all()
+    editorials = models.Editorial.objects.all()[:4]
+    featuredcollections = [f.collection for f in models.FeaturedCollection.objects.select_related('collection')[:3]]
+    for featured in featuredcollections:
+        featured.annotated_photos = [item.primary_photo for item in featured.items.all()[:3]]
     return r2r("index.jinja", request, locals())
 
 def login(request):
