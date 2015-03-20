@@ -6,6 +6,19 @@
         color: white;
     }
 
+    #header.expanded {
+        background-color: transparent;
+    }
+    #header.expanded .gradient {
+        width: 100%;
+        height: 100px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: -1;
+        background-image: url('/static/img/nav-gradient.png');
+    }
+
     div.editorials a {
         color: white;
         text-decoration: none;
@@ -176,4 +189,18 @@
         </div>
         </a>
     {% endfor %}
+{% endblock %}
+{% block extra_js %}
+    <script>
+        $(function() {
+            var editorials = $('.editorials');
+            $(window).on('scroll', function() {
+                if ($(window).scrollTop() > editorials.position().top - 20) {
+                    $('#header').removeClass('expanded').addClass('contracted');
+                } else {
+                    $('#header').removeClass('contracted').addClass('expanded');
+                }
+            }).triggerHandler('scroll');
+        });
+    </script>
 {% endblock %}

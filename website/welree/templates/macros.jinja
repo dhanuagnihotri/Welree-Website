@@ -50,7 +50,7 @@
 {% endmacro %}
 {% macro home_carousel(jewelryitems, w=1024, h=600) %}
 <div>
-    <div id="top-carousel" class="carousel slide" style="max-width:1024px;margin:auto;">
+    <div id="top-carousel" class="carousel slide" style="max-width:1024px;height:{{h}}px;margin:auto;">
       <ol class="carousel-indicators">
         {% for item in jewelryitems %}
             <li data-target="#top-carousel" data-slide-to="{{ loop.index0 }}" class="{{ "active" if loop.first else "" }}"></li>

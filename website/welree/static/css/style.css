@@ -33,8 +33,7 @@ body, p, h1, h2, h3, h4, h5, h6 {
     max-width: 1024px;
     min-height: 30px;
     margin: auto;
-    background-color: transparent;
-    background-image: url('/static/img/welree_0000_Header-Mask.png');
+    background-color: #5a5a5a;
     border-bottom: 1px solid #fff;
     font-size: 0.8em;
     border: 0px;
@@ -62,7 +61,25 @@ body, p, h1, h2, h3, h4, h5, h6 {
     margin-left: -60px;
     position: absolute;
     left: 50%;
-    bottom: -15px;
+    top: 5px;
+}
+#header.contracted {
+   -webkit-box-shadow: 0 6px 6px -2px #5a5a5a;
+      -moz-box-shadow: 0 6px 6px -2px #5a5a5a;
+           box-shadow: 0 6px 6px -2px #5a5a5a;
+}
+#header img.logo-contracted {
+    width: 16px;
+    margin-left: -8px;
+    position: absolute;
+    left: 50%;
+    top: 5px;
+}
+#header.contracted img.logo {
+    display: none;
+}
+#header.expanded img.logo-contracted {
+    display: none;
 }
 #header li a {
     padding-top: 8px;
