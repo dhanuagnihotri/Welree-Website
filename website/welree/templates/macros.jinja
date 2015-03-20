@@ -60,10 +60,10 @@
       <div class="carousel-inner">
       {% for item in jewelryitems %}
           <div class="item {{ "active" if loop.first else "" }}">
-              <a href="{{ item.get_absolute_url() }}">
+              <a href="{{ item.get_absolute_collection_url(collection) }}">
                   {{ sorlimgtag(item.primary_photo, "%sx%s"%(w,h), crop="center") }}
               </a>
-              <a href="{{ item.get_absolute_url() }}">
+              <a href="{{ item.get_absolute_collection_url(collection) }}">
                   <div class="carousel-caption">
                     <h4>{{ item.description|truncatechars(80) }}</h4>
                   </div>

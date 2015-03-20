@@ -47,6 +47,8 @@ class TastyCollectionForm(CollectionForm):
         fields = ['owner', 'name']
 
 class JewelryItemForm(forms.ModelForm):
+    collection = forms.ModelChoiceField(queryset=models.JewelryCollection.objects.none())
+
     def __init__(self, *args, **kwargs):
         owner = kwargs.pop('owner', None)
         super(JewelryItemForm, self).__init__(*args, **kwargs)

@@ -98,9 +98,10 @@ class welreeApiTests(ExtendedTestCase):
             'description': 'foo',
             'color': 'foo', 'material': 'foo', 'type': 'foo',
         }, raise_errors=False)
+        print response
         self.assertEquals(response['id'], 1)
         self.assertEquals(1, models.JewelryItem.objects.count())
-        self.assertEquals(collection, models.JewelryItem.objects.all()[0].collection)
+        self.assertEquals(collection.items.all(), [models.JewelryItem.objects.first()])
 
 class welreeTests(ExtendedTestCase):
     def setUp(self):
@@ -114,11 +115,13 @@ class welreeTests(ExtendedTestCase):
                 'material': 'Wood',
                 'color': 'Black',
                 'type': 'Earring',
-                'collection': collection or models.JewelryCollection.objects.get_or_create(owner=owner, kind=models.JewelryCollection.KIND_JEWELBOX, name='My Collection {}'.format(models.JewelryCollection.objects.count()))[0],
                 'primary_photo': DEFAULT_TEST_IMAGE,
         }
         defaults.update(kwargs)
-        return models.JewelryItem.objects.create(owner=owner, **defaults)
+        item = models.JewelryItem.objects.create(owner=owner, **defaults)
+        collection = collection or models.JewelryCollection.objects.get_or_create(owner=owner, kind=models.JewelryCollection.KIND_JEWELBOX, name='My Collection {}'.format(models.JewelryCollection.objects.count()))[0]
+        collection.items.add(item)
+        return item
 
     def test_404(self):
         self.assertStatus(404, '/foobar/')
@@ -228,9 +231,10 @@ class welreeTests(ExtendedTestCase):
         item = self.createItem(owner=user)
 
         unrelated = self.createItem(owner=user)
-        other = self.createItem(owner=user, collection=item.collection)
+        collection = item.collections.first()
+        other = self.createItem(owner=user, collection=collection)
 
-        response = self.get(item.get_absolute_url())
+        response = self.get(item.get_absolute_collection_url(collection))
         self.assertTrue('<p><em>fancy</em></p>' in response.content)
         self.assertEqual([other], response.context['related_collection'])
         self.assertEqual([], response.context['related_similar'])

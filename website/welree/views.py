@@ -79,10 +79,11 @@ def signup(request):
 
         return redirect("home")
 
-def item(request, pk):
-    item = get_object_or_404(models.JewelryItem, pk=pk)
+def item(request, coll_pk, item_pk):
+    item = get_object_or_404(models.JewelryItem, pk=item_pk)
+    collection = get_object_or_404(models.JewelryCollection, pk=coll_pk)
     owner = item.owner
-    related_collection = list(models.JewelryItem.objects.filter(collection=item.collection_id).exclude(id=item.id).exclude(primary_photo=None)[:3])
+    related_collection = list(collection.items.exclude(id=item.id).exclude(primary_photo=None)[:3])
     related_similar = []
     return r2r('item.jinja', request, locals())
 

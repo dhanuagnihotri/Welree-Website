@@ -47,7 +47,7 @@ welree.tastypie_form_callback = function(e) {
     })
     .done(function(data, status, xhr) {
         if (redirect) {
-            window.location.href = redirect.replace(999, data.id);
+            window.location.href = redirect.replace(888, data.coll_id).replace(999, data.id);
         } else {
             $('.modal:visible').modal('hide');
             window.location.reload(true);

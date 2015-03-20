@@ -76,7 +76,7 @@ class FeaturedCollection(models.Model):
 
 class DesignerJewelryManager(models.Manager):
     def get_queryset(self):
-        return super(DesignerJewelryManager, self).get_queryset().filter(collection__kind=JewelryCollection.KIND_DESIGNER, is_approved=True).exclude(primary_photo='')
+        return super(DesignerJewelryManager, self).get_queryset().filter(collections__kind=JewelryCollection.KIND_DESIGNER, is_approved=True).exclude(primary_photo='')
 
 class JewelryCollection(models.Model):
     KIND_DESIGNER = 0
@@ -91,6 +91,7 @@ class JewelryCollection(models.Model):
     kind = models.IntegerField(choices=KIND_CHOICES, db_index=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="collections")
     name = models.CharField(max_length=63)
+    items = models.ManyToManyField('welree.JewelryItem', related_name="collections")
 
     class Meta:
         unique_together = (('owner', 'name'),)
@@ -100,7 +101,6 @@ class JewelryCollection(models.Model):
 
 class JewelryItem(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="jewelryitems")
-    collection = models.ForeignKey(JewelryCollection, related_name="items")
     primary_photo = SorlImageField(upload_to='jewelry')
     description = models.CharField(max_length=255)
     url = models.URLField(blank=True, null=True, verbose_name="Product link")
@@ -118,6 +118,6 @@ class JewelryItem(models.Model):
     def __unicode__(self):
         return self.description
 
-    def get_absolute_url(self):
-        return "{}{}/".format(reverse("item", kwargs={"pk": self.id}), defaultfilters.slugify(self.description))
+    def get_absolute_collection_url(self, collection):
+        return "{}{}/".format(reverse("item", kwargs={"item_pk": self.id, "coll_pk": collection.id}), defaultfilters.slugify(self.description))
 
