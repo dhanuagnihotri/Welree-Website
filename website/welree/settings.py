@@ -278,3 +278,5 @@ if DEBUG:
 else:
     WEBSITE_URL = "http://dev.welree.com"
 
+DISQUS_SHORTNAME = "welreeapp" if not DEBUG else "welreelocal"
+

@@ -1,3 +1,5 @@
+from django.conf import settings
+
 def pluralize(count, string, plural=None):
     if float(count) == 1:
         return u"%s %s" % (count, string)
@@ -12,6 +14,7 @@ def processor(request):
             'str': str,
             'dir': dir,
             'zip': zip,
+            'disqus_shortname': settings.DISQUS_SHORTNAME
     }
     return context
 
