@@ -49,6 +49,10 @@ class TastyCollectionForm(CollectionForm):
 class JewelryItemForm(forms.ModelForm):
     collection = forms.ModelChoiceField(queryset=models.JewelryCollection.objects.none())
 
+    class Meta:
+        model = models.JewelryItem
+        fields = ['collection', 'primary_photo', 'description', 'url', 'type', 'material', 'color', 'tags']
+
     def __init__(self, *args, **kwargs):
         owner = kwargs.pop('owner', None)
         super(JewelryItemForm, self).__init__(*args, **kwargs)
@@ -59,16 +63,10 @@ class JewelryItemForm(forms.ModelForm):
                 qs_kwargs['kind'] = models.JewelryCollection.KIND_DESIGNER
             self.fields['collection'].queryset = models.JewelryCollection.objects.filter(**qs_kwargs)
 
+class TastyJewelryItemForm(forms.ModelForm):
     class Meta:
         model = models.JewelryItem
-        fields = ['collection', 'primary_photo', 'description', 'url', 'type', 'material', 'color', 'tags']
-
-"""
-class ConsumerJewelryItemForm(JewelryItemForm):
-    class Meta:
-        model = models.JewelryItem
-        fields = ['collection', 'primary_photo', 'description', 'url', 'tags']
-"""
+        fields = ['primary_photo', 'description', 'url', 'type', 'material', 'color', 'tags']
 
 class PasswordResetForm(forms.Form):
     error_messages = {

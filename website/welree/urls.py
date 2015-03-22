@@ -32,7 +32,7 @@ urlpatterns = patterns('',
     url(r'', include('social.apps.django_app.urls', namespace='social')),
 
 
-    url(r'^item/(?P<coll_pk>[\d]+)/(?P<item_pk>[\d]+)/', 'welree.views.item', name="item"),
+    url(r'^item/(?P<coll_pk>[\d]+)_(?P<item_pk>[\d]+)/', 'welree.views.item', name="item"),
 
     url(r'^api/', include(v1.urls, namespace='tastypie')),
     url(r'^api/docs/',

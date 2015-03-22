@@ -136,10 +136,38 @@ class JewelryCollectionResource(OwnerModelResource):
         @property
         def validation(self):
             return ModelFormValidation(form_class=forms.TastyCollectionForm, resource=JewelryCollectionResource)
+        extra_actions = [
+            {
+                "name": "additem",
+                "http_method": "POST",
+                "description": "add a jewelry item to the collection",
+                "resource_type": "list",
+                "fields": {
+                    "collection": {"type": "string", "required": True},
+                    "item": {"type": "string", "required": True},
+                }
+            }
+        ]
+
+
+    def prepend_urls(self):
+        return [
+            url(r'^(?P<resource_name>%s)/additem%s$' %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('additem'), name='api_additemtocollection'),
+        ]
+
+    def additem(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+        data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
+
+        collection_id = data.get('collection', '')
+        item_id = data.get('item', '')
+        models.JewelryCollection.objects.get(id=collection_id).add(models.JewelryItem.objects.get(id=item_id))
+        return self.create_response(request, {'success': True})
 
 class JewelryItemResource(OwnerModelResource):
     primary_photo = fields.FileField(attribute="primary_photo")
-    collection = tastypie.fields.ForeignKey(JewelryCollectionResource, 'collection')
 
     class Meta:
         always_return_data = True
@@ -150,12 +178,7 @@ class JewelryItemResource(OwnerModelResource):
         authorization = OwnerObjectsOnlyAuthorization()
         @property
         def validation(self):
-            return ModelFormValidation(form_class=forms.JewelryItemForm, resource=JewelryItemResource)
-
-    def hydrate_collection(self, bundle):
-        if 'collection' in bundle.data:
-            bundle.data['collection'] = '/api/v1/collection/{}/'.format(bundle.data['collection'])
-        return bundle
+            return ModelFormValidation(form_class=forms.TastyJewelryItemForm, resource=JewelryItemResource)
 
 class UserResource(ModelResource):
     class Meta:

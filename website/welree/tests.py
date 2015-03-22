@@ -79,13 +79,9 @@ class welreeApiTests(ExtendedTestCase):
             response = self.api_post('/api/v1/jewelry/', {}, raise_errors=False)
 
         user = create_and_login_user(self)
-        response = self.api_post('/api/v1/jewelry/', {}, raise_errors=False)
-        self.assertEquals(response, {'error': "The 'collection' field has no data and doesn't allow a default or null value."})
-
         self.assertEquals(0, models.JewelryItem.objects.count())
         collection = models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_DESIGNER, name='foo')
         response = self.api_post('/api/v1/jewelry/', {
-            'collection': collection.id,
             'primary_photo': DEFAULT_TEST_IMAGE,
             'description': 'foo'
         }, raise_errors=False)
@@ -93,12 +89,10 @@ class welreeApiTests(ExtendedTestCase):
         self.assertEquals(0, models.JewelryItem.objects.count())
 
         response = self.api_post('/api/v1/jewelry/', {
-            'collection': collection.id,
             'primary_photo': '/Users/mrooney/Desktop/passions.jpg',
             'description': 'foo',
             'color': 'foo', 'material': 'foo', 'type': 'foo',
         }, raise_errors=False)
-        print response
         self.assertEquals(response['id'], 1)
         self.assertEquals(1, models.JewelryItem.objects.count())
         self.assertEquals(collection.items.all(), [models.JewelryItem.objects.first()])
