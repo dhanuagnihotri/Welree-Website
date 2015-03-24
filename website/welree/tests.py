@@ -95,7 +95,13 @@ class welreeApiTests(ExtendedTestCase):
         }, raise_errors=False)
         self.assertEquals(response['id'], 1)
         self.assertEquals(1, models.JewelryItem.objects.count())
-        self.assertEquals(collection.items.all(), [models.JewelryItem.objects.first()])
+        self.assertEquals(list(collection.items.all()), [])
+        response = self.api_post('/api/v1/collection/add/', {
+            'item': response['id'],
+            'collection': collection.id,
+        }, raise_errors=False)
+        self.assertEquals(response, {'success': True})
+        self.assertEquals(list(collection.items.all()), [models.JewelryItem.objects.first()])
 
 class welreeTests(ExtendedTestCase):
     def setUp(self):
