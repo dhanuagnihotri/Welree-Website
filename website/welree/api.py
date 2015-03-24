@@ -185,6 +185,7 @@ class JewelryItemResource(OwnerModelResource):
         bundle = super(JewelryItemResource, self).obj_create(bundle, request=request, **kwargs)
         if collection_id:
             models.JewelryCollection.objects.get(id=collection_id).items.add(bundle.obj)
+            bundle.data['coll_id'] = collection_id
         return bundle
 
 

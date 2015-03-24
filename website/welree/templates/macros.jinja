@@ -60,6 +60,7 @@
       <div class="carousel-inner">
       {% for item in jewelryitems %}
           <div class="item {{ "active" if loop.first else "" }}">
+              {% set collection = item.collections.first() %}
               <a href="{{ item.get_absolute_collection_url(collection) }}">
                   {{ sorlimgtag(item.primary_photo, "%sx%s"%(w,h), crop="center") }}
               </a>
