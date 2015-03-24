@@ -81,6 +81,7 @@ class welreeApiTests(ExtendedTestCase):
         user = create_and_login_user(self)
         self.assertEquals(0, models.JewelryItem.objects.count())
         collection = models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_DESIGNER, name='foo')
+        collection2 = models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_DESIGNER, name='bar')
         response = self.api_post('/api/v1/jewelry/', {
             'primary_photo': DEFAULT_TEST_IMAGE,
             'description': 'foo'
@@ -92,16 +93,18 @@ class welreeApiTests(ExtendedTestCase):
             'primary_photo': '/Users/mrooney/Desktop/passions.jpg',
             'description': 'foo',
             'color': 'foo', 'material': 'foo', 'type': 'foo',
+            'collection': collection.id,
         }, raise_errors=False)
         self.assertEquals(response['id'], 1)
         self.assertEquals(1, models.JewelryItem.objects.count())
-        self.assertEquals(list(collection.items.all()), [])
+        self.assertEquals(list(collection.items.all()), [models.JewelryItem.objects.first()])
+        self.assertEquals(list(collection2.items.all()), [])
         response = self.api_post('/api/v1/collection/add/', {
             'item': response['id'],
-            'collection': collection.id,
+            'collection': collection2.id,
         }, raise_errors=False)
         self.assertEquals(response, {'success': True})
-        self.assertEquals(list(collection.items.all()), [models.JewelryItem.objects.first()])
+        self.assertEquals(list(collection2.items.all()), [models.JewelryItem.objects.first()])
 
 class welreeTests(ExtendedTestCase):
     def setUp(self):

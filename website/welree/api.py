@@ -180,6 +180,14 @@ class JewelryItemResource(OwnerModelResource):
         def validation(self):
             return ModelFormValidation(form_class=forms.TastyJewelryItemForm, resource=JewelryItemResource)
 
+    def obj_create(self, bundle, request=None, **kwargs):
+        collection_id = bundle.data.get('collection')
+        bundle = super(JewelryItemResource, self).obj_create(bundle, request=request, **kwargs)
+        if collection_id:
+            models.JewelryCollection.objects.get(id=collection_id).items.add(bundle.obj)
+        return bundle
+
+
 class UserResource(ModelResource):
     class Meta:
         queryset = get_user_model().objects.all()
