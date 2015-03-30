@@ -108,6 +108,25 @@ div.body-container {
 .nav .font-special {
     font-size: 22pt;
 }
+#header .border-bottom {
+    position: absolute;
+    width: 50%;
+    top: 40px;
+}
+#header .border-bottom > div {
+    background-color: rgba(255, 255, 255, .8);
+    height: 1px;
+    width: 100%;
+}
+#header .border-left {
+    left: 0px;
+    padding-right: 82px;
+}
+#header .border-right {
+    right: 0px;
+    padding-left: 82px;
+}
+
 div.signup-option {
     float: left;
     width: 45%;
