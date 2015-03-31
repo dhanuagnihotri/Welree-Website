@@ -39,6 +39,9 @@ def home(request):
         featured.annotated_photos = [item.primary_photo for item in featured.items.all()[:3]]
     return r2r("index.jinja", request, locals())
 
+def events(request):
+    return r2r("events.jinja", request, locals())
+
 def login(request):
     def failure(msg):
         messages.error(request, msg)

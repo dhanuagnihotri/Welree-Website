@@ -1,0 +1,22 @@
+{% extends "base.jinja" %}
+{% import "macros.jinja" as macros %}
+{% block extra_css %}
+<style type="text/css">
+    .row {
+        overflow: hidden;
+    }
+    [class*="col-"] {
+        margin-bottom: -99999px;
+        padding-bottom: 99999px;
+    }
+</style>
+{% endblock %}
+{% block below_container %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <h3>Events Hello</h3>
+            </div>
+        </div>
+    </div>
+{% endblock %}
