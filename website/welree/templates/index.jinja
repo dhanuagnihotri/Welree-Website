@@ -167,7 +167,7 @@
             <div class="inner">
                 {{ sorlimgtag(collection.annotated_photos[0], "512x100", crop="center") }}
                 <p class="collection-name vcenter">{{ collection.name }}</p>
-                <p class="collection-owner font-special">{{ collection.owner.first_name }} {{ collection.owner.last_name }}</p>
+                <p class="collection-owner font-special">{{ collection.owner.full_name }}</p>
             </div>
         </div>
     {% endmacro %}

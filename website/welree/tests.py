@@ -144,7 +144,7 @@ class welreeTests(ExtendedTestCase):
         collection = models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_DESIGNER, name='a')
         item = self.createItem(owner=user, collection=collection, is_approved=True)
         response = self.get('/')
-        self.assertNumCssMatches(1, response, '#top-carousel ol.carousel-indicators li')
+        self.assertNumCssMatches(0, response, '#top-carousel ol.carousel-indicators li')
         self.assertNumCssMatches(1, response, '#top-carousel div.item')
 
     def test_login(self):

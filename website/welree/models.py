@@ -33,6 +33,10 @@ class CustomUser(AbstractUser):
         return self.collections.filter(kind=JewelryCollection.KIND_JEWELBOX)
 
     @property
+    def full_name(self):
+        return u"{} {}".format(self.first_name, self.last_name)
+
+    @property
     def noun(self):
         return "User" if not self.is_designer else "Designer"
 
