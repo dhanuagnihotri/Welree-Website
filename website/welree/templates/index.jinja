@@ -162,7 +162,7 @@
     <div class="editorials">
         {% for editorial in editorials %}
             <a href="{{ editorial.url }}" target="_blank">
-            <div class="editorial {{ " notfirst" if not loop.first else "" }} {{ " hidden-xs" if loop.index > 1 }}">
+            <div class="editorial {{ " notfirst" if not loop.first else "" }} {{ " hidden-xs" if loop.index > 2 }}">
                 <div class="inner">
                     {{ sorlimgtag(editorial.photo, "256x427", crop="center") }}
                     <div class="topper">{{ editorial.category }}</div>
