@@ -1,0 +1,7 @@
+{{ object.owner.full_name }}
+{{ object.description }}
+{{ object.url }}
+{{ object.material }}
+{{ object.color }}
+{{ object.type }}
+{{ object.tags }}

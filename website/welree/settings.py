@@ -134,6 +134,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'haystack',
     'gunicorn',
     'compressor',
     'django_nose',
@@ -279,4 +280,13 @@ else:
     WEBSITE_URL = "http://dev.welree.com"
 
 DISQUS_SHORTNAME = "welreeapp" if not DEBUG else "welreelocal"
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://127.0.0.1:33102/solr/welree',
+    },
+}
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
 

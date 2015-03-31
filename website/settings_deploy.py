@@ -1,3 +1,5 @@
+import os
+
 SERVICES = {
     "nginx":
         {
@@ -15,6 +17,12 @@ SERVICES = {
             "start": "gunicorn -D -c settings_gunicorn.py welree.wsgi:application",
             "after": "./after_deploy.sh",
             "restart": "kill -s SIGHUP {pid}",
+        },
+    "solr": {
+            "port": 33102,
+            "start": "java -Djetty.port={port} -Djetty.pid={project_dir}/run/solr.pid -Dsolr.solr.home={project_dir}/../solr -jar start.jar",
+            "cwd": os.getenv("SOLR_EXAMPLE"),
+            "daemonizes": False,
         },
     "memcached":
         {

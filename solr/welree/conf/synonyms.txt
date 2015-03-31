@@ -1,0 +1,82 @@
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#-----------------------------------------------------------------------
+
+environment, environmental
+ag, agriculture
+chief, director, manager
+epidemiologist, epidemiology
+response, emergency
+lab => laboratory
+
+# State Abbreviations
+dc => district of columbia
+alabama, al
+alaska, ak
+arizona, az
+arkansas, ar
+california, ca
+colorado, co
+connecticut, ct
+delaware, de
+florida, fl
+georgia, ga
+hawaii, hi
+idaho, id
+illinois, il
+indiana, in
+iowa, ia
+kansas, ks
+kentucky, ky
+louisiana, la
+maine, me
+maryland, md
+massachusetts, ma
+michigan, mi
+minnesota, mn
+mississippi, ms
+missouri, mo
+montana, mt
+nebraska, ne
+nevada, nv
+new hampshire, nh
+new jersey, nj
+new mexico, nm
+new york, ny
+north carolina, nc
+north dakota, nd
+ohio, oh
+oklahoma, ok
+oregon, or
+pennsylvania, pa
+rhode island, ri
+south carolina, sc
+south dakota, sd
+tennessee, tn
+texas, tx
+utah, ut
+vermont, vt
+virginia, va
+washington, wa
+west virginia, wv
+wisconsin, wi
+wyoming, wy
+american samoa, as
+federated states of micronesia, fm
+guam, gu
+marshall islands, mh
+northern mariana islands, mp
+palau, pw
+puerto rico, pr
+virgin islands, vi
+

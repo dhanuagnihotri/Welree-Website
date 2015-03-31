@@ -1,0 +1,3 @@
+{{ object.owner.full_name }}
+{{ object.name }}
+{{ object.get_kind_display }}
