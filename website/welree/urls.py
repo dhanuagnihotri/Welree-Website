@@ -13,6 +13,7 @@ app_urls = (
         'logout',
         'signup',
         'account',
+        'events',
         'designer/upload',
         'consumer/upload',
     )

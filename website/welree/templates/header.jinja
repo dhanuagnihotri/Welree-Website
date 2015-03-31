@@ -22,7 +22,15 @@
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-      <li><a href="#">COMMUNITY</a></li>
+      <li>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            <span>COMMUNITY</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="{{ url("events") }}">Events</a></li>
+        </ul>
+      </li>
       <li><a href="#">DESIGNERS</a></li>
       <li><a href="#">EDITORIAL</a></li>
       <li class="dropdown logged-in pull-right">
