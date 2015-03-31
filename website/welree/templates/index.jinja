@@ -122,10 +122,13 @@
     .featured-collection .collection-primary {
         width: 50%;
         text-align: center;
+        position: relative;
     }
     .featured-collection .collection-name {
-        font-size: 2em;
+        font-size: 1.6em;
         text-transform: uppercase;
+        position: absolute;
+        left: 10px;
     }
     .featured-collection .collection-owner {
         position: absolute;
@@ -133,7 +136,15 @@
         right: 3px;
         font-size: 1.8em;
     }
-
+    .featured-collection .gradient {
+        width: 100%;
+        height: 40px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background-image: url('/static/img/nav-gradient.png');
+        background-size: contain;
+    }
     .editorial, .featured-collection {
         text-shadow: 1px 1px rgba(140, 140, 140, .8);
     }
@@ -164,9 +175,10 @@
     </div>
     {% macro collection_primary(collection) %}
         <div class="collection-primary">
+            <div class="gradient"></div>
             <div class="inner">
                 {{ sorlimgtag(collection.annotated_photos[0], "512x100", crop="center") }}
-                <p class="collection-name vcenter">{{ collection.name }}</p>
+                <p class="collection-name">{{ collection.name }}</p>
                 <p class="collection-owner font-special">{{ collection.owner.full_name }}</p>
             </div>
         </div>
