@@ -1,9 +1,18 @@
 <div id="header" class="contracted navbar navbar-default navbar-fixed-top">
     <div class="container">
+      <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-nav-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+      </div>
       <div id="hidden-xs" class="hidden-xs"></div>
       <div class="gradient"></div>
       <div class="border-bottom border-left"><div></div></div>
       <div class="border-bottom border-right"><div></div></div>
+      <img src="/static/img/triple.png" class="triple visible-xs">
       <a href="/">
         <img src="/static/img/logo.png" class="logo">
         <img src="/static/img/logo-icon.png" class="logo-contracted">
@@ -11,41 +20,42 @@
 
       <form class="form-inline pull-left">
           <div class="form-group has-feedback">
-              <img src="/static/img/triple.png" class="triple">
+              <img src="/static/img/triple.png" class="triple hidden-xs">
               <input type="search" class="hidden-xs form-control input-small" placeholder="Search jewelry, designers, blogs, & more">
               <span class="hidden-xs form-control-feedback" aria-hidden="true"><img class="search" src="/static/img/search.png"></span>
           </div>
       </form>
 
-      <ul class="nav navbar-nav pull-right logged-out nav-text hidden-xs">
-        <li><a href="{{ url("signup") }}">Sign Up</a></li>
-        <li><a href="{{ url("login") }}">Log In</a></li>
-      </ul>
-
-      <ul class="nav navbar-nav navbar-right hidden-xs">
-      <li><a href="#">COMMUNITY</a></li>
-      <li><a href="#">DESIGNERS</a></li>
-      <li><a href="#">EDITORIAL</a></li>
-      <li class="dropdown logged-in pull-right">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-            <span class="glyphicon glyphicon-{{ "sunglasses" if request.user.is_designer else "user" }} " aria-hidden="true"></span>
-            <span class="font-special">My Welree</span>
-            <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu" role="menu">
-          {% if request.user.is_designer %}
-              <li><a href="#">My Collections</a></li>
-          {% else %}
-              <li><a href="#">My IdeaBooks</a></li>
-              <li><a href="#">My Jewel Box</a></li>
-          {% endif %}
-          <li class="divider"></li>
-          <li><a href="{{ url("designer_upload") if request.user.is_designer else url("consumer_upload") }}">Upload Photos</a></li>
-          <li class="divider"></li>
-          <li><a href="#">Profile</a></li>
-          <li><a href="/logout/">Sign out</a></li>
-        </ul>
-      </li>
-      </ul>
+      <div class="collapse navbar-collapse" id="#header-nav-collapse">
+          <ul class="nav navbar-nav pull-right logged-out nav-text">
+            <li><a href="{{ url("signup") }}">Sign Up</a></li>
+            <li><a href="{{ url("login") }}">Log In</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">COMMUNITY</a></li>
+          <li><a href="#">DESIGNERS</a></li>
+          <li><a href="#">EDITORIAL</a></li>
+          <li class="dropdown logged-in pull-right">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                <span class="glyphicon glyphicon-{{ "sunglasses" if request.user.is_designer else "user" }} " aria-hidden="true"></span>
+                <span class="font-special">My Welree</span>
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              {% if request.user.is_designer %}
+                  <li><a href="#">My Collections</a></li>
+              {% else %}
+                  <li><a href="#">My IdeaBooks</a></li>
+                  <li><a href="#">My Jewel Box</a></li>
+              {% endif %}
+              <li class="divider"></li>
+              <li><a href="{{ url("designer_upload") if request.user.is_designer else url("consumer_upload") }}">Upload Photos</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Profile</a></li>
+              <li><a href="/logout/">Sign out</a></li>
+            </ul>
+          </li>
+          </ul>
+      </div>
     </div>
 </div>
