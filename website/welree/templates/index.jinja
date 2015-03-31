@@ -228,13 +228,16 @@
     <script>
         $(function() {
             var editorials = $('.editorials');
-            $(window).on('scroll', function() {
-                if ($(window).scrollTop() > editorials.position().top - 20) {
+            var xs_cue = $('#hidden-xs');
+            $(window).on('scroll resize', function() {
+                if (!xs_cue.is(':visible')) {
+                    $('#header').removeClass('expanded').addClass('contracted');
+                } else if ($(window).scrollTop() > editorials.position().top - 20) {
                     $('#header').removeClass('expanded').addClass('contracted');
                 } else {
                     $('#header').removeClass('contracted').addClass('expanded');
                 }
-            }).triggerHandler('scroll');
+            }).triggerHandler('resize');
         });
     </script>
 {% endblock %}
