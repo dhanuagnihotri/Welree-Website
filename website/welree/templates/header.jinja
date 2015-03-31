@@ -11,17 +11,19 @@
       <form class="form-inline pull-left">
           <div class="form-group has-feedback">
               <img src="/static/img/triple.png" class="triple">
-              <input type="search" class="form-control input-small" placeholder="Search jewelry, designers, blogs, & more">
-              <span class="form-control-feedback" aria-hidden="true"><img class="search" src="/static/img/search.png"></span>
+              <div class="hidden-xs">
+                  <input type="search" class="form-control input-small" placeholder="Search jewelry, designers, blogs, & more">
+                  <span class="form-control-feedback" aria-hidden="true"><img class="search" src="/static/img/search.png"></span>
+              </div>
           </div>
       </form>
 
-      <ul class="nav navbar-nav pull-right logged-out nav-text">
+      <ul class="nav navbar-nav pull-right logged-out nav-text hidden-xs">
         <li><a href="{{ url("signup") }}">Sign Up</a></li>
         <li><a href="{{ url("login") }}">Log In</a></li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right hidden-xs">
       <li><a href="#">COMMUNITY</a></li>
       <li><a href="#">DESIGNERS</a></li>
       <li><a href="#">EDITORIAL</a></li>
