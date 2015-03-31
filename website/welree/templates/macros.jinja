@@ -38,11 +38,11 @@
       </div>
       <!-- Controls -->
       <a class="left carousel-control" href="#top-carousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <div class="chevron chevron-left" aria-hidden="true"></div>
         <span class="sr-only">Previous</span>
       </a>
       <a class="right carousel-control" href="#top-carousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <div class="chevron chevron-right" aria-hidden="true"></div>
         <span class="sr-only">Next</span>
       </a>
     </div>
@@ -51,11 +51,6 @@
 {% macro home_carousel(jewelryitems, w=1024, h=600) %}
 <div>
     <div id="top-carousel" class="carousel slide" style="max-width:1024px;height:{{h}}px;margin:auto;">
-      {#<ol class="carousel-indicators">
-        {% for item in jewelryitems %}
-            <li data-target="#top-carousel" data-slide-to="{{ loop.index0 }}" class="{{ "active" if loop.first else "" }}"></li>
-        {% endfor %}
-      </ol>#}
       <!-- Carousel items -->
       <div class="carousel-inner">
       {% for item in jewelryitems %}
@@ -74,11 +69,11 @@
       </div>
       <!-- Controls -->
       <a class="left carousel-control" href="#top-carousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <div class="chevron chevron-left" aria-hidden="true"></div>
         <span class="sr-only">Previous</span>
       </a>
       <a class="right carousel-control" href="#top-carousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <div class="chevron chevron-right" aria-hidden="true"></div>
         <span class="sr-only">Next</span>
       </a>
     </div>

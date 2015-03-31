@@ -64,9 +64,9 @@ body, p, h1, h2, h3, h4, h5, h6 {
     top: 5px;
 }
 #header.contracted {
-   -webkit-box-shadow: 0 6px 6px -2px #5a5a5a;
-      -moz-box-shadow: 0 6px 6px -2px #5a5a5a;
-           box-shadow: 0 6px 6px -2px #5a5a5a;
+   -webkit-box-shadow: 1px 5px 12px -2px #000;
+      -moz-box-shadow: 1px 5px 12px -2px #000;
+           box-shadow: 1px 5px 12px -2px #000;
 }
 #header img.logo-contracted {
     width: 16px;
@@ -75,7 +75,7 @@ body, p, h1, h2, h3, h4, h5, h6 {
     left: 50%;
     top: 5px;
 }
-#header.contracted img.logo {
+#header.contracted img.logo, #header.contracted .border-bottom {
     display: none;
 }
 #header.expanded img.logo-contracted {
@@ -182,4 +182,21 @@ a:hover {
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
+}
+
+.carousel .chevron {
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: 50%;
+    margin-top: -25px;
+    background-size: 100%;
+}
+.carousel .chevron-left {
+    background-image: url('/static/img/chevron-left.png');
+    left: 30px;
+}
+.carousel .chevron-right {
+    background-image: url('/static/img/chevron-right.png');
+    right: 30px;
 }
