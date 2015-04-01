@@ -88,7 +88,11 @@
                 <ul>
                     {% for value in values %}
                         {% set count = facet_lookup[facet][value] %}
-                        <li>{{ value }} {% if count %}<span class="badge">{{ count }}</span>{% endif %}</li>
+                        <li>
+                            {% if count %}<a href="{{ url("search") }}/?q={{ query|urlencode }}&model={{ model_friendly }}&selected_facets={{facet}}_exact:&quot;{{value|urlencode}}&quot;">{% endif %}
+                                {{ value }} {% if count %}<span class="badge">{{ count }}</span>{% endif %}
+                            {% if count %}</a>{% endif %}
+                        </li>
                     {% endfor %}
                 </ul>
             {% endfor %}
