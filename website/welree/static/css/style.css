@@ -44,11 +44,13 @@ body, p, h1, h2, h3, h4, h5, h6 {
 #header form {
     margin: 2px 0px 0px 34px;
 }
+#header .dropdown-search {
+    position: absolute;
+    top: 1px;
+}
 #header img.triple {
     height: 28px;
     padding-top: 4px;
-    position: absolute;
-    top: 1px;
 }
 #header input[type=search] {
     height: 1em;
