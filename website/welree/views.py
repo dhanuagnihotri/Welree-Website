@@ -88,7 +88,7 @@ def item(request, coll_pk, item_pk):
     collection = get_object_or_404(models.JewelryCollection, pk=coll_pk)
     owner = item.owner
     related_collection = list(collection.items.exclude(id=item.id).exclude(primary_photo=None)[:3])
-    related_similar = []
+    related_similar = [similar.object for similar in SearchQuerySet().models(models.JewelryItem).more_like_this(item)[:3]]
     return r2r('item.jinja', request, locals())
 
 def search_all(request):

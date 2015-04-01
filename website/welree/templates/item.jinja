@@ -41,21 +41,12 @@
             <div class="col-lg-6">
                 <div>
                     <h4>Photos in this collection:</h4>
-                        {% for item in related_collection %}
-                            {% if item.primary_photo %}
-                                <a href="{{ item.get_absolute_collection_url(collection) }}">{{ sorlimgtag(item.primary_photo, "140x140", crop="center", classes="img-thumbnail") }}</a>
-                            {% endif %}
-                        {% endfor %}
-                        {% for i in range(3-len(related_collection)) %}
-                            <img src="" class="img-thumbnail">
-                        {% endfor %}
+                    {{ macros.thumb_row(related_collection, collection) }}
                 </div>
                     
                 <div>
                     <h4>Similar to this photo:</h4>
-                    <img src="" class="img-thumbnail">
-                    <img src="" class="img-thumbnail">
-                    <img src="" class="img-thumbnail">
+                    {{ macros.thumb_row(related_similar, collection) }}
                 </div>
             </div>
         </div>

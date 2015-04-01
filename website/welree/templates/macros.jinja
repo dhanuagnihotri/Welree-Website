@@ -20,6 +20,17 @@
     </div><!-- /.modal -->
 {%- endmacro %}
 
+{% macro thumb_row(items, collection, count=3) %}
+    {% for item in items %}
+        {% if item.primary_photo %}
+            <a href="{{ item.get_absolute_collection_url(collection) }}">{{ sorlimgtag(item.primary_photo, "140x140", crop="center", classes="img-thumbnail") }}</a>
+        {% endif %}
+    {% endfor %}
+    {% for i in range(3-items|length) %}
+        <img src="" class="img-thumbnail">
+    {% endfor %}
+{% endmacro %}
+
 {% macro individual_carousel(jewelryitem, w=580, h=400) %}
 <div>
     <div id="top-carousel" class="carousel slide">
