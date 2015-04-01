@@ -32,11 +32,16 @@
             color: #60c7d4;
         }
         .filters {
-            width: 200px;
+            width: 240px;
         }
+        {% if jewelry_only %}
         .results {
-            {% if jewelry_only %}margin-left: 200px;{% endif %}
+            margin-left: 240px;
         }
+        .media-heading .label-type {
+            display: none;
+        }
+        {% endif %}
         .badge, .label-primary {
             background-color: #27bdbe;
         }
@@ -52,12 +57,12 @@
     <div class="facet-header">
         {% if model %}
         <span class="narrow">Showing only <span class="label label-info">{{ model_friendly.title() }}</span> results.</span>
-            <a class="label label-info" href="{{ url("search_all") }}/?q={{ query|urlencode }}">Show all</a>
+            <a class="label label-info" href="{{ url("search") }}/?q={{ query|urlencode }}">Show all</a>
         {% else %}
             <span class="narrow">Narrow results by type:</span>
             {% for (facet, count) in facets.items() %}
                 {% if count %}
-                    <a href="{{ url("search_all") }}/?q={{ query|urlencode }}&model={{ facet }}">{{ facet.title() }} <span class="badge">{{ count }}</span></a>
+                    <a href="{{ url("search") }}/?q={{ query|urlencode }}&model={{ facet }}">{{ facet.title() }} <span class="badge">{{ count }}</span></a>
                 {% endif %}
             {% endfor %}
         {% endif %}
@@ -68,7 +73,8 @@
                 <span class="facet-title">{{ facet.title() }}:</span>
                 <ul>
                     {% for value in values %}
-                        <li>{{ value }}</li>
+                        {% set count = facet_lookup[facet][value] %}
+                        <li>{{ value }} {% if count %}<span class="badge">{{ count }}</span>{% endif %}</li>
                     {% endfor %}
                 </ul>
             {% endfor %}
@@ -89,7 +95,7 @@
                         </a>
                         <div class="media-body">
                           <a href="{{ result.get_absolute_url() }}">
-                              <p class="media-heading"><span class="label label-primary">{{ data.tag.title() }}:</span> {{ data.title|safe }}</p>
+                              <p class="media-heading"><span class="label label-primary label-type">{{ data.tag.title() }}:</span> {{ data.title|safe }}</p>
                           </a>
                           <a href="{{ result.get_absolute_url() }}">
                               <p>{{ data.description|safe }}</p>

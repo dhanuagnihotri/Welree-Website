@@ -149,7 +149,7 @@ class JewelryItem(models.Model):
         return {
             "tag": "jewelry",
             "title": self.description,
-            "description": self.description,
+            "description": self.description + u"<br/>Color: {} Material: {} Type: {}".format(self.color, self.material, self.type),
             "image": self.primary_photo
         }
 

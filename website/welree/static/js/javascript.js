@@ -119,7 +119,7 @@ $(function() {
         e.preventDefault(); e.stopPropagation();
         var facet = $(this).attr('data-facet');
         var value = $(this).attr('data-facet-value');
-        console.log(facet, value);
+        window.location = '/search/?selected_facets='+facet+'_exact:"'+encodeURIComponent(value)+'";'
     });
 })
 
