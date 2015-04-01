@@ -23,6 +23,10 @@
         .media-body a:hover {
             text-decoration: none;
         }
+        .img-thumbnail {
+            width: 100px;
+            height: 100px;
+        }
     </style>
 {% endblock %}
 {% block content %}
@@ -50,9 +54,9 @@
                     {% set img = sorlthumbnail(data.image, "100x100", crop="center") %}
                 {% endif %}
                 {% if not data.image or not img.width %}
-                    {% set img = {"url": "/static/img/agent_unknown.JPG"} %}
+                    {% set img = {"url": ""} %}
                 {% endif %}
-                <img class="img-thumbnail" src="{{img.url}}" width="100" height="100">
+                <img class="img-thumbnail" src="{{img.url}}">
             </a>
             <div class="media-body">
               <a href="{{ result.get_absolute_url() }}">
