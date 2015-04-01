@@ -94,13 +94,15 @@ def item(request, coll_pk, item_pk):
 def search_all(request):
     query = request.GET.get('q', '').replace('.', '').replace("'", "").replace(",", "")
     model = request.GET.get('model', '').lower()
-    model = {'jewelry': 'jewelryitem', 'collection': 'jewelrycollection', 'designer': 'customuser'}.get(model)
+    model = {'jewelry': 'JewelryItem', 'collection': 'JewelryCollection', 'designer': 'CustomUser'}.get(model)
 
     facets = collections.defaultdict(int)
     result_lists = collections.defaultdict(list)
     results = []
     if query:
         sqs = SearchQuerySet().auto_query(query)
+        if model:
+            sqs = sqs.models(getattr(models, model))
         results = [result.object for result in sqs if result.object]
         for obj in results:
             obj.data = obj.get_search_result()
