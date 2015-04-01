@@ -49,11 +49,25 @@
             background-color: #b2d037;
             color: white !important;
         }
+        .form-search-refine {
+            margin-top: 34px;
+        }
     </style>
 {% endblock %}
 {% block content %}
     <div class="results-container">
-    <h1>{{ len(results) }} Search Results:</h1>
+        <div class="results-header clearfix">
+            <h1 class="pull-left">{{ len(results) }} search results{{ ' for "'+query+'"' if query else "" }}:</h1>
+            <form method="get" action="" class="form-search-refine form-inline pull-right">
+                <input type="hidden" name="model" value="{{ model_friendly }}">
+                <input type="hidden" name="selected_facets" value="{{ selected_facets or "" }}">
+                <div class="form-group has-feedback">
+                  <input name="q" value="{{ query }}" type="search" class="form-control input-sm" placeholder="Refine your search...">
+                  <span class="form-control-feedback glyphicon glyphicon-search" aria-hidden="true"></span>
+                </div>
+                <button type="submit" class="btn btn-sm">Search</button>
+            </form>
+        </div>
     <div class="facet-header">
         {% if model %}
         <span class="narrow">Showing only <span class="label label-info">{{ model_friendly.title() }}</span> results.</span>
