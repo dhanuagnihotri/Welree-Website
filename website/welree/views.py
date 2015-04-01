@@ -8,7 +8,11 @@ from django.http import HttpResponse, JsonResponse, HttpResponseForbidden, HttpR
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 
+from haystack.query import SearchQuerySet
+from haystack.utils import Highlighter
+
 import cjson
+import collections
 import re
 
 from welree import models
@@ -86,6 +90,27 @@ def item(request, coll_pk, item_pk):
     related_collection = list(collection.items.exclude(id=item.id).exclude(primary_photo=None)[:3])
     related_similar = []
     return r2r('item.jinja', request, locals())
+
+def search_all(request):
+    query = request.GET.get('q', '').replace('.', '').replace("'", "").replace(",", "")
+    model = request.GET.get('model', '').lower()
+    model = {'jewelry': 'jewelryitem', 'collection': 'jewelrycollection', 'designer': 'customuser'}.get(model)
+
+    facets = collections.defaultdict(int)
+    result_lists = collections.defaultdict(list)
+    results = []
+    if query:
+        sqs = SearchQuerySet().auto_query(query)
+        results = [result.object for result in sqs if result.object]
+        for obj in results:
+            obj.data = obj.get_search_result()
+            tag = obj.data["tag"].lower()
+            if not model or model == tag:
+                facets[tag] += 1
+    return r2r("search_results.jinja", request, locals())
+
+def search_jewelry(request):
+    pass
 
 @login_required
 def consumer_upload(request):

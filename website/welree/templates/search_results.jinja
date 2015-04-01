@@ -1,0 +1,72 @@
+{% extends "base.jinja" %}
+{% block extra_css %}
+    <style type="text/css">
+        .media-heading {
+            text-transform: none;
+        }
+        div.facets {
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        span.highlighted {
+            font-weight: bold;
+        }
+        .results a {
+            color: black
+        }
+        .media-body {
+            height: 100px;
+            background-color: #8c8c8c;
+            padding: 5px;
+            font-size: 12pt;
+        }
+        .media-body a:hover {
+            text-decoration: none;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="results">
+    <h1>{{ len(results) }} Search Results:</h1>
+    <div class="facets">
+        {% if model %}
+        <span class="narrow">Showing only <span class="label label-info">{{ model.title() }}</span> results.</span>
+            <a class="label label-info" href="{{ url("search_all") }}/?q={{ query|urlencode }}">Show all</a>
+        {% else %}
+            <span class="narrow">Narrow results by type:</span>
+            {% for (facet, count) in facets.items() %}
+                {% if count %}
+                    <a href="{{ url("search_all") }}/?q={{ query|urlencode }}&model={{ facet }}">{{ facet.title() }} <span class="badge">{{ count }}</span></a>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+    <ul class="media-list">
+    {% for result in results %}
+          {% set data = result.data %}
+          <li class="media">
+            <a class="pull-left" href="{{ result.get_absolute_url() }}">
+                {% if data.image %}
+                    {% set img = sorlthumbnail(data.image, "100x100", crop="center") %}
+                {% endif %}
+                {% if not data.image or not img.width %}
+                    {% set img = {"url": "/static/img/agent_unknown.JPG"} %}
+                {% endif %}
+                <img class="img-thumbnail" src="{{img.url}}" width="100" height="100">
+            </a>
+            <div class="media-body">
+              <a href="{{ result.get_absolute_url() }}">
+                  <p class="media-heading"><span class="label label-primary">{{ data.tag.title() }}:</span> {{ data.title|safe }}</p>
+              </a>
+              <a href="{{ result.get_absolute_url() }}">
+                  <p>{{ data.description|safe }}</p>
+              </a>
+            </div>
+         </li>
+    {% endfor %}
+    {% if not results %}
+        <h2>No results matched your search.</h2>
+    {% endif %}
+    </ul>
+    </div>
+{% endblock %}

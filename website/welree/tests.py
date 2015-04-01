@@ -154,6 +154,10 @@ class welreeTests(ExtendedTestCase):
         response = self.get('/logout/')
         self.assertRedirects(response, '/')
 
+    def test_search(self):
+        response = self.get('/search/all/?q=foo')
+        self.assertTrue("<h2>No results matched your search.</h2>" in response.content)
+
     def test_signup(self):
         response = self.get('/signup/')
         self.assertTrue('signup_form' in response.context)

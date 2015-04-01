@@ -40,6 +40,17 @@ class CustomUser(AbstractUser):
     def noun(self):
         return "User" if not self.is_designer else "Designer"
 
+    def get_search_result(self):
+        return {
+            "tag": "designer",
+            "title": self.full_name,
+            "description": self.bio,
+            "image": None
+        }
+
+    def get_absolute_url(self):
+        return "#"
+
     @classmethod
     def signup(cls, signup_form):
         password = signup_form.cleaned_data['password']
@@ -100,6 +111,18 @@ class JewelryCollection(models.Model):
     class Meta:
         unique_together = (('owner', 'name'),)
 
+    def get_absolute_url(self):
+        return "#"
+
+    def get_search_result(self):
+        first = self.items.first()
+        return {
+            "tag": "collection",
+            "title": self.name,
+            "description": u'{} "{}" by {}'.format(self.get_kind_display(), self.name, self.owner.full_name),
+            "image": first and first.primary_photo
+        }
+
     def __unicode__(self):
         return self.name
 
@@ -122,6 +145,17 @@ class JewelryItem(models.Model):
     def __unicode__(self):
         return self.description
 
+    def get_search_result(self):
+        return {
+            "tag": "jewelry",
+            "title": self.description,
+            "description": self.description,
+            "image": self.primary_photo
+        }
+
+    def get_absolute_url(self):
+        return self.get_absolute_collection_url(self.collections.first())
+        
     def get_absolute_collection_url(self, collection):
         return "{}{}/".format(reverse("item", kwargs={"item_pk": self.id, "coll_pk": collection.id}), defaultfilters.slugify(self.description))
 

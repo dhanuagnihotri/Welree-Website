@@ -15,6 +15,8 @@ app_urls = (
         'account',
         'designer/upload',
         'consumer/upload',
+        'search/all',
+        'search/jewelry',
     )
 )
 
