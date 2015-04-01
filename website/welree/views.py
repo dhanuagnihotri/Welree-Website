@@ -95,6 +95,7 @@ def search_all(request):
     query = request.GET.get('q', '').replace('.', '').replace("'", "").replace(",", "")
     model_friendly = request.GET.get('model', '').lower()
     model = {'jewelry': 'JewelryItem', 'collection': 'JewelryCollection', 'designer': 'CustomUser'}.get(model_friendly)
+    jewelry_only = model_friendly == 'jewelry'
 
     facets = collections.defaultdict(int)
     result_lists = collections.defaultdict(list)

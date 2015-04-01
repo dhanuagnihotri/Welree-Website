@@ -26,7 +26,7 @@
             </li>
           {% endmacro %}
           <ul class="dropdown-menu" role="menu">
-              {% for facet, values in facets.items() %}
+              {% for facet, values in welree_facets.items() %}
                   {{ searchdrop(facet, values) }}
               {% endfor %}
           </ul>
