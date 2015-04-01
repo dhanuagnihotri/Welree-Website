@@ -1,21 +1,71 @@
 {% extends "base.jinja" %}
 {% import "macros.jinja" as macros %}
 {% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="/static/css/upload.css" />
 <style type="text/css">
-    .row {
-        overflow: hidden;
+
+.col-center-block {
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #ffffff;
+}
+
+
+.category {
+            height: 160px;
+    background: -moz-linear-gradient(top, #27bdbe 0%, #27bdbe 70%, #ffffff 70%, #ffffff 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#27bdbe), color-stop(70%,#27bdbe), color-stop(70%,#ffffff), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #27bdbe 0%,#27bdbe 70%,#ffffff 70%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(top, #27bdbe 0%,#27bdbe 70%,#ffffff 70%,#ffffff 100%); /* W3C */
     }
-    [class*="col-"] {
-        margin-bottom: -99999px;
-        padding-bottom: 99999px;
-    }
+
+h4 {
+padding-left: 10px;
+padding-right: 10px;
+} 
+
+h3 {
+padding-left: 10px;
+padding-right: 10px;
+} 
+
+.no-gutter {
+    padding-left:0;
+    padding-right:0;
+    padding-top:0px;
+    padding-bottom:0px;
+}
+
+.photo
+{
+    height: 100px;
+    width: 100px;
+    border: 2px solid black;
+    text-align: center;
+    display: inline-block;
+    margin-left:10px;
+}
+
 </style>
+
 {% endblock %}
+
 {% block below_container %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-6">
-                <h3>Events Hello</h3>
+            <div class="col-lg-8 col-center-block well no-gutter">
+                <div class="category">
+                    <h3 align="right">Trunk Show </h3>
+                    <h4 align="right"> Monday April 20th, 5PM</h4>
+                    <div class="photo">       </div>
+                    <h4 align="right"> 1687 Market Street, San Francisco ,CA</h4>
+                    <h3 align="right"> Gem and Jewelry Show </h3>
+                </div>
+                <h4> Lights, mirrors, jewelry to try on, model and enjoy! Don't miss the special array  of beach and recycled glass jewelry featured at the Museum Shop by jewelry artist Sonja Grondstra.</h4>
+                <h4><a href="http://sf.racked.com/2014/7/3/7588295/jewelry-sale-and-a-night-of-fashion-fun"> <font color="27bdbe">Details</font></a><h4>
+
             </div>
         </div>
     </div>
