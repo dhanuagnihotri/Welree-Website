@@ -14,10 +14,10 @@
       <div class="border-bottom border-right"><div></div></div>
       <div class="dropdown dropdown-search">
           <img src="/static/img/triple.png" class="triple downdown-toggle" data-toggle="dropdown" aria-expanded="true">
-          {% macro searchdrop(title, values=['foo', 'bar']) %}
+          {% macro searchdrop(title, values) %}
             <li role="presentation"><a href="#" class="search-category">
                 <span class="glyphicon glyphicon-plus"></span>
-                {{ title }}
+                {{ title.title() }}
                 <ul style="display:none;">
                     {% for value in values %}
                         <li class="search-facet" data-facet="{{title}}" data-facet-value="{{value}}">{{ value }}</li>
@@ -26,10 +26,9 @@
             </li>
           {% endmacro %}
           <ul class="dropdown-menu" role="menu">
-              {{ searchdrop("Type") }}
-              {{ searchdrop("Style") }}
-              {{ searchdrop("Color") }}
-              {{ searchdrop("Material") }}
+              {% for facet, values in facets.items() %}
+                  {{ searchdrop(facet, values) }}
+              {% endfor %}
           </ul>
       </div>
       <a href="/">

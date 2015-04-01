@@ -24,12 +24,12 @@ $.fn.serializeObject = function()
     return o;
 };
 
-welree = {}
 welree.suggestion_fields = {
-    '#id_type': ['Rings', 'Necklaces & Pendants', 'Bracelets', 'Earrings', 'Brooches'],
-    '#id_material': ['Gold', 'Silver', 'Pearl', 'Gemstone', 'Beads', 'Aluminum', 'Copper', 'Stainless Steel', 'Titanium', 'Tungsten', 'Platinum'],
-    '#id_color': ['Gold', 'Silver', 'Black', 'White', 'Red', 'Blue', 'Green', 'Grey', 'Brown', 'Orange', 'Pink', 'Purple', 'Turquoise', 'Yellow'],
+    '#id_type': welree.facets['type'],
+    '#id_material': welree.facets['material'],
+    '#id_color': welree.facets['color'],
 }
+
 welree.tastypie_form_callback = function(e) {
     e.preventDefault();
     var form = $(this);

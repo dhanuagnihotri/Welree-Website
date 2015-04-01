@@ -17,6 +17,10 @@
             <style type="text/css">.logged-{{"out" if request.user.is_authenticated() else "in"}} { display:none !important; }</style>
             {% block extra_css %}{% endblock %}
         {% endcompress %}
+        <script>
+            welree = {}
+            welree.facets = {{ json(facets) }}
+        </script>
     </head>
     <body class="{% block body_class %}{% endblock %}">
     <div class="body-container">
