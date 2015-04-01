@@ -93,7 +93,7 @@ def item(request, coll_pk, item_pk):
 
 def search_all(request):
     query = request.GET.get('q', '').replace('.', '').replace("'", "").replace(",", "")
-    model = request.GET.get('model', '').lower()
+    model_friendly = request.GET.get('model', '').lower()
     model = {'jewelry': 'JewelryItem', 'collection': 'JewelryCollection', 'designer': 'CustomUser'}.get(model)
 
     facets = collections.defaultdict(int)

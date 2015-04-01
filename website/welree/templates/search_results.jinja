@@ -30,7 +30,7 @@
     <h1>{{ len(results) }} Search Results:</h1>
     <div class="facets">
         {% if model %}
-        <span class="narrow">Showing only <span class="label label-info">{{ model.title() }}</span> results.</span>
+        <span class="narrow">Showing only <span class="label label-info">{{ model_friendly.title() }}</span> results.</span>
             <a class="label label-info" href="{{ url("search_all") }}/?q={{ query|urlencode }}">Show all</a>
         {% else %}
             <span class="narrow">Narrow results by type:</span>
