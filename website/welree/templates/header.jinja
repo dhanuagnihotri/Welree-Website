@@ -12,7 +12,26 @@
       <div class="gradient"></div>
       <div class="border-bottom border-left"><div></div></div>
       <div class="border-bottom border-right"><div></div></div>
-      <img src="/static/img/triple.png" class="triple visible-xs">
+      <div class="dropdown">
+          <img src="/static/img/triple.png" class="triple downdown-toggle" data-toggle="dropdown" aria-expanded="true">
+          {% macro searchdrop(title, values=['foo', 'bar']) %}
+            <li role="presentation"><a href="#" class="search-category">
+                <span class="glyphicon glyphicon-plus"></span>
+                {{ title }}
+                <ul style="display:none;">
+                    {% for value in values %}
+                        <li class="search-facet" data-facet="{{title}}" data-facet-value="{{value}}">{{ value }}</li>
+                    {% endfor %}
+                </ul></a>
+            </li>
+          {% endmacro %}
+          <ul class="dropdown-menu" role="menu">
+              {{ searchdrop("Type") }}
+              {{ searchdrop("Style") }}
+              {{ searchdrop("Color") }}
+              {{ searchdrop("Material") }}
+          </ul>
+      </div>
       <a href="/">
         <img src="/static/img/logo.png" class="logo">
         <img src="/static/img/logo-icon.png" class="logo-contracted">
@@ -20,7 +39,6 @@
 
       <form class="form-inline pull-left" action="/search/all/" method="get">
           <div class="form-group has-feedback">
-              <img src="/static/img/triple.png" class="triple hidden-xs">
               <input name="q" type="search" class="hidden-xs hidden-sm form-control input-small" placeholder="Search jewelry, designers, blogs, & more">
               <span class="hidden-xs hidden-sm form-control-feedback" aria-hidden="true"><img class="search" src="/static/img/search.png"></span>
           </div>

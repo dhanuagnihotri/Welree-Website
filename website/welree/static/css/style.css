@@ -41,9 +41,14 @@ body, p, h1, h2, h3, h4, h5, h6 {
 #header .nav {
     font-size: 1em;
 }
+#header form {
+    margin: 2px 0px 0px 34px;
+}
 #header img.triple {
     height: 28px;
     padding-top: 4px;
+    position: absolute;
+    top: 1px;
 }
 #header input[type=search] {
     height: 1em;
@@ -78,10 +83,6 @@ body, p, h1, h2, h3, h4, h5, h6 {
     position: absolute;
     left: 50%;
     top: 5px;
-}
-#header .triple.visible-xs {
-    position: absolute;
-    top: 1px;
 }
 #header.contracted img.logo, #header.contracted .border-bottom {
     display: none;

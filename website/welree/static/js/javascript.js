@@ -109,6 +109,17 @@ $(function() {
         e.preventDefault();
         var val = $(this).text();
         $(this).closest('div.btn-group').find('input').val(val);
-    })
+    });
+    $('#header .search-category').on('click', function(e) {
+        e.preventDefault(); e.stopPropagation();
+        $(this).find('.glyphicon').toggleClass('glyphicon-plus glyphicon-minus');
+        $(this).find('ul').slideToggle();
+    });
+    $('#header .search-category li.search-facet').on('click', function(e) {
+        e.preventDefault(); e.stopPropagation();
+        var facet = $(this).attr('data-facet');
+        var value = $(this).attr('data-facet-value');
+        console.log(facet, value);
+    });
 })
 
