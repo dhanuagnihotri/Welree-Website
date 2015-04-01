@@ -93,7 +93,9 @@ def item(request, coll_pk, item_pk):
 
 def search(request):
     query = request.GET.get('q', '').replace('.', '').replace("'", "").replace(",", "")
-    selected_facets = request.GET.get('selected_facets')
+    selected_facets = request.GET.getlist('selected_facets')
+    selected_facets_query = '&selected_facets='+u';&selected_facets='.join(selected_facets) if selected_facets else ''
+    facets_friendly = ' and '.join([f.replace("_exact:", " is ") for f in selected_facets])
     model_friendly = 'jewelry' if selected_facets else request.GET.get('model', '').lower()
     model = {'jewelry': 'JewelryItem', 'collection': 'JewelryCollection', 'designer': 'CustomUser'}.get(model_friendly)
     jewelry_only = model_friendly == 'jewelry'
@@ -101,26 +103,26 @@ def search(request):
     facets = collections.defaultdict(int)
     result_lists = collections.defaultdict(list)
     results = []
-    if query or selected_facets:
-        sqs = SearchQuerySet().auto_query(query)
-        if model:
-            sqs = sqs.models(getattr(models, model))
-        if jewelry_only:
-            sqs = sqs.facet('material').facet('color').facet('type')
-            if selected_facets:
-                sqs = sqs.narrow(selected_facets)
-            facet_counts = sqs.facet_counts()
-            facet_lookup = {}
-            for field, values in facet_counts['fields'].items():
-                facet_lookup[field] = collections.defaultdict(int)
-                for value, count in values:
-                    facet_lookup[field][value] = count
-        results = [result.object for result in sqs if result.object]
-        for obj in results:
-            obj.data = obj.get_search_result()
-            tag = obj.data["tag"].lower()
-            if not model or model == tag:
-                facets[tag] += 1
+    #if query or selected_facets:
+    sqs = SearchQuerySet().auto_query(query)
+    if model:
+        sqs = sqs.models(getattr(models, model))
+    if jewelry_only:
+        sqs = sqs.facet('material').facet('color').facet('type')
+        for narrow in selected_facets:
+            sqs = sqs.narrow(narrow)
+        facet_counts = sqs.facet_counts()
+        facet_lookup = {}
+        for field, values in facet_counts['fields'].items():
+            facet_lookup[field] = collections.defaultdict(int)
+            for value, count in values:
+                facet_lookup[field][value] = count
+    results = [result.object for result in sqs if result.object]
+    for obj in results:
+        obj.data = obj.get_search_result()
+        tag = obj.data["tag"].lower()
+        if not model or model == tag:
+            facets[tag] += 1
 
     return r2r("search_results.jinja", request, locals())
 

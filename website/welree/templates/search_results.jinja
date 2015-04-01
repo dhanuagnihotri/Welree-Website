@@ -60,7 +60,9 @@
             <h1 class="pull-left">{{ len(results) }} search results{{ ' for "'+query+'"' if query else "" }}:</h1>
             <form method="get" action="" class="form-search-refine form-inline pull-right">
                 <input type="hidden" name="model" value="{{ model_friendly }}">
-                <input type="hidden" name="selected_facets" value="{{ selected_facets or "" }}">
+                {% for facet in selected_facets %}
+                    <input type="hidden" name="selected_facets" value="{{ facet }}">
+                {% endfor %}
                 <div class="form-group has-feedback">
                   <input name="q" value="{{ query }}" type="search" class="form-control input-sm" placeholder="Refine your search...">
                   <span class="form-control-feedback glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -80,6 +82,7 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
+        {% if facets_friendly %}<span class="pull-right">Filtering jewelry where {{ facets_friendly }} <a class="label label-info" href="{{ qdel(request, "selected_facets") }}">Clear</a></span>{% endif %}
     </div>
     <div class="clearfix">
         {% if jewelry_only %}<div class="filters rounded pull-left">
@@ -89,7 +92,7 @@
                     {% for value in values %}
                         {% set count = facet_lookup[facet][value] %}
                         <li>
-                            {% if count %}<a href="{{ url("search") }}/?q={{ query|urlencode }}&model={{ model_friendly }}&selected_facets={{facet}}_exact:&quot;{{value|urlencode}}&quot;">{% endif %}
+                            {% if count %}<a href="{{ url("search") }}/?q={{ query|urlencode }}&model={{ model_friendly }}{{ selected_facets_query }}&selected_facets={{facet}}_exact:&quot;{{value|urlencode}}&quot;">{% endif %}
                                 {{ value }} {% if count %}<span class="badge">{{ count }}</span>{% endif %}
                             {% if count %}</a>{% endif %}
                         </li>
