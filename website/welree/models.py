@@ -112,7 +112,7 @@ class JewelryCollection(models.Model):
         unique_together = (('owner', 'name'),)
 
     def get_absolute_url(self):
-        return "#"
+        return "{}{}/".format(reverse("collection", kwargs={"coll_pk": self.id}), defaultfilters.slugify(self.name))
 
     def get_search_result(self):
         first = self.items.first()

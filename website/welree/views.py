@@ -91,6 +91,12 @@ def item(request, coll_pk, item_pk):
     related_similar = [similar.object for similar in SearchQuerySet().models(models.JewelryItem).more_like_this(item)[:3]]
     return r2r('item.jinja', request, locals())
 
+def collection(request, coll_pk):
+    collection = get_object_or_404(models.JewelryCollection, pk=coll_pk)
+    owner = collection.owner
+    items = list(collection.items.all()) * 10
+    return r2r('collection.jinja', request, locals())
+
 def search(request):
     query = request.GET.get('q', '').replace('.', '').replace("'", "").replace(",", "")
     selected_facets = request.GET.getlist('selected_facets')

@@ -283,7 +283,7 @@ DISQUS_SHORTNAME = "welreeapp" if not DEBUG else "welreelocal"
 
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine' if not DEBUG else 'haystack.backends.simple_backend.SimpleEngine',
         'URL': 'http://127.0.0.1:33102/solr/welree',
     },
 }

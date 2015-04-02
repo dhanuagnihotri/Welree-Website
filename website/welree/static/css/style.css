@@ -256,3 +256,7 @@ div.popover li {
 div.popover li a {
     color: #508cb4;
 }
+
+#disqus_thread {
+    margin-top: 20px;
+}

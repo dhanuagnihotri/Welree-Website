@@ -261,3 +261,18 @@ class welreeTests(ExtendedTestCase):
         self.assertEqual([other], response.context['related_collection'])
         self.assertEqual([], response.context['related_similar'])
 
+    def test_collection_view(self):
+        self.assertStatus(404, '/collection/1/')
+
+        user = create_and_login_user(self)
+        item = self.createItem(owner=user)
+        collection = item.collections.first()
+        collection.name = "My Collection?!"
+        collection.save()
+
+        url = collection.get_absolute_url()
+        self.assertEquals(url, '/collection/1/my-collection/')
+
+        self.get(url)
+
+

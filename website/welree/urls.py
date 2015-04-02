@@ -34,6 +34,7 @@ urlpatterns = patterns('',
 
 
     url(r'^item/(?P<coll_pk>[\d]+)-(?P<item_pk>[\d]+)/', 'welree.views.item', name="item"),
+    url(r'^collection/(?P<coll_pk>[\d]+)/', 'welree.views.collection', name="collection"),
 
     url(r'^api/', include(v1.urls, namespace='tastypie')),
     url(r'^api/docs/',
