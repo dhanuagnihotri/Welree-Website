@@ -30,11 +30,11 @@ welree.suggestion_fields = {
     '#id_color': welree.facets['color'],
 }
 
-welree.popover = function(selector) {
+welree.popover = function(selector, title, content) {
     $(selector).popover({
         html: true,
-        title: 'foo',
-        content: 'bar',
+        title: title,
+        content: content,
         placement: 'top',
     });
 }
@@ -130,6 +130,5 @@ $(function() {
         var value = $(this).attr('data-facet-value');
         window.location = '/search/?selected_facets='+facet+'_exact:"'+encodeURIComponent(value)+'";'
     });
-    welree.popover('a.action-add');
 })
 

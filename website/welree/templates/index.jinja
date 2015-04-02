@@ -246,6 +246,18 @@
             $('.carousel a.action-add').on('click', function() {
                 $('.carousel').carousel('pause');
             });
+
+            // Handle add to collection popover.
+            var content = '';
+            var collections = {{ json(user_collections) }};
+            $.each(collections, function(kind, names) {
+                content += kind + '<ul>'
+                $.each(names, function(name) {
+                    content += '<li>' + name + '</li>'
+                });
+                content += '</ul>'
+            });
+            welree.popover('a.action-add', 'Add to collection', content);
         });
     </script>
 {% endblock %}
