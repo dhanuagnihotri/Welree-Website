@@ -76,11 +76,6 @@
                     <h4>{{ item.description|truncatechars(80) }}</h4>
                   </div>
                   <div class="carousel-designer font-special">{{ collection.owner.full_name }}</div>
-                  <div class="carousel-actions">
-                    <img src="/static/img/action-heart.png">
-                    <img src="/static/img/action-add.png">
-                    <img src="/static/img/action-info.png">
-                  </div>
               </a>
           </div>
       {% endfor %}
@@ -94,6 +89,11 @@
         <div class="chevron chevron-right" aria-hidden="true"></div>
         <span class="sr-only">Next</span>
       </a>
+      <div class="carousel-actions">
+        <a href="#" class="action-heart"><img src="/static/img/action-heart.png"></a>
+        <a href="#" class="action-add"><img src="/static/img/action-add.png"></a>
+        <img src="/static/img/action-info.png">
+      </div>
     </div>
 </div>
 {% endmacro %}

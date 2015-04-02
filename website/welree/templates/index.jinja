@@ -243,6 +243,9 @@
                     $('#header').removeClass('contracted').addClass('expanded');
                 }
             }).triggerHandler('resize');
+            $('.carousel a.action-add').on('click', function() {
+                $('.carousel').carousel('pause');
+            });
         });
     </script>
 {% endblock %}
