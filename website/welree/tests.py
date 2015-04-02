@@ -103,7 +103,7 @@ class welreeApiTests(ExtendedTestCase):
             'item': response['id'],
             'collection': collection2.id,
         }, raise_errors=False)
-        self.assertEquals(response, {'success': True})
+        self.assertEquals(response, {'redirect': '/collection/2/bar/', 'success': True})
         self.assertEquals(list(collection2.items.all()), [models.JewelryItem.objects.first()])
 
 class welreeTests(ExtendedTestCase):

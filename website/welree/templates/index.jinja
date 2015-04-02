@@ -266,6 +266,7 @@
                     processData: false,
                 }).done(function(data, status, xhr) {
                     console.log('success', data, status);
+                    window.location.href = data.redirect;
                 }).fail(function(data, status) {
                     console.log('fail', data, status);
                 });

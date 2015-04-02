@@ -168,9 +168,10 @@ class JewelryCollectionResource(OwnerModelResource):
         except ValueError:
             lookup = {'name': collection}
         item_id = data.get('item', '')
-        models.JewelryCollection.objects.get(owner=request.user, **lookup).items.add(models.JewelryItem.objects.get(id=item_id))
+        collection_obj = models.JewelryCollection.objects.get(owner=request.user, **lookup)
+        collection_obj.items.add(models.JewelryItem.objects.get(id=item_id))
         messages.success(request, "Your jewelry item has been added to your collection.")
-        return self.create_response(request, {'success': True})
+        return self.create_response(request, {'success': True, 'redirect': collection_obj.get_absolute_url()})
 
 class JewelryItemResource(OwnerModelResource):
     primary_photo = fields.FileField(attribute="primary_photo")

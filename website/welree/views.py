@@ -94,7 +94,7 @@ def item(request, coll_pk, item_pk):
 def collection(request, coll_pk):
     collection = get_object_or_404(models.JewelryCollection, pk=coll_pk)
     owner = collection.owner
-    items = list(collection.items.all()) * 10
+    items = collection.items.all()
     return r2r('collection.jinja', request, locals())
 
 def search(request):
