@@ -38,7 +38,7 @@ class DesignerItem(models.JewelryItem):
 
 class DesignerItemAdmin(JewelryItemAdmin):
     def queryset(self, request):
-        return self.model.objects.filter(collection__kind=models.JewelryCollection.KIND_DESIGNER)
+        return self.model.objects.filter(collections__kind=models.JewelryCollection.KIND_DESIGNER)
 
     list_display = ('thumbnail', 'is_approved', 'description', 'owner', 'material', 'color', 'type')
     list_editable = ('is_approved',)

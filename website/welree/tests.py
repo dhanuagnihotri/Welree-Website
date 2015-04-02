@@ -137,6 +137,14 @@ class welreeTests(ExtendedTestCase):
         user.is_designer = True
         self.assertEquals(user.noun, "Designer")
 
+    def test_admin_designeritem(self):
+        user = create_and_login_user(self)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
+
+        self.get('/admin/welree/designeritem/')
+
     def test_home(self):
         self.assertStatus(200, '/')
 
