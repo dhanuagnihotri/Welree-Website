@@ -271,6 +271,12 @@
                     console.log('fail', data, status);
                 });
             });
+
+            $('a.action-info').on('click', function(e) {
+                e.preventDefault();
+                var url = $('#top-carousel .item.active').data('item-url')
+                window.location.href = url;
+            });
         });
     </script>
 {% endblock %}

@@ -65,13 +65,14 @@
       <!-- Carousel items -->
       <div class="carousel-inner">
       {% for item in jewelryitems %}
-          <div class="item {{ "active" if loop.first else "" }}" data-item-id="{{ item.id }}">
-              {% set collection = item.collections.first() %}
+          {% set collection = item.collections.first() %}
+          {% set url = item.get_absolute_collection_url(collection) %}
+          <div class="item {{ "active" if loop.first else "" }}" data-item-id="{{ item.id }}" data-item-url="{{ url }}">
               <div class="carousel-footer"></div>
-              <a href="{{ item.get_absolute_collection_url(collection) }}">
+              <a href="{{ url }}">
                   {{ sorlimgtag(item.primary_photo, "%sx%s"%(w,h), crop="center") }}
               </a>
-              <a href="{{ item.get_absolute_collection_url(collection) }}">
+              <a href="{{ url }}">
                   <div class="carousel-caption">
                     <h4>{{ item.description|truncatechars(80) }}</h4>
                   </div>
@@ -92,7 +93,7 @@
       <div class="carousel-actions">
         <a href="#" class="action-heart"><img src="/static/img/action-heart.png"></a>
         <a href="#" class="action-add"><img src="/static/img/action-add.png"></a>
-        <img src="/static/img/action-info.png">
+        <a href="#" class="action-info"><img src="/static/img/action-info.png"></a>
       </div>
     </div>
 </div>
