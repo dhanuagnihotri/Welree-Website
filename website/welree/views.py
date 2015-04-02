@@ -40,6 +40,7 @@ def home(request):
     return r2r("index.jinja", request, locals())
 
 def events(request):
+    events = models.Event.objects.all()
     return r2r("events.jinja", request, locals())
 
 def login(request):
