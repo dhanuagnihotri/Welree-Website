@@ -8,7 +8,7 @@
  * pip install virtualenv
 * [homebrew](http://brew.sh/)
 * brew install libmemcached memcached nginx libxml2
-* prepare Solr
+* prepare Solr (our search backend)
   * download and extract http://archive.apache.org/dist/lucene/solr/4.7.2/solr-4.7.2.zip
   * specify the location in a line in your ~/.bashrc such as `export SOLR_EXAMPLE="$HOME/Downloads/solr-4.7.2/example"`
   * don't forget to `source ~/.bashrc`
