@@ -79,6 +79,7 @@ class Editorial(models.Model):
     def __unicode__(self):
         return u"{} - {}".format(self.category, self.title)
 
+<<<<<<< HEAD
     def get_search_result(self):
         return {
             "tag": "editorial",
@@ -89,6 +90,23 @@ class Editorial(models.Model):
 
     def get_absolute_url(self):
         return self.url
+=======
+class Event(models.Model):
+    category = models.CharField(max_length=100)
+    title = models.CharField(max_length=255)
+    dateAndTime = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    description = models.TextField()
+    url = models.URLField()
+    photo = SorlImageField(upload_to='editorial')
+    order = models.PositiveIntegerField(default=0, blank=False, null=False)
+
+    class Meta(object):
+        ordering = ('order',)
+
+    def __unicode__(self):
+        return u"{} - {}".format(self.category, self.title)
+>>>>>>> Added event data model
 
 class Event(models.Model):
     category = models.CharField(max_length=100)
