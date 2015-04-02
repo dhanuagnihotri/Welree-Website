@@ -41,6 +41,10 @@ body, p, h1, h2, h3, h4, h5, h6 {
 #header .nav {
     font-size: 1em;
 }
+#header .dropdown-menu>li>a:focus, #header .dropdown-menu>li>a:hover {
+    background-color: #fff;
+    color: #000;
+}
 #header form {
     margin: 2px 0px 0px 34px;
 }
