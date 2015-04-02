@@ -97,7 +97,7 @@
         margin-top: 10px;
         margin-bottom: 10px;
     }
-    .featured-collection img {
+    .featured-collection img.collection {
         z-index: -1;
         position: absolute;
         top: 0px;
@@ -115,10 +115,9 @@
         width: 100%;
         position: relative;
     }
-    .featured-collection > div:not(:first-child) img {
+    .featured-collection > div:not(:first-child) img.collection {
         left: 0px;
         overflow: hidden;
-
     }
     .featured-collection > div:not(:first-child) {
         padding-left: 10px;
@@ -151,6 +150,20 @@
     }
     .editorial, .featured-collection {
         text-shadow: 1px 1px rgba(140, 140, 140, .8);
+    }
+    
+    .featured-collection img.collection-border {
+        position: absolute;
+        top: -12px;
+        width: 100px;
+        height: 124px;
+        z-index: -1;
+    }
+    .featured-collection img.collection-border-left {
+        left: -12px;
+    }
+    .featured-collection img.collection-border-right {
+        right: -14px
     }
 
     @media (max-width: 767px) {
@@ -193,9 +206,11 @@
     </div>
     {% macro collection_primary(collection) %}
         <div class="collection-primary">
-            <div class="gradient"></div>
             <div class="inner">
-                {{ sorlimgtag(collection.annotated_photos[0], "512x100", crop="center") }}
+                <div class="gradient"></div>
+                <img class="collection-border collection-border-left" src="/static/img/collection-bg-left.png">
+                <img class="collection-border collection-border-right" src="/static/img/collection-bg-right.png">
+                {{ sorlimgtag(collection.annotated_photos[0], "512x100", crop="center", classes="collection") }}
                 <p class="collection-name">{{ collection.name }}</p>
                 <p class="collection-owner font-special">{{ collection.owner.full_name }}</p>
             </div>
@@ -207,16 +222,16 @@
             {% if loop.index is odd %}{{ collection_primary(collection) }}{% endif %}
             <div class="secondary"><div class="inner">
                 {% if collection.annotated_photos[1] %}
-                    {{ sorlimgtag(collection.annotated_photos[1], "256x100", crop="center") }}
+                    {{ sorlimgtag(collection.annotated_photos[1], "256x100", crop="center", classes="collection") }}
                 {% else %}
-                    <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
+                    <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg" class="collection">
                 {% endif %}
             </div></div>
             <div class="secondary"><div class="inner">
                 {% if collection.annotated_photos[2] %}
-                    {{ sorlimgtag(collection.annotated_photos[2], "256x100", crop="center") }}
+                    {{ sorlimgtag(collection.annotated_photos[2], "256x100", crop="center", classes="collection") }}
                 {% else %}
-                    <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
+                    <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg" class="collection">
                 {% endif %}
             </div></div>
             {% if loop.index is even %}{{ collection_primary(collection) }}{% endif %}
