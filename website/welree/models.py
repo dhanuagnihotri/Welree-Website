@@ -79,7 +79,6 @@ class Editorial(models.Model):
     def __unicode__(self):
         return u"{} - {}".format(self.category, self.title)
 
-<<<<<<< HEAD
     def get_search_result(self):
         return {
             "tag": "editorial",
@@ -90,7 +89,7 @@ class Editorial(models.Model):
 
     def get_absolute_url(self):
         return self.url
-=======
+
 class Event(models.Model):
     category = models.CharField(max_length=100)
     title = models.CharField(max_length=255)
@@ -98,7 +97,7 @@ class Event(models.Model):
     location = models.CharField(max_length=255)
     description = models.TextField()
     url = models.URLField()
-    photo = SorlImageField(upload_to='editorial')
+    photo = SorlImageField(upload_to='event')
     order = models.PositiveIntegerField(default=0, blank=False, null=False)
 
     class Meta(object):
@@ -106,7 +105,6 @@ class Event(models.Model):
 
     def __unicode__(self):
         return u"{} - {}".format(self.category, self.title)
->>>>>>> Added event data model
 
 class FeaturedCollection(models.Model):
     collection = models.ForeignKey('welree.JewelryCollection')
