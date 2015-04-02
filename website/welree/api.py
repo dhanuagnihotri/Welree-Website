@@ -1,5 +1,6 @@
 #from tastypie.fields import RelatedField
 from django.conf.urls import url
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models.fields.related import RelatedField
@@ -159,11 +160,16 @@ class JewelryCollectionResource(OwnerModelResource):
 
     def add(self, request, **kwargs):
         self.method_check(request, allowed=['post'])
-        data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
-
-        collection_id = data.get('collection', '')
+        data = self.deserialize(request, request.body)
+        collection = data.get('collection', '')
+        # Allow adding by ID or name, since names are enforced to be unique per user.
+        try:
+            lookup = {'id': int(collection)}
+        except ValueError:
+            lookup = {'name': collection}
         item_id = data.get('item', '')
-        models.JewelryCollection.objects.get(id=collection_id).items.add(models.JewelryItem.objects.get(id=item_id))
+        models.JewelryCollection.objects.get(owner=request.user, **lookup).items.add(models.JewelryItem.objects.get(id=item_id))
+        messages.success(request, "Your jewelry item has been added to your collection.")
         return self.create_response(request, {'success': True})
 
 class JewelryItemResource(OwnerModelResource):

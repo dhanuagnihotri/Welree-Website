@@ -36,7 +36,7 @@ welree.popover = function(selector, title, content) {
         title: title,
         content: content,
         placement: 'top',
-    });
+    }).on('click', function(e) { e.preventDefault(); });
 }
 
 welree.tastypie_form_callback = function(e) {

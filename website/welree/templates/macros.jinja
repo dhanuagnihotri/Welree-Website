@@ -65,7 +65,7 @@
       <!-- Carousel items -->
       <div class="carousel-inner">
       {% for item in jewelryitems %}
-          <div class="item {{ "active" if loop.first else "" }}">
+          <div class="item {{ "active" if loop.first else "" }}" data-item-id="{{ item.id }}">
               {% set collection = item.collections.first() %}
               <div class="carousel-footer"></div>
               <a href="{{ item.get_absolute_collection_url(collection) }}">

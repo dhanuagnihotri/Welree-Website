@@ -242,3 +242,17 @@ a:hover {
     left: 0px;
     background-image: url('/static/img/footer-gradient.png');
 }
+
+div.popover ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+div.popover .popover-category {
+    font-weight: bold;
+}
+div.popover li {
+    font-size: 0.75em;
+}
+div.popover li a {
+    color: #508cb4;
+}

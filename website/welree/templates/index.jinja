@@ -246,13 +246,30 @@
             var content = '';
             var collections = {{ json(user_collections) }};
             $.each(collections, function(kind, names) {
-                content += kind + '<ul>'
-                $.each(names, function(name) {
-                    content += '<li>' + name + '</li>'
+                content += '<span class="popover-category">' + kind + '</span><ul>'
+                $.each(names, function(i, name) {
+                    content += '<li><a href="#" class="collection-add" data-collection="'+name+'">' + name + '</a></li>'
                 });
                 content += '</ul>'
             });
             welree.popover('a.action-add', 'Add to collection', content);
+            $('body').on('click', 'a.collection-add', function(e) {
+                e.preventDefault();
+                var collection = $(this).data('collection');
+                var item = $('#top-carousel .item.active').data('item-id')
+                var data = {'collection': collection, 'item': item};
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/v1/collection/add/',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    processData: false,
+                }).done(function(data, status, xhr) {
+                    console.log('success', data, status);
+                }).fail(function(data, status) {
+                    console.log('fail', data, status);
+                });
+            });
         });
     </script>
 {% endblock %}
