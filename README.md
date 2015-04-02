@@ -3,11 +3,11 @@
 # Pre-requisites:
 * python
 * pip
- * sudo easy_install pip
+ * `sudo easy_install pip`
 * [optional] virtualenv
- * pip install virtualenv
+ * `pip install virtualenv`
 * [homebrew](http://brew.sh/)
-* brew install libmemcached memcached nginx libxml2
+* `brew install libmemcached memcached nginx libxml2`
 * prepare Solr (our search backend)
   * download and extract http://archive.apache.org/dist/lucene/solr/4.7.2/solr-4.7.2.zip
   * specify the location in a line in your ~/.bashrc such as `export SOLR_EXAMPLE="$HOME/Downloads/solr-4.7.2/example"`
