@@ -75,7 +75,7 @@ class Event(models.Model):
     location = models.CharField(max_length=255)
     description = models.TextField()
     url = models.URLField()
-    photo = SorlImageField(upload_to='editorial')
+    photo = SorlImageField(upload_to='event')
     order = models.PositiveIntegerField(default=0, blank=False, null=False)
 
     class Meta(object):

@@ -55,7 +55,7 @@ class EditorialAdmin(SortableAdminMixin, ImageAdmin):
 
     thumbnail = image_file('obj.photo')
 
-class EventsAdmin(SortableAdminMixin, ImageAdmin):
+class EventAdmin(SortableAdminMixin, ImageAdmin):
     search_fields = ('category', 'title', 'url')
     list_filter = ('category',)
     list_display = ('thumbnail', 'category', 'title')
@@ -75,4 +75,4 @@ admin.site.register(models.JewelryCollection, JewelryCollectionAdmin)
 admin.site.register(models.CustomUser)
 admin.site.register(models.Editorial, EditorialAdmin)
 admin.site.register(models.FeaturedCollection, FeaturedCollectionAdmin)
-admin.site.register(models.Event, EventsAdmin)
+admin.site.register(models.Event, EventAdmin)
