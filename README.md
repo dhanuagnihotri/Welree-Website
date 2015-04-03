@@ -22,3 +22,23 @@ From the directory of the repository:
 1. pbdeploy [starts/restarts application, performing any necessary bootstrapping]
 1. open http://local.welree.com:33100
 1. pbdeploy stop
+
+# Starting fresh:
+
+If you'd like to start with a new database, from the website directory
+run:
+
+    mv welree/welree.db welree/welree.db.$(date +%s)
+    pbdeploy
+
+This will create a timestamped backup of the database and bootstrap a
+fresh database. At this point you may want to create a superuser that
+can access the admin as well:
+
+    ./manage.py createsuperuser
+
+If at any point you'd like to clear away the Solr search index, or if
+you have data in your database from before you had Solr up and running:
+
+    ./manage.py rebuild_index
+
