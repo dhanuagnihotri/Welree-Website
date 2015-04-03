@@ -53,4 +53,9 @@
 {% endblock %}
 {% block extra_js %}
     {% include "disqus.jinja" %}
+    <script>
+        $(function() {
+            welree.wire_add_button('a.action-add', function() { return $('a.action-add').data('item-id'); });
+        });
+    </script>
 {% endblock %}
