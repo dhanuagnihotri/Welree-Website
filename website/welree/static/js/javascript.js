@@ -30,16 +30,16 @@ welree.suggestion_fields = {
     '#id_color': welree.facets['color'],
 }
 
-welree.popover = function(selector, title, content) {
+welree.popover = function(selector, title, content, placement) {
     $(selector).popover({
         html: true,
         title: title,
         content: content,
-        placement: 'top',
+        placement: placement || 'top',
     }).on('click', function(e) { e.preventDefault(); });
 }
 
-welree.wire_add_button = function(selector, item_getter) {
+welree.wire_add_button = function(selector, item_getter, placement) {
     var content = '';
     $.each(welree.user_collections, function(kind, names) {
         content += '<span class="popover-category">' + kind + '</span><ul>'
@@ -48,7 +48,7 @@ welree.wire_add_button = function(selector, item_getter) {
         });
         content += '</ul>'
     });
-    welree.popover(selector, 'Add to collection', content);
+    welree.popover(selector, 'Add to collection', content, placement);
     $('body').on('click', 'a.popover-collection-add', function(e) {
         e.preventDefault();
         var collection = $(this).data('collection');

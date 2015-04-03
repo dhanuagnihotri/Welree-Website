@@ -19,6 +19,7 @@
             background-color: #8c8c8c;
             padding: 5px;
             font-size: 12pt;
+            position: relative;
         }
         .media-body a:hover {
             text-decoration: none;
@@ -51,6 +52,19 @@
         }
         .form-search-refine {
             margin-top: 34px;
+        }
+        a.action-add {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        a.action-add img {
+            height: 20px;
+            width: 20px;
+        }
+        .popover {
+            position: fixed;
+            z-index: 9999;
         }
     </style>
 {% endblock %}
@@ -121,6 +135,7 @@
                           <a href="{{ result.get_absolute_url() }}">
                               <p>{{ data.description|safe }}</p>
                           </a>
+                          <a href="#" class="action-add" data-item-id="{{ result.id }}"><img src="/static/img/action-add.png"></a>
                         </div>
                      </li>
                 {% endfor %}
@@ -130,4 +145,11 @@
             </ul>
         </div>
     </div>
+{% endblock %}
+{% block extra_js %}
+    <script>
+        $(function() {
+            welree.wire_add_button('a.action-add', function() { return $('a.action-add').data('item-id'); }, 'left');
+        });
+    </script>
 {% endblock %}
