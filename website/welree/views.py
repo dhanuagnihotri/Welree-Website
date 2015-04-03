@@ -14,6 +14,7 @@ from haystack.utils import Highlighter
 import cjson
 import collections
 import re
+import urllib
 
 from welree import models
 from welree.forms import SignupForm, CollectionForm, JewelryItemForm
@@ -100,7 +101,7 @@ def collection(request, coll_pk):
 def search(request):
     query = request.GET.get('q', '').replace('.', '').replace("'", "").replace(",", "")
     selected_facets = request.GET.getlist('selected_facets')
-    selected_facets_query = '&selected_facets='+u';&selected_facets='.join(selected_facets) if selected_facets else ''
+    selected_facets_query = '&selected_facets='+u';&selected_facets='.join([urllib.quote(facet) for facet in selected_facets]) if selected_facets else ''
     facets_friendly = ' and '.join([f.replace("_exact:", " is ") for f in selected_facets])
     model_friendly = 'jewelry' if selected_facets else request.GET.get('model', '').lower()
     model = {'jewelry': 'JewelryItem', 'collection': 'JewelryCollection', 'designer': 'CustomUser'}.get(model_friendly)
