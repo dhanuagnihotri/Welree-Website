@@ -11,7 +11,7 @@
             <h4>Collections:</h4>
             <a href="#" data-toggle="modal" data-target="#modal-collection-new"><div class="collection-item collection-new">+ Add New</div></a>
             {% for collection in collections %}
-                <div class="collection-item">{{ collection.name }}</div>
+                <a href="{{ collection.get_absolute_url() }}"><div class="collection-item">{{ collection.name }}</div></a>
             {% endfor %}
 
             {{ macros.tastypie_modal_form('collection-new', '/api/v1/collection/', form_collection_new, 'New Designer Collection', 'Create Collection') }}

@@ -12,7 +12,7 @@
                 <h4>IdeaBooks:</h4>
                 <a href="#" data-toggle="modal" data-target="#modal-ideabook-new"><div class="collection-item collection-new">+ Add New</div></a>
                 {% for collection in ideabooks %}
-                    <div class="collection-item">{{ collection.name }}</div>
+                    <a href="{{ collection.get_absolute_url() }}"><div class="collection-item">{{ collection.name }}</div></a>
                 {% endfor %}
 
                 {{ macros.tastypie_modal_form('ideabook-new', '/api/v1/collection/', form_ideabook_new, 'New IdeaBook', 'Create Collection') }}
@@ -21,7 +21,7 @@
                 <h4>JewelBoxes:</h4>
                 <a href="#" data-toggle="modal" data-target="#modal-jewelbox-new"><div class="collection-item collection-new">+ Add New</div></a>
                 {% for collection in jewelboxes %}
-                    <div class="collection-item">{{ collection.name }}</div>
+                    <a href="{{ collection.get_absolute_url() }}"><div class="collection-item">{{ collection.name }}</div></a>
                 {% endfor %}
 
                 {{ macros.tastypie_modal_form('jewelbox-new', '/api/v1/collection/', form_jewelbox_new, 'New JewelBox', 'Create Collection') }}

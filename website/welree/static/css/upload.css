@@ -13,3 +13,7 @@
 .upload-sidebar {
     padding-right: 0px;
 }
+
+a, a:hover {
+    color: black;
+}
