@@ -220,7 +220,7 @@ a:hover {
 }
 .carousel .carousel-designer {
     position: absolute;
-    bottom: 5px;
+    bottom: -7px;
     left: 20px;
     font-size: 32pt;
 }
