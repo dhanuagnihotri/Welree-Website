@@ -39,6 +39,36 @@ welree.popover = function(selector, title, content) {
     }).on('click', function(e) { e.preventDefault(); });
 }
 
+welree.wire_add_button = function(selector, item_getter) {
+    var content = '';
+    $.each(welree.user_collections, function(kind, names) {
+        content += '<span class="popover-category">' + kind + '</span><ul>'
+        $.each(names, function(i, name) {
+            content += '<li><a href="#" class="popover-collection-add" data-collection="'+name+'">' + name + '</a></li>'
+        });
+        content += '</ul>'
+    });
+    welree.popover(selector, 'Add to collection', content);
+    $('body').on('click', 'a.popover-collection-add', function(e) {
+        e.preventDefault();
+        var collection = $(this).data('collection');
+        var item = item_getter();
+        console.log('item', item);
+        var data = {'collection': collection, 'item': item};
+        $.ajax({
+            type: 'POST',
+            url: '/api/v1/collection/add/',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            processData: false,
+        }).done(function(data, status, xhr) {
+            window.location.href = data.redirect;
+        }).fail(function(data, status) {
+            console.log('fail', data, status);
+            alert('Failed to add this item to your collection.');
+        });
+    });
+}
 welree.tastypie_form_callback = function(e) {
     e.preventDefault();
     var form = $(this);

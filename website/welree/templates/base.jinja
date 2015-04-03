@@ -18,8 +18,9 @@
             {% block extra_css %}{% endblock %}
         {% endcompress %}
         <script>
-            welree = {}
-            welree.facets = {{ json(welree_facets) }}
+            welree = {};
+            welree.facets = {{ json(welree_facets) }};
+            welree.user_collections = {{ json(user_collections) }};
         </script>
     </head>
     <body class="{% block body_class %}{% endblock %}">

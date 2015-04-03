@@ -257,35 +257,7 @@
                 $('.carousel').carousel('pause');
             });
 
-            // Handle add to collection popover.
-            var content = '';
-            var collections = {{ json(user_collections) }};
-            $.each(collections, function(kind, names) {
-                content += '<span class="popover-category">' + kind + '</span><ul>'
-                $.each(names, function(i, name) {
-                    content += '<li><a href="#" class="collection-add" data-collection="'+name+'">' + name + '</a></li>'
-                });
-                content += '</ul>'
-            });
-            welree.popover('a.action-add', 'Add to collection', content);
-            $('body').on('click', 'a.collection-add', function(e) {
-                e.preventDefault();
-                var collection = $(this).data('collection');
-                var item = $('#top-carousel .item.active').data('item-id')
-                var data = {'collection': collection, 'item': item};
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/v1/collection/add/',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    processData: false,
-                }).done(function(data, status, xhr) {
-                    console.log('success', data, status);
-                    window.location.href = data.redirect;
-                }).fail(function(data, status) {
-                    console.log('fail', data, status);
-                });
-            });
+            welree.wire_add_button('a.action-add', function() { return $('#top-carousel .item.active').data('item-id'); });
 
             $('a.action-info').on('click', function(e) {
                 e.preventDefault();
