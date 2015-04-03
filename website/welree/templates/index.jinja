@@ -176,6 +176,9 @@
         body {
             margin-top: 36px;
         }
+        img.editorial-cover {
+            height: 296;
+        }
     }
     @media (max-width: 511px) {
         div.community-banner .description {
@@ -193,7 +196,7 @@
             <a href="{{ editorial.url }}" target="_blank">
             <div class="editorial {{ " notfirst" if not loop.first else "" }} {{ " hidden-xs" if loop.index > 2 }}">
                 <div class="inner">
-                    {{ sorlimgtag(editorial.photo, "256x427", crop="center") }}
+                    {{ sorlimgtag(editorial.photo, "256x427", crop="center", classes="editorial-cover") }}
                     <div class="topper">{{ editorial.category }}</div>
                     <div class="title">{{ editorial.title }}</div>
                     <div class="read-more">Read More</div>
