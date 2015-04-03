@@ -99,7 +99,6 @@
         {% if facets_friendly %}<span class="pull-right">Filtering jewelry where {{ facets_friendly }} <a class="label label-info" href="{{ qdel(request, "selected_facets") }}">Clear</a></span>{% endif %}
     </div>
     <div class="clearfix">
-        {{ selected_facets_query }}
         {% if jewelry_only %}<div class="filters rounded pull-left">
             {% for facet, values in welree_facets.items() %}
                 <span class="facet-title">{{ facet.title() }}:</span>
