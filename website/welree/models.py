@@ -79,6 +79,14 @@ class Editorial(models.Model):
     def __unicode__(self):
         return u"{} - {}".format(self.category, self.title)
 
+    def get_search_result(self):
+        return {
+            "tag": "editorial",
+            "title": self.title,
+            "description": u'{}: {} @ {}'.format(self.category, self.title, self.url),
+            "image": self.photo,
+        }
+
 class FeaturedCollection(models.Model):
     collection = models.ForeignKey('welree.JewelryCollection')
     order = models.PositiveIntegerField(default=0, blank=False, null=False)
