@@ -87,6 +87,9 @@ class Editorial(models.Model):
             "image": self.photo,
         }
 
+    def get_absolute_url(self):
+        return self.url
+
 class FeaturedCollection(models.Model):
     collection = models.ForeignKey('welree.JewelryCollection')
     order = models.PositiveIntegerField(default=0, blank=False, null=False)
