@@ -31,3 +31,12 @@ class DesignerIndex(indexes.SearchIndex, indexes.Indexable):
 
     def index_queryset(self, **kwargs):
         return self.get_model().objects.filter(is_designer=True).select_related()
+
+class EditorialIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True)
+
+    def get_model(self):
+        return models.Editorial
+
+    def index_queryset(self, **kwargs):
+        return self.get_model().objects.select_related()
