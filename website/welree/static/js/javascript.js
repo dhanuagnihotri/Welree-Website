@@ -41,6 +41,9 @@ welree.popover = function(selector, title, content, placement) {
 
 welree.wire_add_button = function(selector, item_getter, placement) {
     var content = '';
+    if (!welree.is_authenticated) {
+      content = 'Please <a href="/login/">log in</a> to add items to your collections.';
+    }
     $.each(welree.user_collections, function(kind, names) {
         content += '<span class="popover-category">' + kind + '</span><ul>'
         $.each(names, function(i, name) {
