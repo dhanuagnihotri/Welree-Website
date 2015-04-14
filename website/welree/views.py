@@ -115,7 +115,7 @@ def search(request):
     if model:
         sqs = sqs.models(getattr(models, model))
     if jewelry_only:
-        sqs = sqs.facet('material').facet('color').facet('type')
+        sqs = sqs.facet('material').facet('color').facet('type').facet('occasion').facet('style')
         for narrow in selected_facets:
             sqs = sqs.narrow(narrow)
         facet_counts = sqs.facet_counts()

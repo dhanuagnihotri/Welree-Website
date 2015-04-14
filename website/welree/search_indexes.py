@@ -7,6 +7,8 @@ class JewelryIndex(indexes.SearchIndex, indexes.Indexable):
     material = indexes.CharField(model_attr="material", faceted=True, null=True)
     color = indexes.CharField(model_attr="color", faceted=True, null=True)
     type = indexes.CharField(model_attr="type", faceted=True, null=True)
+    style = indexes.CharField(model_attr="style", faceted=True, null=True)
+    occasion = indexes.CharField(model_attr="occasion", faceted=True, null=True)
 
     def get_model(self):
         return models.JewelryItem

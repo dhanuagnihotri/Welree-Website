@@ -26,8 +26,10 @@ $.fn.serializeObject = function()
 
 welree.suggestion_fields = {
     '#id_type': welree.facets['type'],
-    '#id_material': welree.facets['material'],
+    '#id_style': welree.facets['style'],
     '#id_color': welree.facets['color'],
+    '#id_material': welree.facets['material'],
+    '#id_occasion': welree.facets['occasion'],
 }
 
 welree.popover = function(selector, title, content, placement) {

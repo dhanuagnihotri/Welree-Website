@@ -19,11 +19,13 @@ def processor(request):
         'zip': zip,
         'disqus_shortname': settings.DISQUS_SHORTNAME,
         'json': lambda s: Markup(cjson.encode(s)),
-        'welree_facets': {
-            'type': ['Rings', 'Necklaces & Pendants', 'Bracelets', 'Earrings', 'Brooches'],
-            'color': ['Gold', 'Silver', 'Black', 'White', 'Red', 'Blue', 'Green', 'Grey', 'Brown', 'Orange', 'Pink', 'Purple', 'Turquoise', 'Yellow'],
-            'material': ['Gold', 'Silver', 'Pearl', 'Gemstone', 'Beads', 'Aluminum', 'Copper', 'Stainless Steel', 'Titanium', 'Tungsten', 'Platinum'],
-        },
+        'welree_facets': collections.OrderedDict((
+            ('type', ['Rings', 'Necklaces & Pendants', 'Bracelets', 'Earrings', 'Brooches']),
+            ('style', ['Modern', 'Contemporary', 'Traditional', 'Vintage']),
+            ('color', ['Gold', 'Silver', 'Black', 'White', 'Red', 'Blue', 'Green', 'Grey', 'Brown', 'Orange', 'Pink', 'Purple', 'Turquoise', 'Yellow']),
+            ('material', ['Gold', 'Silver', 'Pearl', 'Gemstone', 'Beads', 'Aluminum', 'Copper', 'Stainless Steel', 'Titanium', 'Tungsten', 'Platinum']),
+            ('occasion', ['Wedding', 'Party', 'Casual', 'Formal']),
+        )),
         'user_collections': collections.defaultdict(list)
     }
     if request.user.is_authenticated():

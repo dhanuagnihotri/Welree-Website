@@ -16,7 +16,7 @@ class CustomUser(AbstractUser):
     is_designer = models.BooleanField(default=False, verbose_name="I'm a jewelry designer", help_text="We'll use this to customize your experience on Welree.")
     email_confirmed = models.BooleanField(default=False)
     bio = MarkupField(default="", markup_type="markdown", help_text=MARKDOWN_ALLOWED)
-    
+
     def email_user(self, subject, message, from_email=None, ignore_confirmed=False):
         if not (ignore_confirmed or self.email_confirmed):
             return False
@@ -113,7 +113,7 @@ class JewelryCollection(models.Model):
             (KIND_JEWELBOX, "JewelBox"),
             (KIND_IDEABOOK, "IdeaBook"),
     )
-    
+
     kind = models.IntegerField(choices=KIND_CHOICES, db_index=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="collections")
     name = models.CharField(max_length=63)
@@ -143,9 +143,11 @@ class JewelryItem(models.Model):
     description = models.CharField(max_length=255)
     url = models.URLField(blank=True, null=True, verbose_name="Product link")
 
-    material = models.CharField(max_length=255)
-    color = models.CharField(max_length=255)
     type = models.CharField(max_length=255)
+    style = models.CharField(max_length=255, blank=True, null=True)
+    color = models.CharField(max_length=255)
+    material = models.CharField(max_length=255)
+    occasion = models.CharField(max_length=255, blank=True, null=True)
     tags = models.CharField(max_length=255, help_text="Separate multiple hashtags with spaces", blank=True, null=True)
 
     is_approved = models.BooleanField(default=False)
@@ -166,7 +168,7 @@ class JewelryItem(models.Model):
 
     def get_absolute_url(self):
         return self.get_absolute_collection_url(self.collections.first())
-        
+
     def get_absolute_collection_url(self, collection):
         return "{}{}/".format(reverse("item", kwargs={"item_pk": self.id, "coll_pk": collection.id}), defaultfilters.slugify(self.description))
 

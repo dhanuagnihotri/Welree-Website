@@ -3,5 +3,7 @@
 {{ object.url }}
 {{ object.material }}
 {{ object.color }}
+{{ object.occasion }}
+{{ object.style }}
 {{ object.type }}
 {{ object.tags }}

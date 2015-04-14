@@ -19,6 +19,7 @@ SERVICES = {
             "restart": "kill -s SIGHUP {pid}",
         },
     "solr": {
+            # curl "http://localhost:33102/solr/admin/cores?action=RELOAD&core=welree"
             "port": 33102,
             "start": "java -Djetty.port={port} -Djetty.pid={project_dir}/run/solr.pid -Dsolr.solr.home={project_dir}/../solr -jar start.jar",
             "cwd": os.getenv("SOLR_EXAMPLE"),

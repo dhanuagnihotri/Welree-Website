@@ -153,15 +153,23 @@
 
     <field name="text" type="text_en" indexed="true" stored="true" multiValued="false" />
 
+    <field name="style" type="text_en" indexed="true" stored="true" multiValued="false" />
+
+    <field name="occasion_exact" type="string" indexed="true" stored="true" multiValued="false" />
+
+    <field name="color" type="text_en" indexed="true" stored="true" multiValued="false" />
+
+    <field name="material" type="text_en" indexed="true" stored="true" multiValued="false" />
+
     <field name="type_exact" type="string" indexed="true" stored="true" multiValued="false" />
 
     <field name="material_exact" type="string" indexed="true" stored="true" multiValued="false" />
 
-    <field name="color" type="text_en" indexed="true" stored="true" multiValued="false" />
+    <field name="style_exact" type="string" indexed="true" stored="true" multiValued="false" />
+
+    <field name="occasion" type="text_en" indexed="true" stored="true" multiValued="false" />
 
     <field name="color_exact" type="string" indexed="true" stored="true" multiValued="false" />
-
-    <field name="material" type="text_en" indexed="true" stored="true" multiValued="false" />
 
     <field name="type" type="text_en" indexed="true" stored="true" multiValued="false" />
 
