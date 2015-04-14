@@ -42,9 +42,23 @@ body, p, h1, h2, h3, h4, h5, h6 {
 #header .nav {
     font-size: 1em;
 }
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
+    background-color: transparent !important;
+}
 #header .dropdown-menu>li>a:focus, #header .dropdown-menu>li>a:hover {
     background-color: #fff;
     color: #000;
+}
+#header .navbar-collapse.collapsing,
+#header .navbar-collapse.collapse.in {
+    text-align: right;
+    background-color: rgba(200, 200, 200, .5);
+}
+#header .navbar-collapse.collapsing ul.dropdown-menu,
+#header .navbar-collapse.collapse.in ul.dropdown-menu {
+    font-size: 1em;
+    text-align: right;
+    text-transform: uppercase;
 }
 #header form {
     margin: 2px 0px 0px 34px;
