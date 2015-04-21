@@ -9,14 +9,14 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-    background-color: #ffff;
+    background-color: #FBFBFB;
 }
 
 .category {
     height: 160px;
     background: -moz-linear-gradient(top, #27bdbe 0%, #27bdbe 70%, #ffffff 70%, #ffffff 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#27bdbe), color-stop(70%,#27bdbe), color-stop(70%,#ffffff), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #27bdbe 0%,#27bdbe 70%,#ffffff 70%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#27bdbe), color-stop(70%,#27bdbe), color-stop(70%,#FBFBFB), color-stop(100%,#FBFBFB)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #27bdbe 0%,#27bdbe 70%,#ffff 70%,#ffff 100%); /* Chrome10+,Safari5.1+ */
     background: linear-gradient(top, #27bdbe 0%,#27bdbe 70%,#ffffff 70%,#ffffff 100%); /* W3C */
     }
 
@@ -48,18 +48,21 @@ padding-right: 10px;
 
 {% block below_container %}
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-8 col-center-block well no-gutter ">
-                <div class="category">
-                    <h3 align="right">Trunk Show </h3>
-                    <h4 align="right"> Monday April 20th, 5PM</h4>
-                    <div class="photo">       </div>
+        {% for event in events %}
+            <div class="row">
+                <div class="col-lg-8 col-center-block well no-gutter ">
+                    <div class="category">
+                        <h3 align="right">{{ event.category }}</h3>
+                        <h4 align="right">{{ event.dateAndTime }}</h4>
+                        <div class="photo">{{ sorlimgtag(event.photo, "96x96", crop="center") }} </div>
+                    </div>
+                    <h3 align="left"> {{ event.title }}</h3>
+                    <h4 align="left"> {{ event.location }}</h4>
+                    <h5> {{ event.description }} </h5>
+                    <h5><a href="{{ event.url }}"> <font color="27bdbe">Details</font></a><h5>
                 </div>
-                <h3 align="left"> Gem and Jewelry Show </h3>
-                <h4 align="left"> 1687 Market Street, San Francisco ,CA</h4>
-                <h5> Lights, mirrors, jewelry to try on, model and enjoy! Don't miss the special array  of beach and recycled glass jewelry featured at the Museum Shop by jewelry artist Sonja Grondstra.</h5>
-                <h5><a href="http://sf.racked.com/2014/7/3/7588295/jewelry-sale-and-a-night-of-fashion-fun"> <font color="27bdbe">Details</font></a><h5>
             </div>
-        </div>
+        {% endfor %}    
     </div>
 {% endblock %}
+        
