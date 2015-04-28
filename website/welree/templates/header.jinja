@@ -70,7 +70,7 @@
                   <li class="divider"></li>
                   <li><a href="{{ url("designer_upload") if request.user.is_designer else url("consumer_upload") }}">Upload Photos</a></li>
                   <li class="divider"></li>
-                  <li><a href="#">Profile</a></li>
+                  <li><a href="{{ url("settings") }}">Profile</a></li>
                   <li><a href="/logout/">Sign out</a></li>
               {% endif %}
             </ul>

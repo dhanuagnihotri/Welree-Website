@@ -17,7 +17,7 @@ import re
 import urllib
 
 from welree import models
-from welree.forms import SignupForm, CollectionForm, JewelryItemForm
+from welree.forms import SignupForm, CollectionForm, JewelryItemForm, ProfileForm
 
 def r2r(template, request, data=None):
     data = data or {}
@@ -65,6 +65,16 @@ def login(request):
 def logout(request):
     logout_user(request)
     return redirect("home")
+
+@login_required
+def settings(request):
+    profile_form = ProfileForm(instance=request.user)
+    if request.method == "POST":
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, "You've successfully updated your profile!")
+    return r2r("settings.jinja", request, locals())
 
 def signup(request):
     usermodel = get_user_model()

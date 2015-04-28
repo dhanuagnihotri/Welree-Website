@@ -34,6 +34,36 @@ class SignupForm(forms.ModelForm):
             return False
         return True
 
+class ProfileForm(forms.ModelForm):
+    password1 = forms.CharField(label='Change password', widget=forms.PasswordInput())
+    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput())
+
+    class Meta:
+        model = models.CustomUser
+        fields = ['password1', 'password2', 'is_designer']
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['password1'].required = False
+        self.fields['password2'].required = False
+
+    def clean(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+
+        if password1 and password1 != password2:
+            raise forms.ValidationError('Passwords don\'t match')
+
+        return self.cleaned_data
+
+    def save(self, commit=True):
+        user = super(ProfileForm, self).save(commit=False)
+        if self.cleaned_data['password1']:
+            user.set_password(self.cleaned_data['password1'])
+        if commit:
+            user.save()
+        return user
+
 class CollectionForm(forms.ModelForm):
     kind = forms.ChoiceField(choices=models.JewelryCollection.KIND_CHOICES, widget=forms.HiddenInput())
 

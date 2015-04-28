@@ -1,0 +1,13 @@
+{% extends "base.jinja" %}
+{% import "macros.jinja" as macros %}
+{% block below_container %}
+    <p class="text-error">{{ error_msg }}</p>
+
+    <h4>Update your profile:</h4>
+    <form method="POST" enctype="multipart/form-data" autocomplete="off">{% csrf_token %}
+        <input style="display:none"><input type="password" style="display:none">
+        <p class="text-error"></p>
+        {{ profile_form|as_bootstrap() }}
+        <input type="submit" value="Update" class="btn btn-primary pull-right">
+    </form>
+{% endblock %}
