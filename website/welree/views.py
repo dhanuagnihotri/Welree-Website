@@ -108,6 +108,10 @@ def collection(request, coll_pk):
     items = collection.items.all()
     return r2r('collection.jinja', request, locals())
 
+def profile(request, pk):
+    user = get_object_or_404(models.CustomUser, pk=pk)
+    return r2r('{}/profile.jinja'.format(user.noun.lower()))
+
 def search(request):
     query = request.GET.get('q', '').replace('.', '').replace("'", "").replace(",", "")
     selected_facets = request.GET.getlist('selected_facets')

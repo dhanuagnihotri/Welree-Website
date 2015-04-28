@@ -280,4 +280,9 @@ class welreeTests(ExtendedTestCase):
 
         self.get(url)
 
+    def test_user_get_absolute_url(self):
+        user = create_and_login_user(self)
+        self.assertEquals(user.get_absolute_url(), '/profile/{}/charles-atterly/'.format(user.id))
+
+
 
