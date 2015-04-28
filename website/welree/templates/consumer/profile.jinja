@@ -1,0 +1,31 @@
+{% extends "base.jinja" %}
+{% import "macros.jinja" as macros %}
+{% block extra_css %}
+<style type="text/css">
+</style>
+{% endblock %}
+{% block below_container %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                DESIGNER
+            </div>
+            <div class="col-lg-6 well">
+                <h4>Details:</h4>
+                <p>{{ user.date_joined }}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-12">
+                <h4>About this {{ user.noun }}:</h4>
+                {{ user.bio.rendered|safe }}
+            </div>
+        </div>
+    </div>
+    <div id="disqus_thread"></div>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+{% endblock %}
+{% block extra_js %}
+    {% include "disqus.jinja" %}
+{% endblock %}

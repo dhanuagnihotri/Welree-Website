@@ -110,7 +110,7 @@ def collection(request, coll_pk):
 
 def profile(request, pk):
     user = get_object_or_404(models.CustomUser, pk=pk)
-    return r2r('{}/profile.jinja'.format(user.noun.lower()))
+    return r2r('{}/profile.jinja'.format('designer' if user.is_designer else 'consumer'), request, locals())
 
 def search(request):
     query = request.GET.get('q', '').replace('.', '').replace("'", "").replace(",", "")
