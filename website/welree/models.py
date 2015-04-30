@@ -133,6 +133,7 @@ class JewelryCollection(models.Model):
     kind = models.IntegerField(choices=KIND_CHOICES, db_index=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="collections")
     name = models.CharField(max_length=63)
+    description = models.TextField()
     items = models.ManyToManyField('welree.JewelryItem', related_name="collections")
 
     class Meta:

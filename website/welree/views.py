@@ -117,6 +117,7 @@ def profile(request, pk):
 
 @login_required
 def my(request):
+    collections = request.user.collections.all()
     return r2r('my.jinja', request, locals())
 
 def search(request):

@@ -17,6 +17,7 @@ def processor(request):
         'str': str,
         'dir': dir,
         'zip': zip,
+        'list': list,
         'disqus_shortname': settings.DISQUS_SHORTNAME,
         'json': lambda s: Markup(cjson.encode(s)),
         'welree_facets': collections.OrderedDict((
