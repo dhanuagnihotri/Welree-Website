@@ -294,6 +294,11 @@ class welreeTests(ExtendedTestCase):
         response = self.get(user.get_absolute_url())
         self.assertTrue("About this User:" in response.content)
 
+    def test_my(self):
+        self.assertStatus(302, '/my/')
+        user = create_and_login_user(self, is_designer=True)
+        self.get('/my/')
+
 
 
 

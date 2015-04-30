@@ -115,6 +115,10 @@ def profile(request, pk):
     collections = [c.annotated() for c in user.collections.all()[:10]]
     return r2r('{}/profile.jinja'.format('designer' if user.is_designer else 'consumer'), request, locals())
 
+@login_required
+def my(request):
+    return r2r('my.jinja', request, locals())
+
 def search(request):
     query = request.GET.get('q', '').replace('.', '').replace("'", "").replace(",", "")
     selected_facets = request.GET.getlist('selected_facets')

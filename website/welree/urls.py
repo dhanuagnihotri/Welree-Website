@@ -18,6 +18,7 @@ app_urls = (
         'consumer/upload',
         'search',
         'settings',
+        'my',
     )
 )
 
