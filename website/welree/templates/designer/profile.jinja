@@ -8,18 +8,19 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6">
-                DESIGNER
+                {{ user.full_name }}
+                <img src="/static/img/person.svg.png" width="100%">
             </div>
             <div class="col-lg-6 well">
-                <h4>Details:</h4>
-                <p>{{ user.date_joined }}</p>
+                <h4>About this {{ user.noun }}:</h4>
+                {{ user.bio.rendered|safe }}
             </div>
         </div>
         <hr>
         <div class="row">
             <div class="col-lg-12">
-                <h4>About this {{ user.noun }}:</h4>
-                {{ user.bio.rendered|safe }}
+                <h4>Collections:</h4>
+                {{ macros.collection_rows(collections) }}
             </div>
         </div>
     </div>

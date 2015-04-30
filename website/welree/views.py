@@ -34,9 +34,7 @@ def superuser_required(function):
 def home(request):
     curated = models.JewelryItem.curated.order_by('-id')
     editorials = models.Editorial.objects.all()[:4]
-    featuredcollections = [f.collection for f in models.FeaturedCollection.objects.select_related('collection')[:2]]
-    for featured in featuredcollections:
-        featured.annotated_photos = [item.primary_photo for item in featured.items.all()[:3]]
+    featuredcollections = [f.collection.annotated() for f in models.FeaturedCollection.objects.select_related('collection')[:2]]
     return r2r("index.jinja", request, locals())
 
 def events(request):
@@ -114,6 +112,7 @@ def collection(request, coll_pk):
 
 def profile(request, pk):
     user = get_object_or_404(models.CustomUser, pk=pk)
+    collections = [c.annotated() for c in user.collections.all()[:10]]
     return r2r('{}/profile.jinja'.format('designer' if user.is_designer else 'consumer'), request, locals())
 
 def search(request):

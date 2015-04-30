@@ -1,0 +1,73 @@
+.editorial, .featured-collection {
+    text-shadow: 1px 1px rgba(140, 140, 140, .8);
+}
+
+.featured-collection {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.featured-collection img.collection {
+    z-index: -1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+.featured-collection > div {
+    float: left;
+    height: 100px;
+    width: 25%;
+}
+.featured-collection .inner {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+.featured-collection > div:not(:first-child) img.collection {
+    left: 0px;
+    overflow: hidden;
+}
+.featured-collection > div:not(:first-child) {
+    padding-left: 10px;
+}
+.featured-collection .collection-primary {
+    width: 50%;
+    text-align: center;
+    position: relative;
+}
+.featured-collection .collection-name {
+    font-size: 1em;
+    text-transform: uppercase;
+    position: absolute;
+    left: 10px;
+}
+.featured-collection .collection-owner {
+    position: absolute;
+    top: 0px;
+    right: 3px;
+    font-size: 1.4em;
+}
+.featured-collection .gradient {
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-image: url('/static/img/nav-gradient.png');
+    background-size: contain;
+}
+.featured-collection img.collection-border {
+    position: absolute;
+    top: -12px;
+    width: 100px;
+    height: 124px;
+    z-index: -1;
+}
+.featured-collection img.collection-border-left {
+    left: -12px;
+}
+.featured-collection img.collection-border-right {
+    right: -14px
+}

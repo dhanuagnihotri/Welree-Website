@@ -138,6 +138,10 @@ class JewelryCollection(models.Model):
     class Meta:
         unique_together = (('owner', 'name'),)
 
+    def annotated(self):
+        self.annotated_photos = [item.primary_photo for item in self.items.all()[:3]]
+        return self
+
     def get_absolute_url(self):
         return "{}{}/".format(reverse("collection", kwargs={"coll_pk": self.id}), defaultfilters.slugify(self.name))
 
