@@ -225,7 +225,7 @@
         </div>
     {% endmacro %}
     {% for collection in featuredcollections %}
-        <a href="#">
+        <a href="{{ collection.get_absolute_url() }}">
         <div class="featured-collection clearfix">
             {% if loop.index is odd %}{{ collection_primary(collection) }}{% endif %}
             <div class="secondary"><div class="inner">
