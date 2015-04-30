@@ -26,12 +26,29 @@
 {% block below_container %}
   <div class="my-header">
     <h1 class="font-special">My Welree</h1>
-    <a href="#" class="active">IdeaBooks</a>
-    <a href="#">Style Me</a>
-    <a href="#">Likes</a>
-    <a href="#">Community</a>
+    <a href="#ideabooks" class="tab active">IdeaBooks</a>
+    <a href="#styleme" class="tab">Style Me</a>
+    <a href="#likes" class="tab">Likes</a>
+    <a href="#community" class="tab">Community</a>
     <a href="{{ url("settings") }}">Profile</a>
   </div>
+  <div class="tab-content">
+     <div role="tabpanel" class="tab-pane active" id="ideabooks">IdeaBooks</div>
+     <div role="tabpanel" class="tab-pane" id="styleme">Style Me</div>
+     <div role="tabpanel" class="tab-pane" id="likes">Likes</div>
+     <div role="tabpanel" class="tab-pane" id="community">Community</div>
+  </div>
 {% endblock %}
-{% block extra_js %}
-{% endblock %}
+{% block extra_js %}<script>
+  $(function() {
+    $('.my-header a.tab').on('click', function(e) {
+      e.preventDefault();
+      $('.my-header a').removeClass('active');
+      var target = $(this).addClass('active').attr('href');
+      $('.tab-pane.active').stop(true, true).fadeOut(300, function() {
+        $(this).removeClass('active');
+        $(target).fadeIn(300).addClass('active');
+      });
+    });
+  });
+</script>{% endblock %}
