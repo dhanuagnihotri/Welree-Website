@@ -1,0 +1,68 @@
+{% extends "base.jinja" %}
+{% import "macros.jinja" as macros %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="/static/css/upload.css" />
+<style type="text/css">
+
+.col-center-block {
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FBFBFB;
+}
+
+.category {
+    height: 160px;
+    background: -moz-linear-gradient(top, #27bdbe 0%, #27bdbe 70%, #ffffff 70%, #ffffff 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#27bdbe), color-stop(70%,#27bdbe), color-stop(70%,#FBFBFB), color-stop(100%,#FBFBFB)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #27bdbe 0%,#27bdbe 70%,#ffff 70%,#ffff 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(top, #27bdbe 0%,#27bdbe 70%,#ffffff 70%,#ffffff 100%); /* W3C */
+    }
+
+h5,h4,h3{
+padding-left: 10px;
+padding-right: 10px;
+} 
+
+.no-gutter {
+    padding-left:0;
+    padding-right:0;
+    padding-top:0;
+    padding-bottom:0;
+}
+
+.photo
+{
+    height: 100px;
+    width: 100px;
+    border: 2px solid black;
+    text-align: center;
+    display: inline-block;
+    margin-left:10px;
+}
+
+</style>
+
+{% endblock %}
+
+{% block below_container %}
+    <div class="container-fluid">
+        {% for event in events %}
+            <div class="row">
+                <div class="col-lg-8 col-center-block well no-gutter ">
+                    <div class="category">
+                        <h3 align="right">{{ event.category }}</h3>
+                        <h4 align="right">{{ event.dateAndTime }}</h4>
+                        <div class="photo">{{ sorlimgtag(event.photo, "96x96", crop="center") }} </div>
+                    </div>
+                    <h3 align="left"> {{ event.title }}</h3>
+                    <h4 align="left"> {{ event.location }}</h4>
+                    <h5> {{ event.description }} </h5>
+                    <h5><a href="{{ event.url }}"> <font color="27bdbe">Details</font></a><h5>
+                </div>
+            </div>
+        {% endfor %}    
+    </div>
+{% endblock %}
+        
