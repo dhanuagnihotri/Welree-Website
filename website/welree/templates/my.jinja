@@ -2,10 +2,36 @@
 {% import "macros.jinja" as macros %}
 {% block extra_css %}
 <style type="text/css">
+  .my-header {
+    text-align: bottom;
+  }
+  .my-header h1, .my-header a {
+    display: inline-block;
+  }
+  .my-header h1.font-special {
+    font-size: 3em;
+  }
+  .my-header a, .my-header a:hover, .my-header a:visited {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #999;
+    margin-left: 20px;
+    text-decoration: none;
+  }
+  .my-header a:hover, .my-header a.active {
+    border-bottom: 7px solid #27bdbe;
+  }
 </style>
 {% endblock %}
 {% block below_container %}
-  <h1>hello</h1>
+  <div class="my-header">
+    <h1 class="font-special">My Welree</h1>
+    <a href="#" class="active">IdeaBooks</a>
+    <a href="#">Style Me</a>
+    <a href="#">Likes</a>
+    <a href="#">Community</a>
+    <a href="{{ url("settings") }}">Profile</a>
+  </div>
 {% endblock %}
 {% block extra_js %}
 {% endblock %}

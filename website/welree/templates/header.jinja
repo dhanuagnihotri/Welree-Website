@@ -47,7 +47,7 @@
           <ul class="nav navbar-nav pull-right logged-out nav-text">
           </ul>
           <ul class="nav navbar-nav navbar-right">
-          <li>     
+          <li>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
               <span>COMMUNITY</span>
               <span class="caret"></span>
@@ -70,7 +70,7 @@
                   <li><a href="{{ url("login") }}">Log In</a></li>
                 {% else %}
                   {% if request.user.is_designer %}
-                      <li><a href="#">My Collections</a></li>
+                      <li><a href="{{ url("my") }}">My Collections</a></li>
                   {% else %}
                       <li><a href="#">My IdeaBooks</a></li>
                       <li><a href="#">My Jewel Box</a></li>
