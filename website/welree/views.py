@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, JsonResponse, HttpResponseForbidden, HttpResponseServerError
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.views.decorators.http import require_POST
 
 from haystack.query import SearchQuerySet
 from haystack.utils import Highlighter
@@ -68,16 +69,6 @@ def logout(request):
     logout_user(request)
     return redirect("home")
 
-@login_required
-def settings(request):
-    profile_form = ProfileForm(instance=request.user)
-    if request.method == "POST":
-        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user)
-        if profile_form.is_valid():
-            profile_form.save()
-            messages.success(request, "You've successfully updated your profile!")
-    return r2r("settings.jinja", request, locals())
-
 def signup(request):
     usermodel = get_user_model()
     signup_form = SignupForm()
@@ -118,6 +109,14 @@ def profile(request, pk):
 @login_required
 def my(request):
     collections = request.user.collections.all()
+
+    profile_form = ProfileForm(instance=request.user)
+    if request.method == "POST":
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, 'You\'ve successfully updated your profile!')
+
     return r2r('my.jinja', request, locals())
 
 def search(request):

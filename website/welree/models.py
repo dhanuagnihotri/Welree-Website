@@ -15,7 +15,8 @@ MARKDOWN_ALLOWED = """<a href="http://daringfireball.net/projects/markdown/synta
 class CustomUser(AbstractUser):
     is_designer = models.BooleanField(default=False, verbose_name="I'm a jewelry designer", help_text="We'll use this to customize your experience on Welree.")
     email_confirmed = models.BooleanField(default=False)
-    bio = MarkupField(default="", markup_type="markdown", help_text=MARKDOWN_ALLOWED)
+    bio = MarkupField(default="", markup_type="markdown", help_text=MARKDOWN_ALLOWED, blank=True, null=True)
+    photo = SorlImageField(upload_to="profiles", blank=True, null=True)
 
     def email_user(self, subject, message, from_email=None, ignore_confirmed=False):
         if not (ignore_confirmed or self.email_confirmed):

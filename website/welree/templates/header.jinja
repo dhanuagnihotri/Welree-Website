@@ -69,16 +69,10 @@
                   <li><a href="{{ url("signup") }}">Sign Up</a></li>
                   <li><a href="{{ url("login") }}">Log In</a></li>
                 {% else %}
-                  {% if request.user.is_designer %}
-                      <li><a href="{{ url("my") }}">My Collections</a></li>
-                  {% else %}
-                      <li><a href="#">My IdeaBooks</a></li>
-                      <li><a href="#">My Jewel Box</a></li>
-                  {% endif %}
+                  <li><a href="{{ url("my") }}">My Welree</a></li>
                   <li class="divider"></li>
                   <li><a href="{{ url("designer_upload") if request.user.is_designer else url("consumer_upload") }}">Upload Photos</a></li>
                   <li class="divider"></li>
-                  <li><a href="{{ url("settings") }}">Profile</a></li>
                   <li><a href="/logout/">Sign out</a></li>
                 {% endif %}
               </ul>

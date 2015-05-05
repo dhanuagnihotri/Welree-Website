@@ -40,7 +40,7 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = models.CustomUser
-        fields = ['password1', 'password2', 'is_designer']
+        fields = ['first_name', 'last_name', 'email', 'bio', 'photo', 'password1', 'password2', 'is_designer']
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)

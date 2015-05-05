@@ -145,11 +145,6 @@ class welreeTests(ExtendedTestCase):
 
         self.get('/admin/welree/designeritem/')
 
-    def test_settings(self):
-        self.assertStatus(302, '/settings/')
-        create_and_login_user(self)
-        self.assertStatus(200, '/settings/')
-
     def test_home(self):
         self.assertStatus(200, '/')
 
