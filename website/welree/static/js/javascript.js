@@ -166,4 +166,3 @@ $(function() {
         window.location = '/search/?selected_facets='+facet+'_exact:"'+encodeURIComponent(value)+'";'
     });
 })
-

@@ -29,6 +29,7 @@
       color: #27bdbe;
   }
 </style>
+<link href="/static/css/jssor.css" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block below_container %}
   <p class="text-error">{{ error_msg }}</p>
@@ -77,7 +78,9 @@
     </div>
   </div>
 {% endblock %}
-{% block extra_js %}<script>
+{% block extra_js %}
+<script src="/static/js/jssor.js"></script>
+<script>
   $(function() {
     $('.my-header a.tab').on('click', function(e) {
       e.preventDefault();
@@ -88,5 +91,7 @@
         $(target).fadeIn(300).addClass('active');
       });
     });
+    jssor_slider1_starter('slider1_container');
   });
-</script>{% endblock %}
+</script>
+{% endblock %}
