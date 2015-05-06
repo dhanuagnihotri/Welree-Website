@@ -55,6 +55,11 @@
             <p>{{ collection.description }}</p>
           </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ macros.slider(collections) }}
+            </div>
+        </div>
       {% else %}
         You don't currently have any collections. Create one!
       {% endif %}
