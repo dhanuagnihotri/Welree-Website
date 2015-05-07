@@ -196,7 +196,7 @@ class JewelryItemResource(OwnerModelResource):
         return bundle
 
 
-class UserResource(ModelResource):
+class UserResource(MultipartResource, ModelResource):
     class Meta:
         queryset = get_user_model().objects.all()
         fields = ['first_name', 'last_name', 'email']
