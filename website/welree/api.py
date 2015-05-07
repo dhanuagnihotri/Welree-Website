@@ -317,11 +317,11 @@ class UserResource(ModelResource):
             return failure(self, request, 'No designer_id specified')
         try:
             designer = models.CustomUser.objects.get(id=int(designer_id))
-        except (ValueError, models.CustomerUser.DoesNotExist):
-            return failure(self, request, 'No designer matching designer_id "{}" found.'.format(designer_id))
+        except (ValueError, models.CustomUser.DoesNotExist):
+            return failure(self, request, 'No designer matching designer_id "{}" found'.format(designer_id))
 
         request.user.following.add(designer)
-        return success()
+        return success(self, request)
 
 def failure(inst, request, reason):
     return inst.create_response(request, {'success': False, 'reason': reason})

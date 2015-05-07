@@ -107,6 +107,23 @@ class welreeApiTests(ExtendedTestCase):
         self.assertEquals(response, {'redirect': '/collection/2/bar/', 'success': True})
         self.assertEquals(list(collection2.items.all()), [models.JewelryItem.objects.first()])
 
+    def test_follow(self):
+        designer = create_and_login_user(self, is_designer=True)
+        user = create_and_login_user(self)
+        self.assertItemsEqual(user.following.all(), [])
+
+        response = self.api_post('/api/v1/user/follow/', {})
+        self.assertEquals(response, {'success': False, 'reason': 'No designer_id specified'})
+        self.assertItemsEqual(user.following.all(), [])
+
+        response = self.api_post('/api/v1/user/follow/', {'designer_id': 'cats'})
+        self.assertEquals(response, {'success': False, 'reason': 'No designer matching designer_id "cats" found'})
+        self.assertItemsEqual(user.following.all(), [])
+
+        response = self.api_post('/api/v1/user/follow/', {'designer_id': designer.id})
+        self.assertEquals(response, {'success': True})
+        self.assertItemsEqual(user.following.all(), [designer])
+
 class welreeTests(ExtendedTestCase):
     def setUp(self):
         ExtendedTestCase.setUp(self)
