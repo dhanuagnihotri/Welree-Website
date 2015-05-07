@@ -9,10 +9,17 @@
         <div class="row">
             <div class="col-lg-6">
                 {{ user.full_name }}
-                <form class="form-tastypie" method="post" action="/api/v1/user/follow/">
-                  <input type="hidden" value="{{ user.id }}" name="designer_id">
-                  <input type="submit" value="Follow" class="btn btn-primary pull-right">
-                </form>
+                {% if not following %}
+                  <form class="form-tastypie" action="/api/v1/user/follow/">
+                    <input type="hidden" value="{{ user.id }}" name="designer_id">
+                    <input type="submit" value="Follow" class="btn btn-primary pull-right">
+                  </form>
+                {% else %}
+                  <form class="form-tastypie" action="/api/v1/user/unfollow/">
+                    <input type="hidden" value="{{ user.id }}" name="designer_id">
+                    <input type="submit" value="Unfollow" class="btn btn-primary pull-right">
+                  </form>
+                {% endif %}
                 {% if user.photo %}
                     {{ sorlimgtag(user.photo, "482x482", crop="center") }}
                 {% else %}

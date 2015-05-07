@@ -242,6 +242,15 @@ class UserResource(MultipartResource, ModelResource):
                     "designer_id": {"type": "string", "required": True},
                 }
             },
+            {
+                "name": "unfollow",
+                "http_method": "POST",
+                "description": "unfollow a designer",
+                "resource_type": "list",
+                "fields": {
+                    "designer_id": {"type": "string", "required": True},
+                }
+            },
         ]
 
     def prepend_urls(self):
@@ -258,6 +267,9 @@ class UserResource(MultipartResource, ModelResource):
             url(r'^(?P<resource_name>%s)/follow%s$' %
                 (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('follow'), name='api_follow'),
+            url(r'^(?P<resource_name>%s)/unfollow%s$' %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('unfollow'), name='api_unfollow'),
         ]
 
     def login(self, request, **kwargs):
@@ -321,6 +333,21 @@ class UserResource(MultipartResource, ModelResource):
             return failure(self, request, 'No designer matching designer_id "{}" found'.format(designer_id))
 
         request.user.following.add(designer)
+        return success(self, request)
+
+    def unfollow(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+        data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
+
+        designer_id = data.get('designer_id')
+        if designer_id is None:
+            return failure(self, request, 'No designer_id specified')
+        try:
+            designer = models.CustomUser.objects.get(id=int(designer_id))
+        except (ValueError, models.CustomUser.DoesNotExist):
+            return failure(self, request, 'No designer matching designer_id "{}" found'.format(designer_id))
+
+        request.user.following.remove(designer)
         return success(self, request)
 
 def failure(inst, request, reason):

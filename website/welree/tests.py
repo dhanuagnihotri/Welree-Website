@@ -124,6 +124,10 @@ class welreeApiTests(ExtendedTestCase):
         self.assertEquals(response, {'success': True})
         self.assertItemsEqual(user.following.all(), [designer])
 
+        response = self.api_post('/api/v1/user/unfollow/', {'designer_id': designer.id})
+        self.assertEquals(response, {'success': True})
+        self.assertItemsEqual(user.following.all(), [])
+
 class welreeTests(ExtendedTestCase):
     def setUp(self):
         ExtendedTestCase.setUp(self)

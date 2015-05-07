@@ -103,6 +103,7 @@ def collection(request, coll_pk):
 
 def profile(request, pk):
     user = get_object_or_404(models.CustomUser, pk=pk)
+    following = user in request.user.following.all()
     collections = [c.annotated() for c in user.collections.all()[:10]]
     return r2r('{}/profile.jinja'.format('designer' if user.is_designer else 'consumer'), request, locals())
 
