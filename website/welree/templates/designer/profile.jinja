@@ -2,13 +2,35 @@
 {% import "macros.jinja" as macros %}
 {% block extra_css %}
 <style type="text/css">
+.profile-pic {
+  height: 482px;
+  width: 482px;
+  margin-right: 10px;
+}
+.profile-pic img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+}
+.profile-pic .name {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+}
+.profile-pic .follow {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
 </style>
 {% endblock %}
 {% block below_container %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-6">
-                {{ user.full_name }}
+            <div class="col-lg-6 profile-pic">
+              <div class="name">{{ user.full_name }}</div>
+              <div class="follow">
                 {% if not following %}
                   <form class="form-tastypie" action="/api/v1/user/follow/">
                     <input type="hidden" value="{{ user.id }}" name="designer_id">
@@ -20,11 +42,12 @@
                     <input type="submit" value="Unfollow" class="btn btn-primary pull-right">
                   </form>
                 {% endif %}
-                {% if user.photo %}
-                    {{ sorlimgtag(user.photo, "482x482", crop="center") }}
-                {% else %}
-                    <img src="/static/img/person.svg.png" width="100%">
-                {% endif %}
+              </div>
+              {% if user.photo %}
+                  {{ sorlimgtag(user.photo, "482x482", crop="center") }}
+              {% else %}
+                  <img src="/static/img/person.svg.png" width="100%">
+              {% endif %}
             </div>
             <div class="col-lg-6 well">
                 <h4>About this {{ user.noun }}:</h4>
