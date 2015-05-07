@@ -17,6 +17,7 @@ class CustomUser(AbstractUser):
     email_confirmed = models.BooleanField(default=False)
     bio = MarkupField(default="", markup_type="markdown", help_text=MARKDOWN_ALLOWED, blank=True, null=True)
     photo = SorlImageField(upload_to="profiles", blank=True, null=True)
+    following = models.ManyToManyField('self', related_name="followers")
 
     def email_user(self, subject, message, from_email=None, ignore_confirmed=False):
         if not (ignore_confirmed or self.email_confirmed):
@@ -136,6 +137,9 @@ class JewelryCollection(models.Model):
     name = models.CharField(max_length=63)
     description = models.TextField()
     items = models.ManyToManyField('welree.JewelryItem', related_name="collections")
+
+    added = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         unique_together = (('owner', 'name'),)

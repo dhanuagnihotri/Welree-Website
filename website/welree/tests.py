@@ -63,7 +63,8 @@ class welreeApiTests(ExtendedTestCase):
         response = self.api_post('/api/v1/collection/', {}, raise_errors=False)
         self.assertEquals(response, {'collection': {'kind': ['This field is required.'], 'name': ['This field is required.']}})
 
-        response = self.api_post('/api/v1/collection/', { 'name': 'foo', 'kind': models.JewelryCollection.KIND_DESIGNER }, raise_errors=False)
+        response = self.api_post('/api/v1/collection/', { 'name': 'foo', 'description': 'example', 'kind': models.JewelryCollection.KIND_DESIGNER }, raise_errors=False)
+        self.assertEquals(models.JewelryCollection.objects.first().description, 'example')
         self.assertEquals(1, models.JewelryCollection.objects.count())
         self.assertEquals(response['id'], 1)
 

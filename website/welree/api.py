@@ -232,7 +232,16 @@ class UserResource(ModelResource):
                     "last_name": {"type": "string", "required": True},
                     "password": {"type": "string", "required": True},
                 }
-            }
+            },
+            {
+                "name": "follow",
+                "http_method": "POST",
+                "description": "follow a designer",
+                "resource_type": "list",
+                "fields": {
+                    "designer_id": {"type": "string", "required": True},
+                }
+            },
         ]
 
     def prepend_urls(self):
@@ -246,6 +255,9 @@ class UserResource(ModelResource):
             url(r'^(?P<resource_name>%s)/signup%s$' %
                 (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('signup'), name='api_signup'),
+            url(r'^(?P<resource_name>%s)/follow%s$' %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('follow'), name='api_follow'),
         ]
 
     def login(self, request, **kwargs):
@@ -293,12 +305,30 @@ class UserResource(ModelResource):
                     'user_id': user.id,
             }
         else:
-            response = {
-                    'success': False,
-                    'reason': signup_form.errors,
-            }
+            return failure(self, request, signup_form.errors)
         return self.create_response(request, response)
 
+    def follow(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+        data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
+
+        designer_id = data.get('designer_id')
+        if designer_id is None:
+            return failure(self, request, 'No designer_id specified')
+        try:
+            designer = models.CustomUser.objects.get(id=int(designer_id))
+        except (ValueError, models.CustomerUser.DoesNotExist):
+            return failure(self, request, 'No designer matching designer_id "{}" found.'.format(designer_id))
+
+        request.user.following.add(designer)
+        return success()
+
+def failure(inst, request, reason):
+    return inst.create_response(request, {'success': False, 'reason': reason})
+
+def success(inst, request, **kwargs):
+    kwargs['success'] = True
+    return inst.create_response(request, kwargs)
 
 v1.register(UserResource())
 v1.register(JewelryItemResource())
