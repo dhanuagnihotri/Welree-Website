@@ -110,6 +110,8 @@ def profile(request, pk):
 @login_required
 def my(request):
     collections = request.user.collections.all()
+    followingcollections = models.JewelryCollection.objects.filter(owner__in=request.user.following.all()).order_by('-added')
+    followingcollections = [c.annotated() for c in followingcollections]
 
     profile_form = ProfileForm(instance=request.user)
     if request.method == "POST":

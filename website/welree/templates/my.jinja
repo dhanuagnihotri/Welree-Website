@@ -14,7 +14,7 @@
   .my-header a, .my-header a:hover, .my-header a:visited {
     font-size: 1.2em;
     font-weight: bold;
-    color: #999;
+    color: #999 !important;
     margin-left: 20px;
     text-decoration: none;
   }
@@ -25,11 +25,11 @@
     padding: 10px;
     background-color: #ccc;
   }
-  .tab-pane a {
+  .collection-description a {
       color: #27bdbe;
   }
 </style>
-<link href="/static/css/jssor.css" rel="stylesheet" type="text/css">
+{#<link href="/static/css/jssor.css" rel="stylesheet" type="text/css">#}
 {% endblock %}
 {% block below_container %}
   <p class="text-error">{{ error_msg }}</p>
@@ -51,7 +51,7 @@
               {{ sorlimgtag(item.primary_photo, "190x190", crop="center") }}
             {% endfor %}
           </div>
-          <div class="col-md-5 right">
+          <div class="col-md-5 right collection-description">
             <h1>{{ collection.name }}</h1>
             <p>{{ collection.description }}</p>
           </div>
@@ -67,7 +67,10 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="styleme">Style Me</div>
     <div role="tabpanel" class="tab-pane" id="likes">Likes</div>
-    <div role="tabpanel" class="tab-pane" id="community">Community</div>
+    <div role="tabpanel" class="tab-pane" id="community">
+      <p>New collections from designers you follow will appear here</p>
+      {{ macros.collection_rows(followingcollections) }}
+    </div>
     <div role="tabpanel" class="tab-pane" id="profile">
         <h4>Update your profile:</h4>
         <form method="POST" enctype="multipart/form-data" autocomplete="off">{% csrf_token %}
