@@ -26,10 +26,12 @@
     background-color: #ccc;
   }
   .collection-description a {
-      color: #27bdbe;
+    color: #27bdbe;
+  }
+  .col-md-12 {
+    padding-right: 0px;
   }
 </style>
-{#<link href="/static/css/jssor.css" rel="stylesheet" type="text/css">#}
 {% endblock %}
 {% block below_container %}
   <p class="text-error">{{ error_msg }}</p>
@@ -44,7 +46,11 @@
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="ideabooks">
       {% if collections %}
-        {% set collection = collections[0] %}
+        <div class="row">
+            <div class="col-md-12">
+                {{ macros.slider(collections) }}
+            </div>
+        </div>
         <div class="row">
           <div class="col-md-7">
             {% for item in list(collection.items.all())*3 %}
@@ -55,11 +61,6 @@
             <h1>{{ collection.name }}</h1>
             <p>{{ collection.description }}</p>
           </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                {{ macros.slider(collections) }}
-            </div>
         </div>
       {% else %}
         You don't currently have any collections. Create one!
@@ -82,7 +83,6 @@
   </div>
 {% endblock %}
 {% block extra_js %}
-<script src="/static/js/jssor.js"></script>
 <script>
   $(function() {
     $('.my-header a.tab').on('click', function(e) {
@@ -94,7 +94,6 @@
         $(target).fadeIn(300).addClass('active');
       });
     });
-    jssor_slider1_starter('slider1_container');
   });
 </script>
 {% endblock %}

@@ -109,7 +109,13 @@ def profile(request, pk):
 
 @login_required
 def my(request):
-    collections = request.user.collections.all()
+    collections = [c.annotated() for c in request.user.collections.all()]
+    try:
+        cid = int(request.GET['collection'])
+        collection = request.user.collections.get(id=cid)
+    except:
+        collection = collections[0] if collections else None
+
     followingcollections = models.JewelryCollection.objects.filter(owner__in=request.user.following.all()).order_by('-added')
     followingcollections = [c.annotated() for c in followingcollections]
 
