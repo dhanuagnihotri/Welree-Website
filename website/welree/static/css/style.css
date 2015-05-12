@@ -280,8 +280,7 @@ div.popover li a {
     margin-top: 20px;
 }
 div.collection-slider {
-  width: 100%;
-  overflow: scroll;
+  width: 99999px;
   margin-bottom: 20px;
   background-color: #ccc;
   padding: 5px;

@@ -109,6 +109,7 @@ def profile(request, pk):
 
 @login_required
 def my(request):
+    form_collection_new = CollectionForm(initial={'kind': models.JewelryCollection.KIND_IDEABOOK})
     collections = [c.annotated() for c in request.user.collections.all()]
     try:
         cid = int(request.GET['collection'])
