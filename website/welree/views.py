@@ -42,6 +42,10 @@ def events(request):
     events = models.Event.objects.all()
     return r2r("events.jinja", request, locals())
 
+def editorial(request):
+    editorials = models.Editorial.objects.all()
+    return r2r("editorial.jinja", request, locals())
+
 def login(request):
     def failure(msg):
         messages.error(request, msg)

@@ -57,7 +57,7 @@
             </ul>
           </li>
           <li><a href="#">DESIGNERS</a></li>
-          <li><a href="#">EDITORIAL</a></li>
+          <li><a href="{{ url("editorial") }}">EDITORIAL</a></li>
           <li class="dropdown pull-right">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                 <span class="glyphicon glyphicon-{{ "sunglasses" if request.user.is_designer else "user" }} " aria-hidden="true"></span>
