@@ -166,6 +166,10 @@ def search(request):
         if not model or model == tag:
             facets[tag] += 1
 
+    # An empty search for designers should list them alphabetized.
+    if model_friendly == 'designer' and not query:
+        results = sorted(results, key=lambda r: r.last_name)
+
     return r2r("search_results.jinja", request, locals())
 
 @login_required
