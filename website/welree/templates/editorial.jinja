@@ -1,11 +1,11 @@
 {% extends "base.jinja" %}
 {% import "macros.jinja" as macros %}
 {% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="/static/css/upload.css" />
 <style type="text/css">
 
     div.editorials {
         margin-top: 10px;
+        margin-bottom: 20px;
     }
     div.editorials a {
         color: white;
@@ -62,7 +62,6 @@
     }
 
 </style>
-
 {% endblock %}
 
 {% block below_container %}
@@ -80,4 +79,4 @@
             </a>
         {% endfor %}
     </div>
-{% endblock %}                        
+{% endblock %}
