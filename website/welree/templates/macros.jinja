@@ -97,7 +97,7 @@
                   <div class="carousel-caption">
                     <h4>{{ item.description|truncatechars(80) }}</h4>
                   </div>
-                  <div class="carousel-designer font-special">{{ collection.owner.full_name }}</div>
+                  <div class="carousel-designer font-special"><a href="{{ collection.owner.get_absolute_url() }}">{{ collection.owner.full_name }}</a></div>
               </a>
           </div>
       {% endfor %}

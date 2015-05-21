@@ -221,6 +221,13 @@ a:hover {
     transform: translateY(-50%);
 }
 
+.carousel .carousel-control {
+  background-image: initial !important;
+  top: 50%;
+  bottom: auto;
+  margin-top: -25px;
+}
+
 .carousel .chevron {
     height: 50px;
     width: 50px;
@@ -229,6 +236,8 @@ a:hover {
     margin-top: -25px;
     background-size: 100%;
 }
+.carousel .chevron {
+}
 .carousel .chevron-left {
     background-image: url('/static/img/chevron-left.png');
     left: 30px;
@@ -236,6 +245,10 @@ a:hover {
 .carousel .chevron-right {
     background-image: url('/static/img/chevron-right.png');
     right: 30px;
+}
+
+.carousel .carousel-designer a:hover {
+  text-decoration: none;
 }
 .carousel .carousel-designer {
     position: absolute;
