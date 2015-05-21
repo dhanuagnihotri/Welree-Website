@@ -46,13 +46,13 @@ welree.wire_add_button = function(selector, item_getter, placement) {
     if (!welree.is_authenticated) {
       content = 'Please <a href="/login/">log in</a> to add items to your collections.';
     }
+    content += '<ul>'
     $.each(welree.user_collections, function(kind, names) {
-        content += '<span class="popover-category">' + kind + '</span><ul>'
         $.each(names, function(i, name) {
             content += '<li><a href="#" class="popover-collection-add" data-collection="'+name+'">' + name + '</a></li>'
         });
-        content += '</ul>'
     });
+    content += '</ul>'
     welree.popover(selector, 'Add to collection', content, placement);
     $('body').on('click', 'a.popover-collection-add', function(e) {
         e.preventDefault();
