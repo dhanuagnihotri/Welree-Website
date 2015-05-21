@@ -74,7 +74,10 @@
       {{ macros.collection_rows(followingcollections) }}
     </div>
     <div role="tabpanel" class="tab-pane" id="profile">
-        <h4>Update your profile:</h4>
+        <div class="clearfix">
+          <h4 class="pull-left">Update your profile:</h4>
+          <a href="{{ request.user.get_absolute_url() }}" class="pull-right btn btn-primary">View profile</a>
+        </div>
         <form method="POST" enctype="multipart/form-data" autocomplete="off">{% csrf_token %}
             <input style="display:none"><input type="password" style="display:none">
             {{ profile_form|as_bootstrap() }}
