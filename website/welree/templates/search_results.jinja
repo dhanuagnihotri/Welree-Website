@@ -149,7 +149,7 @@
 {% block extra_js %}
     <script>
         $(function() {
-            welree.wire_add_button('a.action-add', function() { return $('a.action-add').data('item-id'); }, 'left');
+            welree.wire_action_buttons(function() { return $('a.action-add').data('item-id'); }, 'left');
         });
     </script>
 {% endblock %}

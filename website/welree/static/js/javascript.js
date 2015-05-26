@@ -41,7 +41,9 @@ welree.popover = function(selector, title, content, placement) {
     }).on('click', function(e) { e.preventDefault(); });
 }
 
-welree.wire_add_button = function(selector, item_getter, placement) {
+welree.wire_action_buttons = function(item_getter, placement) {
+    var selector_add = 'a.action-add';
+    var selector_like = 'a.action-like';
     var content = '';
     if (!welree.is_authenticated) {
       content = 'Please <a href="/login/">log in</a> to add items to your collections.';
@@ -53,12 +55,11 @@ welree.wire_add_button = function(selector, item_getter, placement) {
         });
     });
     content += '</ul>'
-    welree.popover(selector, 'Add to collection', content, placement);
+    welree.popover(selector_add, 'Add to collection', content, placement);
     $('body').on('click', 'a.popover-collection-add', function(e) {
         e.preventDefault();
         var collection = $(this).data('collection');
         var item = item_getter();
-        console.log('item', item);
         var data = {'collection': collection, 'item': item};
         $.ajax({
             type: 'POST',
@@ -72,6 +73,11 @@ welree.wire_add_button = function(selector, item_getter, placement) {
             console.log('fail', data, status);
             alert('Failed to add this item to your collection.');
         });
+    });
+    $(selector_like).on('click', function(e) {
+        e.preventDefault();
+        var item = item_getter();
+        console.log('liking ' + item + '...');
     });
 }
 welree.tastypie_form_callback = function(e) {

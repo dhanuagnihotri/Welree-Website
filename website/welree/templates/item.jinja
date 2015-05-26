@@ -58,7 +58,7 @@
     {% include "disqus.jinja" %}
     <script>
         $(function() {
-            welree.wire_add_button('a.action-add', function() { return $('a.action-add').data('item-id'); });
+            welree.wire_action_buttons(function() { return $('a.action-add').data('item-id'); });
         });
     </script>
 {% endblock %}
