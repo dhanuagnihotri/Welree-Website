@@ -23,6 +23,7 @@
             welree.facets = {{ json(welree_facets) }};
             welree.user_collections = {{ json(user_collections) }};
             welree.is_authenticated = {{ json(request.user.is_authenticated()) }};
+            welree.likes = {{ json(likes) }};
         </script>
     </head>
     <body class="{% block body_class %}{% endblock %}">

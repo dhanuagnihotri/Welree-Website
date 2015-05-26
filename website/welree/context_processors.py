@@ -19,7 +19,7 @@ def processor(request):
         'zip': zip,
         'list': list,
         'disqus_shortname': settings.DISQUS_SHORTNAME,
-        'json': lambda s: Markup(cjson.encode(s)),
+        'json': lambda o: Markup(cjson.encode(o)),
         'welree_facets': collections.OrderedDict((
             ('type', ['Rings', 'Necklaces & Pendants', 'Bracelets', 'Earrings', 'Brooches']),
             ('style', ['Modern', 'Contemporary', 'Traditional', 'Vintage']),
@@ -32,6 +32,8 @@ def processor(request):
     if request.user.is_authenticated():
         for coll in request.user.collections.all():
             context['user_collections'][coll.get_kind_display()].append(coll.name)
-        context['likes'] = request.user.likes.values_list('item_id', flat=True)
+        context['likes'] = list(request.user.likes.values_list('item_id', flat=True))
+    else:
+        context['likes'] = []
     return context
 

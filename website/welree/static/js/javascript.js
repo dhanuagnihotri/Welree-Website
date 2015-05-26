@@ -41,6 +41,15 @@ welree.popover = function(selector, title, content, placement) {
     }).on('click', function(e) { e.preventDefault(); });
 }
 
+welree.like = function(button, liked) {
+  var heart = $(button).find('img');
+  if (liked) {
+    heart.attr('src', '/static/img/heart-active.png');
+  } else {
+    heart.attr('src', '/static/img/action-heart.png');
+  }
+};
+
 welree.wire_action_buttons = function(item_getter, placement) {
     var selector_add = 'a.action-add';
     var selector_like = 'a.action-like';
@@ -86,7 +95,7 @@ welree.wire_action_buttons = function(item_getter, placement) {
             contentType: 'application/json',
             processData: false,
         }).done(function(data, status, xhr) {
-            window.location.reload(true);
+            welree.like(selector_like, true);
         }).fail(function(data, status) {
             console.log('fail', data, status);
             alert('Failed to like this item.');
