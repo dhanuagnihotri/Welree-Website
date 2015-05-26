@@ -158,7 +158,7 @@
                 $('.carousel').carousel('pause');
             });
 
-            welree.wire_action_buttons(function() { return $('#top-carousel .item.active').data('item-id'); });
+            welree.wire_action_buttons(function() { return $('#top-carousel .item.active'); });
 
             $('a.action-info').on('click', function(e) {
                 e.preventDefault();

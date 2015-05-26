@@ -24,7 +24,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6">
-                {{ macros.individual_carousel(item) }}
+                {{ macros.individual_carousel(collection, item) }}
             </div>
             <div class="col-lg-6 well">
                 <h4>Details:</h4>
@@ -58,7 +58,7 @@
     {% include "disqus.jinja" %}
     <script>
         $(function() {
-            welree.wire_action_buttons(function() { return $('a.action-add').data('item-id'); });
+            welree.wire_action_buttons(function() { return $('a.action-add'); });
         });
     </script>
 {% endblock %}

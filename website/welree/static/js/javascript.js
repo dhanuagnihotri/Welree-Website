@@ -59,7 +59,7 @@ welree.wire_action_buttons = function(item_getter, placement) {
     $('body').on('click', 'a.popover-collection-add', function(e) {
         e.preventDefault();
         var collection = $(this).data('collection');
-        var item = item_getter();
+        var item = item_getter().data('item-id');
         var data = {'collection': collection, 'item': item};
         $.ajax({
             type: 'POST',
@@ -76,8 +76,9 @@ welree.wire_action_buttons = function(item_getter, placement) {
     });
     $(selector_like).on('click', function(e) {
         e.preventDefault();
-        var item = item_getter();
-        console.log('liking ' + item + '...');
+        var item = item_getter().data('item-id');
+        var collection = item_getter().data('collection-id');
+        console.log('liking ' + item + ' in ' + collection + '...');
     });
 }
 welree.tastypie_form_callback = function(e) {

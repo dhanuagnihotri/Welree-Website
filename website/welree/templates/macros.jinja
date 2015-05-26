@@ -48,7 +48,7 @@
   </div>
 {% endmacro %}
 
-{% macro individual_carousel(jewelryitem, w=580, h=400) %}
+{% macro individual_carousel(collection, jewelryitem, w=580, h=400) %}
 <div>
     <div id="top-carousel" class="carousel slide">
       <ol class="carousel-indicators">
@@ -75,7 +75,7 @@
       </a>
       <div class="carousel-actions">
         <a href="#" class="action-like"><img src="/static/img/action-heart.png"></a>
-        <a href="#" class="action-add" data-item-id="{{ jewelryitem.id }}"><img src="/static/img/action-add.png"></a>
+        <a href="#" class="action-add" data-collection-id="{{ collection.id }}" data-item-id="{{ jewelryitem.id }}"><img src="/static/img/action-add.png"></a>
       </div>
     </div>
 </div>
@@ -88,7 +88,7 @@
       {% for item in jewelryitems %}
           {% set collection = item.collections.first() %}
           {% set url = item.get_absolute_collection_url(collection) %}
-          <div class="item {{ "active" if loop.first else "" }}" data-item-id="{{ item.id }}" data-item-url="{{ url }}">
+              <div class="item {{ "active" if loop.first else "" }}" data-collection-id="{{ collection.id }}" data-item-id="{{ item.id }}" data-item-url="{{ url }}">
               <div class="carousel-footer"></div>
               <a href="{{ url }}">
                   {{ sorlimgtag(item.primary_photo, "%sx%s"%(w,h), crop="center") }}
