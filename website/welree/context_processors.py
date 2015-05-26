@@ -32,5 +32,6 @@ def processor(request):
     if request.user.is_authenticated():
         for coll in request.user.collections.all():
             context['user_collections'][coll.get_kind_display()].append(coll.name)
+        context['likes'] = request.user.likes.values_list('item_id', flat=True)
     return context
 

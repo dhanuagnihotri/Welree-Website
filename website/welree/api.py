@@ -27,7 +27,7 @@ def get_collection(request, data):
         lookup = {'id': int(collection)}
     except ValueError:
         lookup = {'name': collection}
-    return models.JewelryCollection.objects.get(owner=request.user, **lookup)
+    return models.JewelryCollection.objects.get(**lookup)
 
 # https://github.com/django-tastypie/django-tastypie/issues/152
 class ModelFormValidation(FormValidation):
@@ -170,6 +170,8 @@ class JewelryCollectionResource(OwnerModelResource):
         self.method_check(request, allowed=['post'])
         data = self.deserialize(request, request.body)
         collection_obj = get_collection(request, data)
+        if collection_obj.owner != request.user:
+            return self.create_response(request, {'success': False, 'reason': 'unauthorized'}, HttpForbidden)
         item_id = data.get('item', '')
         collection_obj.items.add(models.JewelryItem.objects.get(id=item_id))
         messages.success(request, "Your jewelry item has been added to your collection.")

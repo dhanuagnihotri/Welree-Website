@@ -78,7 +78,19 @@ welree.wire_action_buttons = function(item_getter, placement) {
         e.preventDefault();
         var item = item_getter().data('item-id');
         var collection = item_getter().data('collection-id');
-        console.log('liking ' + item + ' in ' + collection + '...');
+        var data = {'collection': collection, 'item': item};
+        $.ajax({
+            type: 'POST',
+            url: '/api/v1/jewelry/like/',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            processData: false,
+        }).done(function(data, status, xhr) {
+            window.location.reload(true);
+        }).fail(function(data, status) {
+            console.log('fail', data, status);
+            alert('Failed to like this item.');
+        });
     });
 }
 welree.tastypie_form_callback = function(e) {

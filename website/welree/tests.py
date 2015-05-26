@@ -113,6 +113,8 @@ class welreeApiTests(ExtendedTestCase):
         item = models.JewelryItem.objects.create(owner=user, primary_photo='/Users/mrooney/Desktop/passions.jpg', description='foo')
         collection.items.add(item)
         self.assertEquals(0, models.JewelryLike.objects.count())
+        response = self.get('/')
+        self.assertItemsEqual(response.context['likes'], [])
 
         response = self.api_post('/api/v1/jewelry/like/', {'collection': collection.id, 'item': item.id})
         self.assertEquals(response, {'success': True})
@@ -121,6 +123,8 @@ class welreeApiTests(ExtendedTestCase):
         self.assertEquals(like.owner, user)
         self.assertEquals(like.item, item)
         self.assertEquals(like.collection, collection)
+        response = self.get('/')
+        self.assertItemsEqual(response.context['likes'], [like.item_id])
 
     def test_follow(self):
         designer = create_and_login_user(self, is_designer=True)

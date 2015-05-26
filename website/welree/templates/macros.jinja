@@ -48,7 +48,7 @@
   </div>
 {% endmacro %}
 
-{% macro individual_carousel(collection, jewelryitem, w=580, h=400) %}
+{% macro individual_carousel(likes, collection, jewelryitem, w=580, h=400) %}
 <div>
     <div id="top-carousel" class="carousel slide">
       <ol class="carousel-indicators">
@@ -74,7 +74,11 @@
         <span class="sr-only">Next</span>
       </a>
       <div class="carousel-actions">
-        <a href="#" class="action-like"><img src="/static/img/action-heart.png"></a>
+        {% if jewelryitem.id in likes %}
+          <a href="#" class="action-unlike"><img src="/static/img/heart-active.png"></a>
+        {% else %}
+          <a href="#" class="action-like"><img src="/static/img/action-heart.png"></a>
+        {% endif %}
         <a href="#" class="action-add" data-collection-id="{{ collection.id }}" data-item-id="{{ jewelryitem.id }}"><img src="/static/img/action-add.png"></a>
       </div>
     </div>
