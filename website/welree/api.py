@@ -20,6 +20,14 @@ from welree import models, forms
 
 v1 = Api('v1')
 
+def get_collection(request, data):
+    collection = data.get('collection', '')
+    # Allow adding by ID or name, since names are enforced to be unique per user.
+    try:
+        lookup = {'id': int(collection)}
+    except ValueError:
+        lookup = {'name': collection}
+    return models.JewelryCollection.objects.get(owner=request.user, **lookup)
 
 # https://github.com/django-tastypie/django-tastypie/issues/152
 class ModelFormValidation(FormValidation):
@@ -161,14 +169,8 @@ class JewelryCollectionResource(OwnerModelResource):
     def add(self, request, **kwargs):
         self.method_check(request, allowed=['post'])
         data = self.deserialize(request, request.body)
-        collection = data.get('collection', '')
-        # Allow adding by ID or name, since names are enforced to be unique per user.
-        try:
-            lookup = {'id': int(collection)}
-        except ValueError:
-            lookup = {'name': collection}
+        collection_obj = get_collection(request, data)
         item_id = data.get('item', '')
-        collection_obj = models.JewelryCollection.objects.get(owner=request.user, **lookup)
         collection_obj.items.add(models.JewelryItem.objects.get(id=item_id))
         messages.success(request, "Your jewelry item has been added to your collection.")
         return self.create_response(request, {'success': True, 'redirect': collection_obj.get_absolute_url()})
@@ -186,6 +188,20 @@ class JewelryItemResource(OwnerModelResource):
         @property
         def validation(self):
             return ModelFormValidation(form_class=forms.TastyJewelryItemForm, resource=JewelryItemResource)
+        extra_actions = [
+            {
+                "name": "like",
+                "http_method": "POST",
+                "description": "like a jewelry item",
+                "resource_type": "list",
+                "fields": {
+                    "collection": {"type": "string", "required": True},
+                    "item": {"type": "string", "required": True},
+                }
+            }
+        ]
+
+
 
     def obj_create(self, bundle, request=None, **kwargs):
         collection_id = bundle.data.get('collection')
@@ -195,6 +211,21 @@ class JewelryItemResource(OwnerModelResource):
             bundle.data['coll_id'] = collection_id
         return bundle
 
+    def prepend_urls(self):
+        return [
+            url(r'^(?P<resource_name>%s)/like%s$' %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('like'), name='api_likecollectionitem'),
+        ]
+
+    def like(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+        data = self.deserialize(request, request.body)
+        collection_obj = get_collection(request, data)
+        item_id = data.get('item', '')
+        item_obj = models.JewelryItem.objects.get(id=item_id)
+        models.JewelryLike.objects.create(owner=request.user, collection=collection_obj, item=item_obj)
+        return self.create_response(request, {'success': True})
 
 class UserResource(MultipartResource, ModelResource):
     class Meta:

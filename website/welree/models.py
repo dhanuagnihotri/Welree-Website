@@ -108,6 +108,11 @@ class Event(models.Model):
     def __unicode__(self):
         return u"{} - {}".format(self.category, self.title)
 
+class JewelryLike(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="likes", db_index=True)
+    collection = models.ForeignKey('welree.JewelryCollection')
+    item = models.ForeignKey('welree.JewelryItem')
+
 class FeaturedCollection(models.Model):
     collection = models.ForeignKey('welree.JewelryCollection')
     order = models.PositiveIntegerField(default=0, blank=False, null=False)

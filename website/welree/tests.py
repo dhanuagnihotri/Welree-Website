@@ -107,6 +107,21 @@ class welreeApiTests(ExtendedTestCase):
         self.assertEquals(response, {'redirect': '/collection/2/bar/', 'success': True})
         self.assertEquals(list(collection2.items.all()), [models.JewelryItem.objects.first()])
 
+    def test_like(self):
+        user = create_and_login_user(self)
+        collection = models.JewelryCollection.objects.create(owner=user, kind=models.JewelryCollection.KIND_DESIGNER, name='foo')
+        item = models.JewelryItem.objects.create(owner=user, primary_photo='/Users/mrooney/Desktop/passions.jpg', description='foo')
+        collection.items.add(item)
+        self.assertEquals(0, models.JewelryLike.objects.count())
+
+        response = self.api_post('/api/v1/jewelry/like/', {'collection': collection.id, 'item': item.id})
+        self.assertEquals(response, {'success': True})
+        self.assertEquals(1, models.JewelryLike.objects.count())
+        like = models.JewelryLike.objects.first()
+        self.assertEquals(like.owner, user)
+        self.assertEquals(like.item, item)
+        self.assertEquals(like.collection, collection)
+
     def test_follow(self):
         designer = create_and_login_user(self, is_designer=True)
         user = create_and_login_user(self)
