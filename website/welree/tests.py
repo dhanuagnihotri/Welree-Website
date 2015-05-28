@@ -32,6 +32,8 @@ class welreeApiTests(ExtendedTestCase):
         self.assertEquals(response, {'success': True})
         response = self.api_get('/api/v1/user/logout/')
         self.assertEquals(response, {'success': True})
+        response = self.api_get('/api/v1/user/logout/', raise_errors=False)
+        self.assertEquals(response, {'success': False})
 
     def test_signup(self):
         self.assertStatus(405, '/api/v1/user/signup/')
@@ -146,6 +148,21 @@ class welreeApiTests(ExtendedTestCase):
         response = self.api_post('/api/v1/user/unfollow/', {'designer_id': designer.id})
         self.assertEquals(response, {'success': True})
         self.assertItemsEqual(user.following.all(), [])
+
+    """
+    def test_facebook_login_signup(self):
+        self.assertEquals(0, models.CustomUser.objects.count())
+
+        token = 'CAAV3SDTwTh8BAJ1x5JjZAmadOp19wXnlup5svQQtXbUvQGWeCCJsvPis7IALLb5wek7wXTpdBLGCn1XSAuubaYT4njAY0ZA8EDsOKss9cKs5mDZCf4bDHvnXQFeTkf4YR6hMYvOZBlQkoHlWmoO5ogtkjYLlL9YIHuBu3iBTYHf86LUDfKWzmXkzZCSLls8DcJO2dEJr1mW2rC3wzZAu2t'
+        response = self.api_post('/api/v1/social_sign_up/', {'provider': 'facebook', 'access_token': token})
+        self.assertEquals(1, models.CustomUser.objects.count())
+
+        response = self.api_post('/api/v1/social_sign_up/', {'provider': 'facebook', 'access_token': token})
+        self.assertEquals(1, models.CustomUser.objects.count())
+
+        response = self.api_get('/api/v1/user/logout/')
+        self.assertEquals(response, {'success': True})
+    """
 
 class welreeTests(ExtendedTestCase):
     def setUp(self):

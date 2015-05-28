@@ -44,7 +44,7 @@ class ExtendedTestCase(django.test.TestCase):
         client = client or cls.get_client(user)
         kwargs['HTTP_X_FORWARDED_PROTO'] = 'https' if https else 'http' # Simulates ELB
         response = getattr(client, verb.lower())(path, data=data, **kwargs)
-        if raise_errors and response.status_code not in [200, 302]:
+        if raise_errors and response.status_code not in [200, 201, 302]:
             raise NotOkay(response)
         return response
 

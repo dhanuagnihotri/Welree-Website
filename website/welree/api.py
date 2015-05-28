@@ -6,12 +6,14 @@ from django.core.exceptions import ImproperlyConfigured
 from django.db.models.fields.related import RelatedField
 from django.forms import ModelForm
 from django.forms.models import model_to_dict
+from social.apps.django_app.utils import load_strategy, load_backend
 from tastypie import fields
 from tastypie.api import Api
+from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization, DjangoAuthorization
 from tastypie.exceptions import Unauthorized
 from tastypie.http import HttpUnauthorized, HttpForbidden
-from tastypie.resources import ModelResource
+from tastypie.resources import BaseModelResource, ModelResource
 from tastypie.utils import trailing_slash
 from tastypie.validation import CleanedDataFormValidation, FormValidation
 import tastypie
@@ -383,6 +385,28 @@ class UserResource(MultipartResource, ModelResource):
         request.user.following.remove(designer)
         return success(self, request)
 
+class SocialSignUpResource(BaseModelResource):
+    class Meta:
+        queryset = get_user_model().objects.all()
+        allowed_methods = ['post']
+        authentication = Authentication()
+        authorization = Authorization()
+        resource_name = 'social_sign_up'
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        provider = bundle.data['provider']
+        access_token = bundle.data['access_token']
+
+        strategy = load_strategy()
+        backend = load_backend(strategy, provider, '/')
+        user = backend.do_auth(access_token)
+        if user and user.is_active:
+            bundle.obj = user
+            login(bundle.request, user)
+            return bundle
+        else:
+            raise BadRequest('Error authenticating user with this provider')
+
 def failure(inst, request, reason):
     return inst.create_response(request, {'success': False, 'reason': reason})
 
@@ -393,3 +417,4 @@ def success(inst, request, **kwargs):
 v1.register(UserResource())
 v1.register(JewelryItemResource())
 v1.register(JewelryCollectionResource())
+v1.register(SocialSignUpResource())
