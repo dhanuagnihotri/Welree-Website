@@ -279,6 +279,8 @@ if DEBUG:
 else:
     WEBSITE_URL = "http://dev.welree.com"
 
+DISQUS_SECRET_KEY = "UaIHspmVvrI3e0Qx0lungWUcchma4xt738aTUs3KrFwUUMkb2lnlGNco1bJXWZLI" if DEBUG else "OIouch7retta9dXKxrTw64RmepoPB6PlJ8KpUgzRiWHuH62ltpVmx2BsgDZ6jvOE"
+DISQUS_PUBLIC_KEY = "PzrHccuSRYo6f4ZwzTh3g88ZUDkWqPKsKwFsMGH2G46qWI6WhKuXC2dSWSfk4Cd1" if DEBUG else "gXbIO1RSYF9ezEXElmf1H9vNV8dxuKoGsTXTBZhNHadW4hWhuV457ARXVExtK9E6"
 DISQUS_SHORTNAME = "welreeapp" if not DEBUG else "welreelocal"
 
 HAYSTACK_CONNECTIONS = {

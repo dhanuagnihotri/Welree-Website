@@ -1,5 +1,9 @@
+import base64
 import cjson
 import collections
+import datetime
+import hashlib
+import hmac
 from django.conf import settings
 from jinja2 import Markup
 
@@ -27,12 +31,18 @@ def processor(request):
             ('material', ['Gold', 'Silver', 'Pearl', 'Gemstone', 'Beads', 'Aluminum', 'Copper', 'Stainless Steel', 'Titanium', 'Tungsten', 'Platinum']),
             ('occasion', ['Wedding', 'Party', 'Casual', 'Formal']),
         )),
-        'user_collections': collections.defaultdict(list)
+        'user_collections': collections.defaultdict(list),
+        'settings': settings,
     }
     if request.user.is_authenticated():
         for coll in request.user.collections.all():
             context['user_collections'][coll.get_kind_display()].append(coll.name)
         context['likes'] = list(request.user.likes.values_list('item_id', flat=True))
+
+        msg = base64.b64encode(cjson.encode({'id': request.user.id, 'username': request.user.username, 'email': request.user.email}))
+        timestamp = datetime.datetime.now().strftime('%s')
+        hmacsha1 = hmac.new(settings.DISQUS_SECRET_KEY, '{} {}'.format(msg, timestamp), hashlib.sha1).hexdigest()
+        context['remote_auth_s3'] = '{} {} {}'.format(msg, hmacsha1, timestamp)
     else:
         context['likes'] = []
     return context

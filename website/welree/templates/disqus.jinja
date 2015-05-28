@@ -1,4 +1,9 @@
 <script type="text/javascript">
+    var disqus_config = function () {
+        // The generated payload which authenticates users with Disqus
+        this.page.remote_auth_s3 = {{ json(remote_auth_s3) }};
+        this.page.api_key = {{ json(settings.DISQUS_PUBLIC_KEY) }};
+    }
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = '{{ disqus_shortname }}';
     // The last fragment of the URL is the friendly name which can change, don't use that as part of the unique identifier.
