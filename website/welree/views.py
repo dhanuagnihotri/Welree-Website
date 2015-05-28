@@ -123,6 +123,8 @@ def my(request):
 
     followingcollections = models.JewelryCollection.objects.filter(owner__in=request.user.following.all()).order_by('-added')
     followingcollections = [c.annotated() for c in followingcollections]
+    my_likes = models.JewelryLike.objects.filter(owner=request.user).order_by('-id')
+    my_liked = models.JewelryLike.objects.filter(collection__owner=request.user).order_by('-id')
 
     profile_form = ProfileForm(instance=request.user)
     if request.method == "POST":

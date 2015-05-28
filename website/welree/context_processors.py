@@ -45,5 +45,6 @@ def processor(request):
         context['remote_auth_s3'] = '{} {} {}'.format(msg, hmacsha1, timestamp)
     else:
         context['likes'] = []
+        context['remote_auth_s3'] = ''
     return context
 
