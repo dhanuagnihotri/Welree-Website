@@ -17,7 +17,7 @@ class CustomUser(AbstractUser):
     email_confirmed = models.BooleanField(default=False)
     bio = MarkupField(default="", markup_type="markdown", help_text=MARKDOWN_ALLOWED, blank=True, null=True)
     photo = SorlImageField(upload_to="profiles", blank=True, null=True)
-    following = models.ManyToManyField('self', related_name="followers")
+    following = models.ManyToManyField('self', related_name="followers", symmetrical=False)
 
     def email_user(self, subject, message, from_email=None, ignore_confirmed=False):
         if not (ignore_confirmed or self.email_confirmed):
