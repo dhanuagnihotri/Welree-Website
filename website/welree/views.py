@@ -46,6 +46,11 @@ def editorial(request):
     editorials = models.Editorial.objects.all()
     return r2r("editorial.jinja", request, locals())
 
+def designers(request):
+    users = models.CustomUser.objects.all()
+    user = request.user if request.user.is_authenticated() else False
+    return r2r("designers.jinja", request, locals())
+
 def login(request):
     def failure(msg):
         messages.error(request, msg)
@@ -125,6 +130,7 @@ def my(request):
     followingcollections = [c.annotated() for c in followingcollections]
     my_likes = models.JewelryLike.objects.filter(owner=request.user).order_by('-id')
     my_liked = models.JewelryLike.objects.filter(collection__owner=request.user).order_by('-id')
+    followers = request.user.followers.all()
 
     profile_form = ProfileForm(instance=request.user)
     if request.method == "POST":

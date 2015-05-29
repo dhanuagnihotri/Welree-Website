@@ -15,6 +15,7 @@ app_urls = (
         'account',
         'events',
         'editorial',
+        'designers',
         'designer/upload',
         'consumer/upload',
         'search',
