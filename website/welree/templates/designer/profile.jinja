@@ -32,7 +32,7 @@
             <div class="col-lg-6 profile-pic">
               <div class="name">{{ user.full_name }}</div>
               <div class="follow">
-                {% if not following %}
+                {% if not user.id in following %}
                   <form class="form-tastypie" action="/api/v1/user/follow/">
                     <input type="hidden" value="{{ user.id }}" name="designer_id">
                     <input type="submit" value="Follow" class="btn btn-primary pull-right">

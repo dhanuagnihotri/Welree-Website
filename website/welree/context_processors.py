@@ -38,6 +38,7 @@ def processor(request):
         for coll in request.user.collections.all():
             context['user_collections'][coll.get_kind_display()].append(coll.name)
         context['likes'] = list(request.user.likes.values_list('item_id', flat=True))
+        context['following'] = list(request.user.following.values_list('id', flat=True))
 
         msg = base64.b64encode(cjson.encode({'id': request.user.id, 'username': request.user.username, 'email': request.user.email}))
         timestamp = datetime.datetime.now().strftime('%s')
@@ -45,6 +46,7 @@ def processor(request):
         context['remote_auth_s3'] = '{} {} {}'.format(msg, hmacsha1, timestamp)
     else:
         context['likes'] = []
+        context['following'] = []
         context['remote_auth_s3'] = ''
     return context
 

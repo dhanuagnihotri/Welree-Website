@@ -56,7 +56,7 @@
                         {% endif %}
                         <div class="topper">{{ person.full_name }}</div>
                         <div class="follow">
-                            {% if not person in user.following.all() %}
+                            {% if not person.id in following %}
                                 <form class="form-tastypie" action="/api/v1/user/follow/">
                                     <input type="hidden" value="{{ person.id }}" name="designer_id">
                                     <input type="submit" value="Follow" class="btn btn-primary pull-right">
