@@ -46,6 +46,11 @@ def editorial(request):
     editorials = models.Editorial.objects.all()
     return r2r("editorial.jinja", request, locals())
 
+def designers(request):
+    users = models.CustomUser.objects.all()
+    user = request.user if request.user.is_authenticated() else False
+    return r2r("designers.jinja", request, locals())
+
 def login(request):
     def failure(msg):
         messages.error(request, msg)

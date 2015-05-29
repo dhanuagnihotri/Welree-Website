@@ -1,0 +1,78 @@
+{% extends "base.jinja" %}
+{% import "macros.jinja" as macros %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="/static/css/upload.css" />
+<style type="text/css">
+
+    .designers {
+        margin-top: 10px;
+    }
+    .designer {
+        width: 45%;
+        display: inline-block;
+        margin-top: 10px;
+        margin-right: 20px;
+        margin-left: 25px;
+        text-transform: uppercase;
+        color: white;
+    }
+    .designer .inner {
+        height: 427px;
+        position: relative;
+    }
+    .designer .topper {
+        text-align: right;
+        padding-right: 5px;
+        background-color: rgba(100, 100, 100, 0.5);
+    }
+    .designer img {
+        z-index: -1;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+    }
+
+    .designer .follow {
+        position: absolute;
+        top: 375px;
+        right: 10px;
+    }
+
+</style>
+
+{% endblock %}
+
+{% block below_container %}        
+    <div class="designers">
+        {% for person in users %}
+           {% if person.is_designer %}
+                <a href="{{ person.get_absolute_url() }}" target="_blank">
+                <div class="designer">
+                    <div class="inner">
+                        {% if person.photo %}
+                            {{ sorlimgtag(person.photo, "420x420", crop="center") }}
+                        {% else %}
+                            <img src="/static/img/person.svg.png" width="100%">
+                        {% endif %}
+                        <div class="topper">{{ person.full_name }}</div>
+                        <div class="follow">
+                            {% if not person in user.following.all() %}
+                                <form class="form-tastypie" action="/api/v1/user/follow/">
+                                    <input type="hidden" value="{{ person.id }}" name="designer_id">
+                                    <input type="submit" value="Follow" class="btn btn-primary pull-right">
+                                </form>
+                            {% else %}
+                                <form class="form-tastypie" action="/api/v1/user/unfollow/">
+                                    <input type="hidden" value="{{ person.id }}" name="designer_id">
+                                    <input type="submit" value="Unfollow" class="btn btn-primary pull-right">
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}                           
+        {% endfor %}
+    </div>
+{% endblock %}              
