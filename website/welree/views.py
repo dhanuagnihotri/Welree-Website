@@ -47,7 +47,7 @@ def editorial(request):
     return r2r("editorial.jinja", request, locals())
 
 def designers(request):
-    users = models.CustomUser.objects.all()
+    users = models.CustomUser.objects.filter(is_designer=True)
     user = request.user if request.user.is_authenticated() else False
     return r2r("designers.jinja", request, locals())
 

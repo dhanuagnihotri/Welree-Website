@@ -1,7 +1,6 @@
 {% extends "base.jinja" %}
 {% import "macros.jinja" as macros %}
 {% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="/static/css/upload.css" />
 <style type="text/css">
 
     .designers {
@@ -47,7 +46,6 @@
 {% block below_container %}        
     <div class="designers">
         {% for person in users %}
-           {% if person.is_designer %}
                 <a href="{{ person.get_absolute_url() }}" target="_blank">
                 <div class="designer">
                     <div class="inner">
@@ -72,7 +70,6 @@
                         </div>
                     </div>
                 </div>
-            {% endif %}                           
         {% endfor %}
     </div>
 {% endblock %}              
