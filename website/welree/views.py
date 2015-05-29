@@ -130,6 +130,7 @@ def my(request):
     followingcollections = [c.annotated() for c in followingcollections]
     my_likes = models.JewelryLike.objects.filter(owner=request.user).order_by('-id')
     my_liked = models.JewelryLike.objects.filter(collection__owner=request.user).order_by('-id')
+    followers = request.user.followers.all()
 
     profile_form = ProfileForm(instance=request.user)
     if request.method == "POST":

@@ -32,6 +32,36 @@
     padding-right: 0px;
     overflow-x: scroll;
   }
+
+  .follower {
+    width: 20%;
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: 20px;
+    margin-left: 20px;
+    text-transform: uppercase;
+    color: white;
+}
+
+.follower img {
+    z-index: -1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+ .follower .topper {
+    text-align: right;
+    padding-right: 5px;
+    background-color: rgba(100, 100, 100, 0.5);
+}
+
+.follower .inner {
+    height: 180px;
+    position: relative;
+}
+
 </style>
 {% endblock %}
 {% block below_container %}
@@ -42,6 +72,7 @@
     <a href="#styleme" class="tab">Style Me</a>
     <a href="#likes" class="tab">Likes</a>
     <a href="#community" class="tab">Community</a>
+    <a href="#followers" class="tab">Followers</a>
     <a href="#profile" class="tab">Profile</a>
   </div>
   <div class="tab-content">
@@ -74,6 +105,22 @@
     <div role="tabpanel" class="tab-pane" id="community">
       <p>New collections from designers you follow will appear here</p>
       {{ macros.collection_rows(followingcollections) }}
+    </div>
+    <div role="tabpanel" class="tab-pane" id="followers">
+      <p>People following you</p>
+        {% for person in followers %}
+          <a href="{{ person.get_absolute_url() }}" target="_blank">
+          <div class="follower">
+              <div class="inner">
+              <div class="topper">{{ person.full_name }}</div>
+              {% if person.photo %}
+                {{ sorlimgtag(person.photo, "180x180", crop="center") }}
+              {% else %}
+                <img src="/static/img/person.svg.png" width="100%">
+              {% endif %}
+             </div> 
+          </div>
+        {% endfor %}
     </div>
     <div role="tabpanel" class="tab-pane" id="profile">
         <div class="clearfix">
