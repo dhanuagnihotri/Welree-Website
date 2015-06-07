@@ -100,7 +100,18 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="styleme">Style Me</div>
     <div role="tabpanel" class="tab-pane" id="likes">
-      Likes
+      {% if my_likes %}
+        <h4>Items I've liked</h4>
+        {% for like in my_likes %}
+            <a href="{{ like.item.get_absolute_collection_url(like.collection) }}">{{ sorlimgtag(like.item.primary_photo, "140x105", crop="center", classes="phase2") }}</a>
+        {% endfor %}
+      {% endif %}
+      {% if my_liked %}
+        <h4>My items others like</h4>
+        {% for like in my_liked %}
+            <a href="{{ like.item.get_absolute_collection_url(like.collection) }}">{{ sorlimgtag(like.item.primary_photo, "140x105", crop="center", classes="phase2") }}</a>
+        {% endfor %}
+      {% endif %}
     </div>
     <div role="tabpanel" class="tab-pane" id="community">
       <p>New collections from designers you follow will appear here</p>
@@ -138,15 +149,21 @@
 {% block extra_js %}
 <script>
   $(function() {
+    var fade = 0;
     $('.my-header a.tab').on('click', function(e) {
-      e.preventDefault();
       $('.my-header a').removeClass('active');
       var target = $(this).addClass('active').attr('href');
-      $('.tab-pane.active').stop(true, true).fadeOut(300, function() {
+      $('.tab-pane.active').stop(true, true).fadeOut(fade, function() {
         $(this).removeClass('active');
-        $(target).fadeIn(300).addClass('active');
+        $(target).fadeIn(fade).addClass('active');
       });
     });
+    if (window.location.hash) {
+      $('a[href='+window.location.hash+']').click();
+    } else {
+      $('a[href=#ideabooks]').click();
+    }
+    fade = 300;
   });
 </script>
 {% endblock %}

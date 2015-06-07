@@ -331,3 +331,8 @@ div.collection-slider .slider-collection-new {
   background-color: #27bdbe;
   text-align: center;
 }
+
+img.phase2 {
+  border: 3px solid #e0e0e0;
+  margin: 12.5px;
+}
