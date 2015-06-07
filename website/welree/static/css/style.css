@@ -176,8 +176,8 @@ div.btn-facebook a {
     width: 100%;
 }
 #footer {
-    background-color: #8c8c8c;
-    height: 100px;
+    background-color: #27bdbe;
+    height: 78px;
     margin-top: 10px;
     text-align: center;
     padding-top: 25px;
@@ -186,7 +186,13 @@ div.btn-facebook a {
     bottom: 0px;
     width: 100%;
 }
-#footer .pull-left img {
+#footer div.social, #footer div.app-store {
+  display: inline-block;
+}
+#footer div.social {
+  margin: 0px 10px 0px 0px;
+}
+#footer div.social img {
     height: 20px;
 }
 #footer .body-container {
@@ -194,7 +200,8 @@ div.btn-facebook a {
 }
 #footer img.app-store {
     height: 50px;
-    margin-top: -15px;
+    margin-top: -10px;
+    margin-bottom: -7px;
 }
 #footer .footer-links a {
     margin-right: 10px;

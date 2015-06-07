@@ -39,8 +39,10 @@
     }
     div.editorial .topper {
         text-align: right;
-        padding-right: 5px;
-        background-color: rgba(100, 100, 100, 0.5);
+        background-color: rgba(255, 255, 255, 0.85);
+        color: #616161;
+        text-shadow: none;
+        padding: 5px;
     }
     div.editorial img {
         z-index: -1;
@@ -54,7 +56,7 @@
         width: 100%;
         text-align: center;
         position: absolute;
-        bottom: 90px;
+        bottom: 10px;
         font-size: 2em;
         padding-left: 5px;
         padding-right: 5px;
@@ -79,18 +81,26 @@
     div.community-banner {
         margin-top: 10px;
         width: 100%;
-        height: 100px;
-        background-color: rgb(140, 140, 140);
         position: relative;
+        color: black;
+        margin-bottom: 30px;
     }
     div.community-banner div {
-      display: inline-block;
-      margin-left: 50px;
-      height: 100px;
+        display: inline-block;
     }
     div.community-banner .community {
         margin-top: 10px;
-        font-size: 4em;
+        font-size: 1.5em;
+        font-weight: bold;
+        border-bottom: 10px solid #27bdbe;
+        line-height: 40px;
+        width: 20%;
+        text-align: center;
+    }
+    div.community-banner .description {
+        border-bottom: 10px solid #8c8c8c;
+        line-height: 36px;
+        width: 79%;
     }
     @media (max-width: 991px) {
         div.editorial .inner {
@@ -122,12 +132,11 @@
     <div class="editorials">
         {% for editorial in editorials %}
             <a href="{{ editorial.url }}" target="_blank">
-            <div class="editorial {{ " notfirst" if not loop.first else "" }} {{ " hidden-xs" if loop.index > 2 }}">
+            <div class="editorial {{ " notfirst" if not loop.first else "x" }} {{ " hidden-xs" if loop.index > 2 else "" }}">
                 <div class="inner">
                     {{ sorlimgtag(editorial.photo, "256x427", crop="center", classes="editorial-cover") }}
                     <div class="topper">{{ editorial.category }}</div>
                     <div class="title">{{ editorial.title }}</div>
-                    <div class="read-more">Read More</div>
                 </div>
             </div>
             </a>
@@ -135,8 +144,8 @@
     </div>
     {% endstrip %}
     <div class="community-banner">
-        <div class="community font-special vcenter">Community</div>
-        <div class="description vcenter">Ut massa menatibus auctor! Odio, risus aliquet platea duis, porta, sagittis.</div>
+        <div class="community">COMMUNITY</div>
+        <div class="description">&nbsp;&nbsp;&nbsp;Ut massa menatibus auctor! Odio, risus aliquet platea duis, porta, sagittis.</div>
     </div>
     {{ macros.collection_rows(featuredcollections) }}
 {% endblock %}
