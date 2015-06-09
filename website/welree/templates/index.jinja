@@ -126,8 +126,10 @@
 </style>
 {% endblock %}
 {% import "macros.jinja" as macros %}
-{% block content %}
+{% block above_container %}
     {{ macros.home_carousel(curated) }}
+{% endblock %}
+{% block content %}
     {% strip %}
     <div class="editorials">
         {% for editorial in editorials %}

@@ -29,6 +29,7 @@
     <body class="{% block body_class %}{% endblock %}">
     <div class="body-container">
         {% include "header.jinja" %}
+        {% block above_container %}{% endblock %}
 
         <div class="container" id="main" role="main">
             <div class="message-container">
@@ -39,7 +40,6 @@
                     </div>
                 {% endfor %}
             </div>
-            {% block above_container %}{% endblock %}
             <div class="container container-base">{% block content %}{% endblock %}</div>
             {% block below_container %}{% endblock %}
         </div>
