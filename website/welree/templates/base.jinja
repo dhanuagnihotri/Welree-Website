@@ -18,6 +18,7 @@
             <style type="text/css">.logged-{{"out" if request.user.is_authenticated() else "in"}} { display:none !important; }</style>
             {% block extra_css %}{% endblock %}
         {% endcompress %}
+        {% if "phase2" in request.GET %}<link rel="stylesheet" type="text/css" href="/static/css/phase2.css"/>{% endif %}
         <script>
             welree = {};
             welree.facets = {{ json(welree_facets) }};
