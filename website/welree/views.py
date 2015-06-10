@@ -131,7 +131,6 @@ def my(request):
     my_liked = models.JewelryLike.objects.filter(collection__owner=request.user).order_by('-id')
     followers = request.user.followers.all()
     my_activity = models.UserActivity.objects.filter(owner=request.user).order_by('-timestamp')
-
     relevant_likes = my_liked if request.user.is_designer else my_likes
     relevant_follows = followers if request.user.is_designer else request.user.following.all()
 
