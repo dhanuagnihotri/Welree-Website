@@ -6,6 +6,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.db.models.fields.related import RelatedField
 from django.forms import ModelForm
 from django.forms.models import model_to_dict
+from django.contrib.contenttypes.models import ContentType
 from social.apps.django_app.utils import load_strategy, load_backend
 from tastypie import fields
 from tastypie.api import Api
@@ -368,6 +369,7 @@ class UserResource(MultipartResource, ModelResource):
             return failure(self, request, 'No designer matching designer_id "{}" found'.format(designer_id))
 
         request.user.following.add(designer)
+        designer.activity.create(owner=request.user, kind=models.UserActivity.TYPE_FOLLOWED)
         return success(self, request)
 
     def unfollow(self, request, **kwargs):
@@ -383,6 +385,7 @@ class UserResource(MultipartResource, ModelResource):
             return failure(self, request, 'No designer matching designer_id "{}" found'.format(designer_id))
 
         request.user.following.remove(designer)
+        designer.activity.create(owner=request.user, kind=models.UserActivity.TYPE_UNFOLLOWED)
         return success(self, request)
 
 class SocialSignUpResource(BaseModelResource):
