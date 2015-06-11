@@ -62,6 +62,10 @@
     position: relative;
 }
 
+a{
+    color: #0094DE;
+    text-decoration: none;
+}
 </style>
 {% endblock %}
 {% block below_container %}
@@ -81,7 +85,10 @@
       {% if my_activity %}
         {% for activity in my_activity %}
           {% if activity.kind == 0 %}
-              <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} {{ activity.owner.full_name }} Followed designer {{activity.content_object}}</h5>
+              <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} {{ activity.owner.full_name }} Followed designer 
+              {{ activity.content_object.full_name }} at
+              <a href="{{  activity.content_object.get_absolute_url() }}">{{ activity.content_object }}</a>
+              </h5>
           {% endif %}
           {% if activity.kind == 1 %}
               <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} UnFollowed designer </h5>
