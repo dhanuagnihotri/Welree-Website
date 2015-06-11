@@ -90,7 +90,7 @@ class UserActivity(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey()
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
 
 class Editorial(models.Model):
     category = models.CharField(max_length=63)

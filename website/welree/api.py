@@ -369,7 +369,9 @@ class UserResource(MultipartResource, ModelResource):
             return failure(self, request, 'No designer matching designer_id "{}" found'.format(designer_id))
 
         request.user.following.add(designer)
-        designer.activity.create(owner=request.user, kind=models.UserActivity.TYPE_FOLLOWED)
+
+        designer.activity.create(owner=request.user, kind=models.UserActivity.TYPE_FOLLOWED, content_object=designer)
+
         return success(self, request)
 
     def unfollow(self, request, **kwargs):
