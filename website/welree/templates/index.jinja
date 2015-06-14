@@ -90,17 +90,7 @@
     }
     div.community-banner .community {
         margin-top: 10px;
-        font-size: 1.5em;
-        font-weight: bold;
-        border-bottom: 10px solid #27bdbe;
-        line-height: 40px;
-        width: 20%;
         text-align: center;
-    }
-    div.community-banner .description {
-        border-bottom: 10px solid #8c8c8c;
-        line-height: 36px;
-        width: 79%;
     }
     @media (max-width: 991px) {
         div.editorial .inner {
@@ -145,9 +135,9 @@
         {% endfor %}
     </div>
     {% endstrip %}
-    <div class="community-banner">
-        <div class="community">COMMUNITY</div>
-        <div class="description">&nbsp;&nbsp;&nbsp;Ut massa menatibus auctor! Odio, risus aliquet platea duis, porta, sagittis.</div>
+    <div class="community-banner border-wrapper">
+        <div class="community border-primary">COMMUNITY</div>
+        <div class="description border-span">&nbsp;&nbsp;&nbsp;Ut massa menatibus auctor! Odio, risus aliquet platea duis, porta, sagittis.</div>
     </div>
     {{ macros.collection_rows(featuredcollections) }}
 {% endblock %}

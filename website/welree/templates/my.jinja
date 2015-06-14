@@ -62,7 +62,7 @@
     position: relative;
 }
 
-a{
+a {
     color: #0094DE;
     text-decoration: none;
 }
@@ -81,7 +81,10 @@ a{
   </div>
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="mywelree">
-    <h4>Recent Activity</h4>
+      <div class="border-wrapper"><div class="border-primary">{{ len(collections) }} IDEABOOKS</div><div class="border-span"></div></div>
+      <div class="border-wrapper"><div class="border-primary">{{ len(relevant_likes) }} LIKES</div><div class="border-span"></div></div>
+      <div class="border-wrapper"><div class="border-primary">{{ len(relevant_follows) }} {{ "FOLLOWERS" if request.user.is_designer else "FOLLOWING" }}</div><div class="border-span"></div></div>
+      <div class="border-wrapper"><div class="border-primary">RECENT ACTIVITY</div><div class="border-span"></div></div>
       {% if my_activity %}
         {% for activity in my_activity %}
           {% if activity.kind == 0 %}
