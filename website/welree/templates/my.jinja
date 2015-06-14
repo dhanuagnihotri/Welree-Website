@@ -62,13 +62,17 @@
     position: relative;
 }
 
+a{
+    color: #0094DE;
+    text-decoration: none;
+}
 </style>
 {% endblock %}
 {% block below_container %}
   <p class="text-error">{{ error_msg }}</p>
   <div class="my-header">
-    <h1 class="font-special">My Welree</h1>
-    <a href="#ideabooks" class="tab active">IdeaBooks</a>
+    <h1 class="font-special"><a href="#mywelree" class="tab active">My Welree</a></h1>
+    <a href="#ideabooks" class="tab">IdeaBooks</a>
     <a href="#styleme" class="tab">Style Me</a>
     <a href="#likes" class="tab">Likes</a>
     <a href="#community" class="tab">Community</a>
@@ -76,7 +80,23 @@
     <a href="#profile" class="tab">Profile</a>
   </div>
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="ideabooks">
+    <div role="tabpanel" class="tab-pane active" id="mywelree">
+    <h4>Recent Activity</h4>
+      {% if my_activity %}
+        {% for activity in my_activity %}
+          {% if activity.kind == 0 %}
+              <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} {{ activity.owner.full_name }} Followed designer 
+              {{ activity.content_object.full_name }} at
+              <a href="{{  activity.content_object.get_absolute_url() }}">{{ activity.content_object }}</a>
+              </h5>
+          {% endif %}
+          {% if activity.kind == 1 %}
+              <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} UnFollowed designer </h5>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+    <div role="tabpanel" class="tab-pane" id="ideabooks">
       {% if collections %}
         <div class="row">
             <div class="col-md-12 slider">

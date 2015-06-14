@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.template import defaultfilters
+from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
 
 import uuid
 
@@ -18,6 +20,7 @@ class CustomUser(AbstractUser):
     bio = MarkupField(default="", markup_type="markdown", help_text=MARKDOWN_ALLOWED, blank=True, null=True)
     photo = SorlImageField(upload_to="profiles", blank=True, null=True)
     following = models.ManyToManyField('self', related_name="followers", symmetrical=False)
+    activity = generic.GenericRelation('UserActivity')
 
     def email_user(self, subject, message, from_email=None, ignore_confirmed=False):
         if not (ignore_confirmed or self.email_confirmed):
@@ -52,7 +55,7 @@ class CustomUser(AbstractUser):
 
     def get_absolute_url(self):
         return "{}{}/".format(reverse("profile", kwargs={"pk": self.id}), defaultfilters.slugify(self.full_name))
-
+    
     @classmethod
     def signup(cls, signup_form):
         password = signup_form.cleaned_data['password']
@@ -67,6 +70,27 @@ class CustomUser(AbstractUser):
         msg = "Thanks for signing up for Welree!\n\nPlease confirm your email address by clicking the following link: {0}{1}. You won't be able to receive further emails from us until confirming your address.\n\nIf you didn't sign up, take no action, and this is the last email you'll receive from us.\n\nThanks,\n{0}".format(settings.WEBSITE_URL, email_confirm_url)
         user.email_user("Welcome to Welree", msg, ignore_confirmed=True)
         return user
+
+class UserActivity(models.Model):
+    TYPE_FOLLOWED = 0
+    TYPE_UNFOLLOWED = 1
+    TYPE_CREATE_IDEABOOK = 2
+    TYPE_MODIFY_IDEABOOK = 3
+    TYPE_LIKE_PHOTO = 4
+    TYPE_CHOICES = (
+            (TYPE_FOLLOWED, "Followed"),
+            (TYPE_UNFOLLOWED, "UnFollowed"),
+            (TYPE_CREATE_IDEABOOK, "Create new Ideabook"),
+            (TYPE_MODIFY_IDEABOOK, "Modify IdeaBook"),
+            (TYPE_LIKE_PHOTO, "Liked photo"),
+    )
+
+    kind = models.IntegerField(choices=TYPE_CHOICES, db_index=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
 
 class Editorial(models.Model):
     category = models.CharField(max_length=63)
