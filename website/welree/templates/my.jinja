@@ -41,31 +41,51 @@
     margin-left: 20px;
     text-transform: uppercase;
     color: white;
-}
+  }
 
-.follower img {
+  .follower img {
     z-index: -1;
     position: absolute;
     top: 0px;
     left: 0px;
     width: 100%;
     height: 100%;
-}
- .follower .topper {
+  }
+  .follower .topper {
     text-align: right;
     padding-right: 5px;
     background-color: rgba(100, 100, 100, 0.5);
-}
-
-.follower .inner {
+  }
+  .follower .inner {
     height: 180px;
     position: relative;
-}
+  }
 
-a {
-    color: #0094DE;
-    text-decoration: none;
-}
+  .tile-ideabook-create img {
+    width: 100px;
+    margin-top: 25px;
+  }
+  .tile-ideabook-create .phase2-border {
+    background-color: #27bdbe;
+    width: 206px;
+    height: 156px;
+  }
+  .tile-ideabook .phase2-border {
+    margin: 0px;
+  }
+  .tile-ideabook {
+    float: left;
+    width: 206px;
+    font-size: 18px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 12.5px;
+    margin-right: 12.5px;
+  }
+  .tile-image {
+      width: 206px;
+      height: 156px;
+  }
 </style>
 {% endblock %}
 {% block below_container %}
@@ -82,6 +102,7 @@ a {
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="mywelree">
       <div class="border-wrapper"><div class="border-primary">{{ len(collections) }} IDEABOOKS</div><div class="border-span"></div></div>
+      {{ macros.grid_ideabooks(collections) }}
       <div class="border-wrapper"><div class="border-primary">{{ len(relevant_likes) }} LIKES</div><div class="border-span"></div></div>
       <div class="border-wrapper"><div class="border-primary">{{ len(relevant_follows) }} {{ "FOLLOWERS" if request.user.is_designer else "FOLLOWING" }}</div><div class="border-span"></div></div>
       <div class="border-wrapper"><div class="border-primary">RECENT ACTIVITY</div><div class="border-span"></div></div>
@@ -126,13 +147,13 @@ a {
       {% if my_likes %}
         <h4>Items I've liked</h4>
         {% for like in my_likes %}
-            <a href="{{ like.item.get_absolute_collection_url(like.collection) }}">{{ sorlimgtag(like.item.primary_photo, "140x105", crop="center", classes="phase2") }}</a>
+            <a href="{{ like.item.get_absolute_collection_url(like.collection) }}">{{ sorlimgtag(like.item.primary_photo, "140x105", crop="center", classes="phase2-border") }}</a>
         {% endfor %}
       {% endif %}
       {% if my_liked %}
         <h4>My items others like</h4>
         {% for like in my_liked %}
-            <a href="{{ like.item.get_absolute_collection_url(like.collection) }}">{{ sorlimgtag(like.item.primary_photo, "140x105", crop="center", classes="phase2") }}</a>
+            <a href="{{ like.item.get_absolute_collection_url(like.collection) }}">{{ sorlimgtag(like.item.primary_photo, "140x105", crop="center", classes="phase2-border") }}</a>
         {% endfor %}
       {% endif %}
     </div>
@@ -152,7 +173,7 @@ a {
               {% else %}
                 <img src="/static/img/person.svg.png" width="100%">
               {% endif %}
-             </div> 
+             </div>
           </div>
         {% endfor %}
     </div>

@@ -132,28 +132,51 @@
             <p class="collection-owner font-special">{{ collection.owner.full_name }}</p>
         </div>
     </div>
-  {% endmacro %}
-  {% macro collection_rows(collections) %}
-    {% for collection in collections %}
-        <a href="{{ collection.get_absolute_url() }}">
-        <div class="featured-collection clearfix">
-            {% if loop.index is odd %}{{ collection_primary(collection) }}{% endif %}
-            <div class="secondary"><div class="inner">
-                {% if collection.annotated_photos[1] %}
-                    {{ sorlimgtag(collection.annotated_photos[1], "256x100", crop="center", classes="collection") }}
-                {% else %}
-                    <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg" class="collection">
-                {% endif %}
-            </div></div>
-            <div class="secondary"><div class="inner">
-                {% if collection.annotated_photos[2] %}
-                    {{ sorlimgtag(collection.annotated_photos[2], "256x100", crop="center", classes="collection") }}
-                {% else %}
-                    <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg" class="collection">
-                {% endif %}
-            </div></div>
-            {% if loop.index is even %}{{ collection_primary(collection) }}{% endif %}
+{% endmacro %}
+{% macro collection_rows(collections) %}
+  {% for collection in collections %}
+      <a href="{{ collection.get_absolute_url() }}">
+      <div class="featured-collection clearfix">
+          {% if loop.index is odd %}{{ collection_primary(collection) }}{% endif %}
+          <div class="secondary"><div class="inner">
+              {% if collection.annotated_photos[1] %}
+                  {{ sorlimgtag(collection.annotated_photos[1], "256x100", crop="center", classes="collection") }}
+              {% else %}
+                  <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg" class="collection">
+              {% endif %}
+          </div></div>
+          <div class="secondary"><div class="inner">
+              {% if collection.annotated_photos[2] %}
+                  {{ sorlimgtag(collection.annotated_photos[2], "256x100", crop="center", classes="collection") }}
+              {% else %}
+                  <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg" class="collection">
+              {% endif %}
+          </div></div>
+          {% if loop.index is even %}{{ collection_primary(collection) }}{% endif %}
+      </div>
+      </a>
+  {% endfor %}
+{% endmacro %}
+{% macro grid_ideabooks(ideabooks) %}
+  <div class="clearfix">
+    <div class="tile-ideabook tile-ideabook-create">
+      <a href="#">
+        <div class="phase2-border">
+          <img src="/static/img/icon-new-ideabook.png">
         </div>
-        </a>
+        <div>CREATE IDEABOOK</div>
+      </a>
+    </div>
+    {% for book in ideabooks %}
+      <div class="tile-ideabook">
+        <div class="tile-image phase2-border">
+          {% set img = book.annotated_photos[0] if book.annotated_photos else None %}
+          {% if img %}
+            <a href="{{ book.get_absolute_url() }}">{{ sorlimgtag(img, "200x150", crop="center") }}</a>
+          {% endif %}
+        </div>
+        <div class="tile-name">{{ book.name }}</div>
+      </div>
     {% endfor %}
-  {% endmacro %}
+  </div>
+{% endmacro %}
