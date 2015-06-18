@@ -86,6 +86,11 @@
       width: 206px;
       height: 156px;
   }
+  .user-activity a, .user-activity a:hover, .user-activity a:visited {
+    font-weight: bold;
+    color: #27bdbe !important;
+    text-decoration: none;
+  }
 </style>
 {% endblock %}
 {% block below_container %}
@@ -109,21 +114,31 @@
       {% if my_activity %}
         {% for activity in my_activity %}
           {% if activity.kind == 0 %}
+            <div class="user-activity">
               <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} Followed designer 
               <a href="{{  activity.content_object.get_absolute_url() }}">{{ activity.content_object.full_name }}</a>
               </h5>
+            </div>
           {% endif %}
           {% if activity.kind == 1 %}
+            <div class="user-activity">
               <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} UnFollowed designer <a href="{{  activity.content_object.get_absolute_url() }}">{{ activity.content_object.full_name }}</a>
               </h5>
+            </div> 
           {% endif %}
           {% if activity.kind == 2 %}
-              <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} Created collection
+            <div class="user-activity">
+              <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} Created collection 
+              <a href="{{  activity.content_object.get_absolute_url() }}">{{ activity.content_object.name }}</a>
               </h5>
+            </div> 
           {% endif %}
           {% if activity.kind == 3 %}
-              <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} Modified collection
+            <div class="user-activity">
+              <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} Added new photo
+              <a href="{{  activity.content_object.get_absolute_url() }}">{{ sorlimgtag(activity.content_object.primary_photo, "140x105", crop="center", classes="phase2") }}</a>
               </h5>
+            </div> 
           {% endif %}
           {% if activity.kind == 4 %}
               <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} Liked photo

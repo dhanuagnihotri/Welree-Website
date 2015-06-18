@@ -232,12 +232,27 @@ class JewelryItem(models.Model):
         return "{}{}/".format(reverse("item", kwargs={"item_pk": self.id, "coll_pk": collection.id}), defaultfilters.slugify(self.description))
 
 
-def add_activity(sender, **kwargs):
-   # UserActivity.objects.get_or_create(user=kwargs.get('instance').owner, kind=models.UserActivity.TYPE_CREATE_IDEABOOK, content_object=instance)
-    logger.error("Post save got called for like!")    
+def add_activity_add_item(sender, **kwargs):
+    if 'created' in kwargs:
+        if kwargs['created']:
+            instance = kwargs['instance']
+            ctype = ContentType.objects.get_for_model(instance)
+            entry = UserActivity.objects.get_or_create(content_type=ctype,
+                                                object_id=instance.id,
+                                                owner=kwargs.get('instance').owner,
+                                                kind=UserActivity.TYPE_MODIFY_IDEABOOK)
+    logger.error("Post save got called for adding new item !")    
 
+def add_activity_new_collection(sender, **kwargs):
+    if 'created' in kwargs:
+        if kwargs['created']:
+            instance = kwargs['instance']
+            ctype = ContentType.objects.get_for_model(instance)
+            entry = UserActivity.objects.get_or_create(content_type=ctype,
+                                                object_id=instance.id,
+                                                owner=kwargs.get('instance').owner,
+                                                kind=UserActivity.TYPE_CREATE_IDEABOOK)
+    logger.error("Post save got called for creating a new collection!")    
 
-
-post_save.connect(add_activity, sender=JewelryCollection)
-post_save.connect(add_activity, sender=JewelryItem)
-post_save.connect(add_activity, sender=JewelryLike)
+post_save.connect(add_activity_new_collection, sender=JewelryCollection)
+post_save.connect(add_activity_add_item, sender=JewelryItem)
