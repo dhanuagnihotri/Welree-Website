@@ -105,7 +105,7 @@
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="mywelree">
       <div class="border-wrapper"><div class="border-primary">{{ len(collections) }} IDEABOOKS</div><div class="border-span"></div></div>
-      {{ macros.grid_ideabooks(collections, max=3) }}
+      {{ macros.grid_ideabooks(collections, form_collection_new, max=3) }}
       <div class="border-wrapper"><div class="border-primary">{{ len(relevant_likes) }} LIKES</div><div class="border-span"></div></div>
       {{ macros.grid_likes(relevant_likes, max=8) }}
       <div class="border-wrapper"><div class="border-primary">{{ len(relevant_follows) }} {{ "FOLLOWERS" if request.user.is_designer else "FOLLOWING" }}</div><div class="border-span"></div></div>

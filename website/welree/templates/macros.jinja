@@ -171,16 +171,17 @@
       </div>
 {% endmacro %}
 
-{% macro grid_ideabooks(ideabooks, max=999) %}
+{% macro grid_ideabooks(ideabooks, form, max=999) %}
   <div class="clearfix">
     <div class="tile-ideabook tile-ideabook-create">
-      <a href="#">
+      <a href="#" data-toggle="modal" data-target="#modal-collection-new-main">
         <div class="phase2-border">
           <img src="/static/img/icon-new-ideabook.png">
         </div>
         <div>CREATE IDEABOOK</div>
       </a>
     </div>
+    {{ tastypie_modal_form('collection-new-main', '/api/v1/collection/', form, 'New Collection', 'Create Collection') }}
     {% for book in ideabooks[:max] %}
       {% set image = book.annotated_photos[0] if book.annotated_photos else None %}
       {{ tile(image, book.name, book.get_absolute_url()) }}
