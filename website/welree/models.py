@@ -137,6 +137,12 @@ class JewelryLike(models.Model):
     collection = models.ForeignKey('welree.JewelryCollection')
     item = models.ForeignKey('welree.JewelryItem')
 
+    def get_primary_photo(self):
+        return self.item.primary_photo
+
+    def get_absolute_url(self):
+        return self.item.get_absolute_collection_url(self.collection)
+
 class FeaturedCollection(models.Model):
     collection = models.ForeignKey('welree.JewelryCollection')
     order = models.PositiveIntegerField(default=0, blank=False, null=False)

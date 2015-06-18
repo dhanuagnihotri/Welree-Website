@@ -86,6 +86,9 @@
       width: 206px;
       height: 156px;
   }
+  #mywelree .border-wrapper {
+    margin-top: 40px;
+  }
 </style>
 {% endblock %}
 {% block below_container %}
@@ -93,18 +96,20 @@
   <div class="my-header">
     <h1 class="font-special"><a href="#mywelree" class="tab active">My Welree</a></h1>
     <a href="#ideabooks" class="tab">IdeaBooks</a>
-    <a href="#styleme" class="tab">Style Me</a>
+    {#<a href="#styleme" class="tab">Style Me</a>#}
     <a href="#likes" class="tab">Likes</a>
-    <a href="#community" class="tab">Community</a>
+    {#<a href="#community" class="tab">Community</a>#}
     <a href="#followers" class="tab">Followers</a>
     <a href="#profile" class="tab">Profile</a>
   </div>
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="mywelree">
       <div class="border-wrapper"><div class="border-primary">{{ len(collections) }} IDEABOOKS</div><div class="border-span"></div></div>
-      {{ macros.grid_ideabooks(collections) }}
+      {{ macros.grid_ideabooks(collections, max=3) }}
       <div class="border-wrapper"><div class="border-primary">{{ len(relevant_likes) }} LIKES</div><div class="border-span"></div></div>
+      {{ macros.grid_likes(relevant_likes, max=8) }}
       <div class="border-wrapper"><div class="border-primary">{{ len(relevant_follows) }} {{ "FOLLOWERS" if request.user.is_designer else "FOLLOWING" }}</div><div class="border-span"></div></div>
+      {{ macros.grid_follows(relevant_follows, max=8) }}
       <div class="border-wrapper"><div class="border-primary">RECENT ACTIVITY</div><div class="border-span"></div></div>
       {% if my_activity %}
         {% for activity in my_activity %}

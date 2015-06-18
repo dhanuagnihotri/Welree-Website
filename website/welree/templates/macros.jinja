@@ -157,7 +157,19 @@
       </a>
   {% endfor %}
 {% endmacro %}
-{% macro grid_ideabooks(ideabooks) %}
+
+{% macro tile(image, title, url) %}
+      <div class="tile-ideabook">
+        <div class="tile-image phase2-border">
+          {% if image %}
+            <a href="{{ url }}">{{ sorlimgtag(image, "200x150", crop="center") }}</a>
+          {% endif %}
+        </div>
+        <div class="tile-name">{{ title }}</div>
+      </div>
+{% endmacro %}
+
+{% macro grid_ideabooks(ideabooks, max=999) %}
   <div class="clearfix">
     <div class="tile-ideabook tile-ideabook-create">
       <a href="#">
@@ -167,16 +179,21 @@
         <div>CREATE IDEABOOK</div>
       </a>
     </div>
-    {% for book in ideabooks %}
-      <div class="tile-ideabook">
-        <div class="tile-image phase2-border">
-          {% set img = book.annotated_photos[0] if book.annotated_photos else None %}
-          {% if img %}
-            <a href="{{ book.get_absolute_url() }}">{{ sorlimgtag(img, "200x150", crop="center") }}</a>
-          {% endif %}
-        </div>
-        <div class="tile-name">{{ book.name }}</div>
-      </div>
+    {% for book in ideabooks[:max] %}
+      {% set image = book.annotated_photos[0] if book.annotated_photos else None %}
+      {{ tile(image, book.name, book.get_absolute_url()) }}
     {% endfor %}
   </div>
+{% endmacro %}
+
+{% macro grid_likes(items, max=999) %}
+  <div class="clearfix">{% for item in items[:max] %}
+    {{ tile(item.get_primary_photo(), item.item.description, item.get_absolute_url()) }}
+  {% endfor %}</div>
+{% endmacro %}
+
+{% macro grid_follows(items, max=999) %}
+  <div class="clearfix">{% for item in items[:max] %}
+    {{ tile(item.photo, item.username, item.get_absolute_url()) }}
+  {% endfor %}</div>
 {% endmacro %}
