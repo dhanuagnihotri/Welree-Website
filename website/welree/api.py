@@ -17,9 +17,7 @@ from tastypie.resources import BaseModelResource, ModelResource
 from tastypie.utils import trailing_slash
 from tastypie.validation import CleanedDataFormValidation, FormValidation
 import tastypie
-import logging
 from welree import models, forms
-logger = logging.getLogger(__name__)
 v1 = Api('v1')
 
 def get_collection(request, data):
@@ -206,7 +204,6 @@ class JewelryItemResource(OwnerModelResource):
         ]
 
     def obj_create(self, bundle, request=None, **kwargs):
-        logger.error("About to add a new item to my collection!")
         collection_id = bundle.data.get('collection')
         bundle = super(JewelryItemResource, self).obj_create(bundle, request=request, **kwargs)
         if collection_id:
@@ -228,7 +225,6 @@ class JewelryItemResource(OwnerModelResource):
         item_id = data.get('item', '')
         item_obj = models.JewelryItem.objects.get(id=item_id)
         models.JewelryLike.objects.create(owner=request.user, collection=collection_obj, item=item_obj)
-        logger.error("this is a debug message in like!")
         return self.create_response(request, {'success': True})
 
 class UserResource(MultipartResource, ModelResource):
