@@ -86,7 +86,7 @@
       width: 206px;
       height: 156px;
   }
-  #mywelree .border-wrapper {
+  .tab-pane .border-wrapper {
     margin-top: 40px;
   }
 </style>
@@ -150,16 +150,12 @@
     <div role="tabpanel" class="tab-pane" id="styleme">Style Me</div>
     <div role="tabpanel" class="tab-pane" id="likes">
       {% if my_likes %}
-        <h4>Items I've liked</h4>
-        {% for like in my_likes %}
-            <a href="{{ like.item.get_absolute_collection_url(like.collection) }}">{{ sorlimgtag(like.item.primary_photo, "140x105", crop="center", classes="phase2-border") }}</a>
-        {% endfor %}
+        <div class="border-wrapper"><div class="border-primary">ITEMS I'VE LIKED</div><div class="border-span"></div></div>
+        {{ macros.grid_likes(my_likes, max=100) }}
       {% endif %}
       {% if my_liked %}
-        <h4>My items others like</h4>
-        {% for like in my_liked %}
-            <a href="{{ like.item.get_absolute_collection_url(like.collection) }}">{{ sorlimgtag(like.item.primary_photo, "140x105", crop="center", classes="phase2-border") }}</a>
-        {% endfor %}
+        <div class="border-wrapper"><div class="border-primary">MY ITEMS OTHERS LIKE</div><div class="border-span"></div></div>
+        {{ macros.grid_likes(my_liked, max=100) }}
       {% endif %}
     </div>
     <div role="tabpanel" class="tab-pane" id="community">
@@ -167,20 +163,8 @@
       {{ macros.collection_rows(followingcollections) }}
     </div>
     <div role="tabpanel" class="tab-pane" id="followers">
-      <p>People following you</p>
-        {% for person in followers %}
-          <a href="{{ person.get_absolute_url() }}" target="_blank">
-          <div class="follower">
-              <div class="inner">
-              <div class="topper">{{ person.full_name }}</div>
-              {% if person.photo %}
-                {{ sorlimgtag(person.photo, "180x180", crop="center") }}
-              {% else %}
-                <img src="/static/img/person.svg.png" width="100%">
-              {% endif %}
-             </div>
-          </div>
-        {% endfor %}
+      <div class="border-wrapper"><div class="border-primary">{{ len(relevant_follows) }} {{ "FOLLOWERS" if request.user.is_designer else "FOLLOWING" }}</div><div class="border-span"></div></div>
+      {{ macros.grid_follows(relevant_follows, max=999) }}
     </div>
     <div role="tabpanel" class="tab-pane" id="profile">
         <div class="clearfix">

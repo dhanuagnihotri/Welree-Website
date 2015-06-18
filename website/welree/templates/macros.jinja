@@ -158,11 +158,13 @@
   {% endfor %}
 {% endmacro %}
 
-{% macro tile(image, title, url) %}
+{% macro tile(image, title, url, default_image=None, w=200, h=150) %}
       <div class="tile-ideabook">
         <div class="tile-image phase2-border">
           {% if image %}
-            <a href="{{ url }}">{{ sorlimgtag(image, "200x150", crop="center") }}</a>
+            <a href="{{ url }}">{{ sorlimgtag(image, "{}x{}".format(w, h), crop="center") }}</a>
+          {% elif default_image %}
+            <a href="{{ url }}"><img src="{{ default_image }}" width="{{w}}" height="{{h}}"></a>
           {% endif %}
         </div>
         <div class="tile-name">{{ title }}</div>
@@ -194,6 +196,6 @@
 
 {% macro grid_follows(items, max=999) %}
   <div class="clearfix">{% for item in items[:max] %}
-    {{ tile(item.photo, item.username, item.get_absolute_url()) }}
+    {{ tile(item.photo, item.username, item.get_absolute_url(), default_image="/static/img/person.svg.png") }}
   {% endfor %}</div>
 {% endmacro %}
