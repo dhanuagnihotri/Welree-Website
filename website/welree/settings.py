@@ -215,6 +215,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'welree': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     }
 }
 

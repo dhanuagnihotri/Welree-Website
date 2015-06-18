@@ -17,9 +17,9 @@ from tastypie.resources import BaseModelResource, ModelResource
 from tastypie.utils import trailing_slash
 from tastypie.validation import CleanedDataFormValidation, FormValidation
 import tastypie
-
+import logging
 from welree import models, forms
-
+logger = logging.getLogger(__name__)
 v1 = Api('v1')
 
 def get_collection(request, data):
@@ -160,7 +160,6 @@ class JewelryCollectionResource(OwnerModelResource):
             }
         ]
 
-
     def prepend_urls(self):
         return [
             url(r'^(?P<resource_name>%s)/add%s$' %
@@ -176,6 +175,7 @@ class JewelryCollectionResource(OwnerModelResource):
             return self.create_response(request, {'success': False, 'reason': 'unauthorized'}, HttpForbidden)
         item_id = data.get('item', '')
         collection_obj.items.add(models.JewelryItem.objects.get(id=item_id))
+ 
         messages.success(request, "Your jewelry item has been added to your collection.")
         return self.create_response(request, {'success': True, 'redirect': collection_obj.get_absolute_url()})
 
@@ -205,9 +205,8 @@ class JewelryItemResource(OwnerModelResource):
             }
         ]
 
-
-
     def obj_create(self, bundle, request=None, **kwargs):
+        logger.error("About to add a new item to my collection!")
         collection_id = bundle.data.get('collection')
         bundle = super(JewelryItemResource, self).obj_create(bundle, request=request, **kwargs)
         if collection_id:
@@ -229,6 +228,7 @@ class JewelryItemResource(OwnerModelResource):
         item_id = data.get('item', '')
         item_obj = models.JewelryItem.objects.get(id=item_id)
         models.JewelryLike.objects.create(owner=request.user, collection=collection_obj, item=item_obj)
+        logger.error("this is a debug message in like!")
         return self.create_response(request, {'success': True})
 
 class UserResource(MultipartResource, ModelResource):
