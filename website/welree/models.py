@@ -72,6 +72,15 @@ class CustomUser(AbstractUser):
         user.email_user("Welcome to Welree", msg, ignore_confirmed=True)
         return user
 
+class UserPhoto(models.Model):
+    owner = models.ForeignKey(CustomUser, related_name='photos')
+    photo = SorlImageField(upload_to='userphoto')
+    order = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        ordering = ("order",)
+
+
 class UserActivity(models.Model):
     TYPE_FOLLOWED = 0
     TYPE_UNFOLLOWED = 1

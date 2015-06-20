@@ -360,4 +360,5 @@ class welreeTests(ExtendedTestCase):
         user = create_and_login_user(self, is_designer=True)
         response = self.get('/my/')
         self.assertTrue('about_studio' in response.content)
+        self.assertNumCssMatches(4, response, 'input[type=file]')
 

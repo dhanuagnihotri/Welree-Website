@@ -67,7 +67,7 @@ class ProfileForm(forms.ModelForm):
 class DesignerProfileForm(ProfileForm):
     class Meta:
         model = models.CustomUser
-        fields = ['first_name', 'last_name', 'email', 'bio', 'photo', 'password1', 'password2', 'is_designer', 'about_studio']
+        fields = ['first_name', 'last_name', 'email', 'bio', 'about_studio', 'photo', 'password1', 'password2', 'is_designer']
 
 
 class CollectionForm(forms.ModelForm):

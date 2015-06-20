@@ -136,11 +136,21 @@ def my(request):
     relevant_follows = followers if request.user.is_designer else request.user.following.all()
 
     formClass = DesignerProfileForm if request.user.is_designer else ProfileForm
+    from django.forms.models import inlineformset_factory
+    photo_factory = inlineformset_factory(models.CustomUser, models.UserPhoto, exclude=["order"], extra=3, max_num=3, can_delete=False)
+    inline_photos = photo_factory(instance=request.user, prefix="photos")
+
     profile_form = formClass(instance=request.user)
     if request.method == "POST":
         profile_form = formClass(request.POST, request.FILES, instance=request.user)
+        inline_photos = photo_factory(request.POST, request.FILES, instance=request.user, prefix="photos")
         if profile_form.is_valid():
             profile_form.save()
+            for form in inline_photos:
+                instance = form.save(commit=False)
+                if instance.photo:
+                    instance.owner = request.user
+                    instance.save()
             messages.success(request, 'You\'ve successfully updated your profile!')
 
     return r2r('my.jinja', request, locals())
