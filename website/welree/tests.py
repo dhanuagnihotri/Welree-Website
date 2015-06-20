@@ -351,7 +351,13 @@ class welreeTests(ExtendedTestCase):
         self.assertStatus(302, '/my/')
         user = create_and_login_user(self, is_designer=True)
         self.get('/my/')
+        
+    def test_my_edit_profile(self):
+        user = create_and_login_user(self, is_designer=False)
+        response = self.get('/my/')
+        self.assertFalse('about_studio' in response.content)
 
-
-
+        user = create_and_login_user(self, is_designer=True)
+        response = self.get('/my/')
+        self.assertTrue('about_studio' in response.content)
 

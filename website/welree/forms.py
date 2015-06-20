@@ -64,6 +64,12 @@ class ProfileForm(forms.ModelForm):
             user.save()
         return user
 
+class DesignerProfileForm(ProfileForm):
+    class Meta:
+        model = models.CustomUser
+        fields = ['first_name', 'last_name', 'email', 'bio', 'photo', 'password1', 'password2', 'is_designer', 'about_studio']
+
+
 class CollectionForm(forms.ModelForm):
     kind = forms.ChoiceField(choices=models.JewelryCollection.KIND_CHOICES, widget=forms.HiddenInput())
 
