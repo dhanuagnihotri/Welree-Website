@@ -128,6 +128,12 @@ class welreeApiTests(ExtendedTestCase):
         response = self.get('/')
         self.assertItemsEqual(response.context['likes'], [like.item_id])
 
+        response = self.api_post('/api/v1/jewelry/like/', {'collection': collection.id, 'item': item.id})
+        self.assertEquals(response, {'success': True})
+        self.assertEquals(1, models.JewelryLike.objects.count())
+        response = self.get('/')
+        self.assertItemsEqual(response.context['likes'], [like.item_id])
+
     def test_follow(self):
         designer = create_and_login_user(self, is_designer=True)
         user = create_and_login_user(self)
