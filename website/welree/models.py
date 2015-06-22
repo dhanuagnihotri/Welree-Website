@@ -147,6 +147,9 @@ class JewelryLike(models.Model):
     collection = models.ForeignKey('welree.JewelryCollection')
     item = models.ForeignKey('welree.JewelryItem')
 
+    class Meta:
+        unique_together = (('owner', 'item'),)
+
     def get_primary_photo(self):
         return self.item.primary_photo
 
