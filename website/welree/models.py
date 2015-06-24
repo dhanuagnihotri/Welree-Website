@@ -19,8 +19,9 @@ class CustomUser(AbstractUser):
     email_confirmed = models.BooleanField(default=False)
     bio = MarkupField(default="", markup_type="markdown", help_text=MARKDOWN_ALLOWED, blank=True, null=True)
     photo = SorlImageField(upload_to="profiles", blank=True, null=True)
-    following = models.ManyToManyField('self', related_name="followers", symmetrical=False)
+    following = models.ManyToManyField('self', related_name="followers", symmetrical=False, blank=True)
     activity = generic.GenericRelation('UserActivity')
+    about_studio = MarkupField(default="", markup_type="markdown", help_text=MARKDOWN_ALLOWED, blank=True, null=True)
 
     def email_user(self, subject, message, from_email=None, ignore_confirmed=False):
         if not (ignore_confirmed or self.email_confirmed):
@@ -70,6 +71,15 @@ class CustomUser(AbstractUser):
         msg = "Thanks for signing up for Welree!\n\nPlease confirm your email address by clicking the following link: {0}{1}. You won't be able to receive further emails from us until confirming your address.\n\nIf you didn't sign up, take no action, and this is the last email you'll receive from us.\n\nThanks,\n{0}".format(settings.WEBSITE_URL, email_confirm_url)
         user.email_user("Welcome to Welree", msg, ignore_confirmed=True)
         return user
+
+class UserPhoto(models.Model):
+    owner = models.ForeignKey(CustomUser, related_name='photos')
+    photo = SorlImageField(upload_to='userphoto')
+    order = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        ordering = ("order",)
+
 
 class UserActivity(models.Model):
     TYPE_FOLLOWED = 0
@@ -136,6 +146,9 @@ class JewelryLike(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="likes", db_index=True)
     collection = models.ForeignKey('welree.JewelryCollection')
     item = models.ForeignKey('welree.JewelryItem')
+
+    class Meta:
+        unique_together = (('owner', 'item'),)
 
     def get_primary_photo(self):
         return self.item.primary_photo

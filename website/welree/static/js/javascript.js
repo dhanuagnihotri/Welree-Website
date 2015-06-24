@@ -80,7 +80,7 @@ welree.wire_action_buttons = function(item_getter, placement) {
             window.location.href = data.redirect;
         }).fail(function(data, status) {
             console.log('fail', data, status);
-            alert('Failed to add this item to your collection.');
+            alert('Please log in or sign up to add this item to a collection.');
         });
     });
     $(selector_like).on('click', function(e) {
@@ -98,7 +98,7 @@ welree.wire_action_buttons = function(item_getter, placement) {
             welree.like(selector_like, true);
         }).fail(function(data, status) {
             console.log('fail', data, status);
-            alert('Failed to like this item.');
+            alert('Please log in or sign up to like this item.');
         });
     });
 }

@@ -89,6 +89,9 @@
   .tab-pane .border-wrapper {
     margin-top: 40px;
   }
+  #profile a {
+    color: #27bdbe;
+  }
 </style>
 {% endblock %}
 {% block below_container %}
@@ -175,6 +178,11 @@
             <input style="display:none"><input type="password" style="display:none">
             {{ profile_form|as_bootstrap() }}
             <input type="submit" value="Update" class="btn btn-primary pull-right">
+            <legend>Optional: Upload additional photos</legend>
+            {{ inline_photos.management_form|safe }}
+            {% for form in inline_photos %}
+                <div class="django-inline">{{ form|as_bootstrap() }}</div>
+            {% endfor %}
         </form>
     </div>
   </div>

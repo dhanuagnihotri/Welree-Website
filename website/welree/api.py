@@ -3,6 +3,7 @@ from django.conf.urls import url
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.core.exceptions import ImproperlyConfigured
+from django.db import IntegrityError
 from django.db.models.fields.related import RelatedField
 from django.forms import ModelForm
 from django.forms.models import model_to_dict
@@ -228,7 +229,8 @@ class JewelryItemResource(OwnerModelResource):
         collection_obj = get_collection(request, data)
         item_id = data.get('item', '')
         item_obj = models.JewelryItem.objects.get(id=item_id)
-        models.JewelryLike.objects.create(owner=request.user, collection=collection_obj, item=item_obj)
+        if not models.JewelryLike.objects.filter(owner=request.user, item=item_obj).exists():
+            models.JewelryLike.objects.create(owner=request.user, collection=collection_obj, item=item_obj)
         return self.create_response(request, {'success': True})
 
 class UserResource(MultipartResource, ModelResource):
