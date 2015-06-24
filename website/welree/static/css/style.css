@@ -8,7 +8,6 @@
 
 body {
     margin-top: 60px;
-    margin-bottom: 100px;
 }
 body, p, h1, h2, h3, h4, h5, h6 {
     font-family: 'Open Sans', sans-serif;
@@ -181,9 +180,6 @@ div.btn-facebook a {
     margin-top: 10px;
     text-align: center;
     padding-top: 25px;
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
     width: 100%;
 }
 #footer div.social, #footer div.app-store {
@@ -194,9 +190,6 @@ div.btn-facebook a {
 }
 #footer div.social img {
     height: 20px;
-}
-#footer .body-container {
-    height: 100px;
 }
 #footer img.app-store {
     height: 50px;
