@@ -18,9 +18,7 @@ from tastypie.resources import BaseModelResource, ModelResource
 from tastypie.utils import trailing_slash
 from tastypie.validation import CleanedDataFormValidation, FormValidation
 import tastypie
-
 from welree import models, forms
-
 v1 = Api('v1')
 
 def get_collection(request, data):
@@ -161,7 +159,6 @@ class JewelryCollectionResource(OwnerModelResource):
             }
         ]
 
-
     def prepend_urls(self):
         return [
             url(r'^(?P<resource_name>%s)/add%s$' %
@@ -177,6 +174,7 @@ class JewelryCollectionResource(OwnerModelResource):
             return self.create_response(request, {'success': False, 'reason': 'unauthorized'}, HttpForbidden)
         item_id = data.get('item', '')
         collection_obj.items.add(models.JewelryItem.objects.get(id=item_id))
+ 
         messages.success(request, "Your jewelry item has been added to your collection.")
         return self.create_response(request, {'success': True, 'redirect': collection_obj.get_absolute_url()})
 
@@ -205,8 +203,6 @@ class JewelryItemResource(OwnerModelResource):
                 }
             }
         ]
-
-
 
     def obj_create(self, bundle, request=None, **kwargs):
         collection_id = bundle.data.get('collection')
@@ -370,9 +366,7 @@ class UserResource(MultipartResource, ModelResource):
             return failure(self, request, 'No designer matching designer_id "{}" found'.format(designer_id))
 
         request.user.following.add(designer)
-
         designer.activity.create(owner=request.user, kind=models.UserActivity.TYPE_FOLLOWED, content_object=designer)
-
         return success(self, request)
 
     def unfollow(self, request, **kwargs):

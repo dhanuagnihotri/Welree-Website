@@ -1,16 +1,19 @@
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import AbstractUser
-from django.core.urlresolvers import reverse
-from django.db import models
-from django.template import defaultfilters
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-
+from django.core.urlresolvers import reverse
+from django.db import models
+from django.db.models.signals import post_save
+from django.template import defaultfilters
 import uuid
 
 from markupfield.fields import MarkupField
 from sorl.thumbnail import ImageField as SorlImageField
+
+import logging
+logger = logging.getLogger(__name__)
 
 MARKDOWN_ALLOWED = """<a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown syntax</a> allowed, but no raw HTML. Examples: **bold**, *italic*, and use asterisks followed by a space for bullets."""
 
@@ -79,7 +82,6 @@ class UserPhoto(models.Model):
 
     class Meta:
         ordering = ("order",)
-
 
 class UserActivity(models.Model):
     TYPE_FOLLOWED = 0
@@ -185,7 +187,7 @@ class JewelryCollection(models.Model):
     name = models.CharField(max_length=63)
     description = models.TextField()
     items = models.ManyToManyField('welree.JewelryItem', related_name="collections")
-
+    
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -210,7 +212,7 @@ class JewelryCollection(models.Model):
 
     def __unicode__(self):
         return self.name
-
+    
 class JewelryItem(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="jewelryitems")
     primary_photo = SorlImageField(upload_to='jewelry')
@@ -223,7 +225,7 @@ class JewelryItem(models.Model):
     material = models.CharField(max_length=255)
     occasion = models.CharField(max_length=255, blank=True, null=True)
     tags = models.CharField(max_length=255, help_text="Separate multiple hashtags with spaces", blank=True, null=True)
-
+    
     is_approved = models.BooleanField(default=False)
 
     objects = models.Manager()
@@ -246,3 +248,28 @@ class JewelryItem(models.Model):
     def get_absolute_collection_url(self, collection):
         return "{}{}/".format(reverse("item", kwargs={"item_pk": self.id, "coll_pk": collection.id}), defaultfilters.slugify(self.description))
 
+
+def add_activity_add_item(sender, **kwargs):
+    if 'created' in kwargs:
+        if kwargs['created']:
+            instance = kwargs['instance']
+            ctype = ContentType.objects.get_for_model(instance)
+            entry = UserActivity.objects.get_or_create(content_type=ctype,
+                                                object_id=instance.id,
+                                                owner=kwargs.get('instance').owner,
+                                                kind=UserActivity.TYPE_MODIFY_IDEABOOK)
+    logger.error("Post save got called for adding new item !")    
+
+def add_activity_new_collection(sender, **kwargs):
+    if 'created' in kwargs:
+        if kwargs['created']:
+            instance = kwargs['instance']
+            ctype = ContentType.objects.get_for_model(instance)
+            entry = UserActivity.objects.get_or_create(content_type=ctype,
+                                                object_id=instance.id,
+                                                owner=kwargs.get('instance').owner,
+                                                kind=UserActivity.TYPE_CREATE_IDEABOOK)
+    logger.error("Post save got called for creating a new collection!")    
+
+post_save.connect(add_activity_new_collection, sender=JewelryCollection)
+post_save.connect(add_activity_add_item, sender=JewelryItem)

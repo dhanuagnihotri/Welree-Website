@@ -92,6 +92,11 @@
   #profile a {
     color: #27bdbe;
   }
+  .user-activity a, .user-activity a:hover, .user-activity a:visited {
+    font-weight: bold;
+    color: #27bdbe !important;
+    text-decoration: none;
+  }
 </style>
 {% endblock %}
 {% block below_container %}
@@ -117,13 +122,38 @@
       {% if my_activity %}
         {% for activity in my_activity %}
           {% if activity.kind == 0 %}
+            <div class="user-activity">
               <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} {{ activity.owner.full_name }} Followed designer 
-              {{ activity.content_object.full_name }} at
-              <a href="{{  activity.content_object.get_absolute_url() }}">{{ activity.content_object }}</a>
+              <a href="{{  activity.content_object.get_absolute_url() }}">{{ activity.content_object.full_name }}</a>
               </h5>
+            </div>
           {% endif %}
           {% if activity.kind == 1 %}
-              <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} UnFollowed designer </h5>
+            <div class="user-activity">
+              <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} UnFollowed designer <a href="{{  activity.content_object.get_absolute_url() }}">{{ activity.content_object.full_name }}</a>
+              </h5>
+            </div>
+          {% endif %}
+          {% if activity.kind == 2 %}
+            <div class="user-activity">
+              <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} Created collection 
+              <a href="{{  activity.content_object.get_absolute_url() }}">{{ activity.content_object.name }}</a>
+              </h5>
+            </div>
+          {% endif %}
+          {% if activity.kind == 3 %}
+            <div class="user-activity">
+              <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} Added new photo
+              <a href="{{  activity.content_object.get_absolute_url() }}">{{ sorlimgtag(activity.content_object.primary_photo, "140x105", crop="center", classes="phase2") }}</a>
+              </h5>
+            </div>
+          {% endif %}
+          {% if activity.kind == 4 %}
+            <div class="user-activity">
+              <h5> {{ activity.timestamp.strftime('%m/%d/%Y %I:%M:%S %p') }} Liked photo
+              <a href="{{ activity.content_object.get_absolute_url() }}">{{ sorlimgtag(activity.content_object.primary_photo, "140x105", crop="center", classes="phase2") }}</a>
+              </h5>
+            </div>
           {% endif %}
         {% endfor %}
       {% endif %}

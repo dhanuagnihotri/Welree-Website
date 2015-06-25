@@ -262,6 +262,7 @@ class welreeTests(ExtendedTestCase):
     def test_consumer_upload(self):
         self.assertStatus(301, '/consumer/upload')
 
+        other_user = create_and_login_user(self)
         user = create_and_login_user(self)
         response = self.get('/consumer/upload/')
         self.assertTrue('form_ideabook_new' in response.context)
@@ -285,7 +286,7 @@ class welreeTests(ExtendedTestCase):
         self.assertNumCssMatches(3, response, 'select#id_collection option')
 
         # someone else's collection should not appear here!
-        models.JewelryCollection.objects.create(owner_id=9, kind=models.JewelryCollection.KIND_IDEABOOK, name='foo3')
+        models.JewelryCollection.objects.create(owner=other_user, kind=models.JewelryCollection.KIND_IDEABOOK, name='foo3')
         response = self.get('/consumer/upload/')
         self.assertNumCssMatches(2, response, 'div.ideabooks .collection-item')
         self.assertNumCssMatches(3, response, 'select#id_collection option')
