@@ -118,6 +118,8 @@ def profile(request, pk):
     return r2r('consumer/profile.jinja', request, locals())
 
 def profile_designer(request, user):
+    collections = [c.annotated() for c in user.collections.all()[:10]]
+    item_photos = user.jewelryitems.order_by('-id')[:5]
     photos = user.photos.all()
     return r2r('designer/profile.jinja', request, locals())
 

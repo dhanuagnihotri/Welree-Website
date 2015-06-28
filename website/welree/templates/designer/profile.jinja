@@ -78,6 +78,9 @@
   .row-bottom {
     margin: 10px;
   }
+  .border-community {
+    margin-top: 20px;
+  }
 </style>
 {% endblock %}
 
@@ -92,8 +95,8 @@
         <div class="blurb">{{ user.bio.rendered|truncatechars(280)|safe }}</div>
       </div>
       <div class="designer-five">
-        {% for i in range(5) %}
-          <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
+        {% for item in item_photos %}
+          <a href="{{ item.get_absolute_url() }}">{{ sorlimgtag(item.primary_photo, "100x100", crop="center") }}</a>
         {% endfor %}
       </div>
     </div>
@@ -127,49 +130,11 @@
 
   <div class="row-bottom">
     <div class="border-wrapper"><div class="border-primary">COLLECTIONS</div><div class="border-span"></div></div>
-    COLLECTIONS
-    <div class="border-wrapper"><div class="border-primary">COMMUNITY</div><div class="border-span"></div></div>
+    {{ macros.collection_rows(collections) }}
+    <div class="border-wrapper border-community"><div class="border-primary">COMMUNITY</div><div class="border-span"></div></div>
     <div id="disqus_thread"></div>
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
   </div>
-
-  {#<div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6 profile-pic">
-              <div class="name">{{ user.full_name }}</div>
-              <div class="follow">
-                {% if not user.id in following %}
-                  <form class="form-tastypie" action="/api/v1/user/follow/">
-                    <input type="hidden" value="{{ user.id }}" name="designer_id">
-                    <input type="submit" value="Follow" class="btn btn-primary pull-right">
-                  </form>
-                {% else %}
-                  <form class="form-tastypie" action="/api/v1/user/unfollow/">
-                    <input type="hidden" value="{{ user.id }}" name="designer_id">
-                    <input type="submit" value="Unfollow" class="btn btn-primary pull-right">
-                  </form>
-                {% endif %}
-              </div>
-              {% if user.photo %}
-                  {{ sorlimgtag(user.photo, "482x482", crop="center") }}
-              {% else %}
-                  <img src="/static/img/person.svg.png" width="100%">
-              {% endif %}
-            </div>
-            <div class="col-lg-6 well">
-                <h4>About this {{ user.noun }}:</h4>
-                {{ user.bio.rendered|safe }}
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-lg-12">
-                <h4>Collections:</h4>
-                {{ macros.collection_rows(collections) }}
-            </div>
-        </div>
-  </div>
-  #}
 {% endblock %}
 {% block extra_js %}
     {% include "disqus.jinja" %}
