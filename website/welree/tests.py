@@ -347,7 +347,7 @@ class welreeTests(ExtendedTestCase):
     def test_user_profile_designer(self):
         user = create_and_login_user(self, is_designer=True)
         response = self.get(user.get_absolute_url())
-        self.assertTrue("{}'s work".format(user.first_name in response.content)
+        self.assertTrue("{}'s work".format(user.first_name) in response.content)
 
     def test_user_profile_user(self):
         user = create_and_login_user(self, is_designer=False)
