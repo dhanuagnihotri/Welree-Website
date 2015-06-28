@@ -105,7 +105,10 @@
 {% block below_container %}
   <p class="text-error">{{ error_msg }}</p>
   <div class="my-header">
-    <h1 class="font-special"><a href="#mywelree" class="tab active">My Welree</a></h1>
+    <h1 class="font-special">
+      <span class="glyphicon glyphicon-{{ "sunglasses" if request.user.is_designer else "user" }} " aria-hidden="true"></span>
+      <a href="#mywelree" class="tab active">My Welree</a>
+    </h1>
     <a href="#ideabooks" class="tab">IdeaBooks</a>
     {#<a href="#styleme" class="tab">Style Me</a>#}
     <a href="#likes" class="tab">Likes</a>
