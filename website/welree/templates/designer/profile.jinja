@@ -2,32 +2,104 @@
 {% import "macros.jinja" as macros %}
 {% block extra_css %}
 <style type="text/css">
-.profile-pic {
-  height: 482px;
-  width: 482px;
-  margin-right: 10px;
-}
-.profile-pic img {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  z-index: -1;
-}
-.profile-pic .name {
-  position: absolute;
-  top: 5px;
-  left: 10px;
-}
-.profile-pic .follow {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-}
+  .designer-container {
+    position: relative;
+    margin-top: -76px;
+    width: 100%;
+  }
+  .designer-image .img {
+    width: 100%;
+    height: 850px;
+    background-image: url("{{ user.photo.url|safe }}");
+    background-size: cover;
+  }
+
+  .designer-name, .designer-blurb {
+    position: absolute;
+    right: 20px;
+    width: 350px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0px 0px 12px 0px #000;
+  }
+  .designer-name {
+    top: 70px;
+    height: 185px;
+    font-size: 32pt;
+    text-align: center;
+  }
+  .designer-blurb {
+    top: 275px;
+    height: 450px;
+    opacity: 0.85;
+  }
+  .designer-blurb img {
+    width: 100%;
+    height: 170px;
+  }
+  .designer-blurb .subtitle {
+    font-size: 18pt;
+    padding: 30px 30px 0px;
+  }
+  .designer-blurb .blurb {
+    font-size: 12pt;
+    padding: 0px 30px 30px;
+  }
+
+  .designer-five {
+  }
+  .designer-five img {
+    width: 100px;
+    height: 100px;
+    border: 3px #e0e0e0;
+  }
+  .designer-five img:hover {
+    border: 3px #27bdbe;
+  }
 </style>
 {% endblock %}
-{% block below_container %}
-    <div class="container-fluid">
+
+{% block above_container %}
+  <div class="designer-container">
+    <div class="designer-image">
+      <div class="img"></div>
+      <div class="designer-name">{{ user.full_name }}</div>
+      <div class="designer-blurb">
+        <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
+        <p class="subtitle">Subtitle for Sydney Joe</p>
+        <div class="blurb">{{ user.bio.rendered|truncatechars(280)|safe }}</div>
+      </div>
+      <div class="designer-five">
+        {% for i in range(5) %}
+          <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8">{{ user.bio.rendered|safe }}</div>
+    <div class="col-lg-4">Picture 1</div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8">Picture 2</div>
+    <div class="col-lg-4">Picture 3</div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8">{{ user.about_studio.rendered|safe }}</div>
+    <div class="col-lg-4">Picture 4</div>
+  </div>
+
+  <div class="border-wrapper"><div class="border-primary">COLLECTIONS</div><div class="border-span"></div></div>
+  COLLECTIONS
+
+  <div class="border-wrapper"><div class="border-primary">COMMUNITY</div><div class="border-span"></div></div>
+  <div id="disqus_thread"></div>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+  {#<div class="container-fluid">
         <div class="row">
             <div class="col-lg-6 profile-pic">
               <div class="name">{{ user.full_name }}</div>
@@ -62,9 +134,8 @@
                 {{ macros.collection_rows(collections) }}
             </div>
         </div>
-    </div>
-    <div id="disqus_thread"></div>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+  #}
 {% endblock %}
 {% block extra_js %}
     {% include "disqus.jinja" %}
