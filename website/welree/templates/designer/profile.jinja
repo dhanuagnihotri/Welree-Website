@@ -10,7 +10,7 @@
   .designer-image .img {
     width: 100%;
     height: 850px;
-    background-image: url("{{ user.photo.url|safe }}");
+    background-image: url("{{ user.photo.url|safe if user.photo else "/static/img/person.svg.png" }}");
     background-size: cover;
   }
   .designer-name, .designer-blurb {

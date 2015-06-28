@@ -127,7 +127,11 @@
             <div class="gradient"></div>
             <img class="collection-border collection-border-left" src="/static/img/collection-bg-left.png">
             <img class="collection-border collection-border-right" src="/static/img/collection-bg-right.png">
-            {{ sorlimgtag(collection.annotated_photos[0], "512x100", crop="center", classes="collection") }}
+            {% if collection.annotated_photos[0] %}
+              {{ sorlimgtag(collection.annotated_photos[0], "512x100", crop="center", classes="collection") }}
+            {% else %}
+              <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg" width="512" height="100">
+            {% endif %}
             <p class="collection-name">{{ collection.name }}</p>
             <p class="collection-owner font-special">{{ collection.owner.full_name }}</p>
         </div>
