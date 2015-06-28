@@ -13,7 +13,6 @@
     background-image: url("{{ user.photo.url|safe }}");
     background-size: cover;
   }
-
   .designer-name, .designer-blurb {
     position: absolute;
     right: 20px;
@@ -45,16 +44,39 @@
     font-size: 12pt;
     padding: 0px 30px 30px;
   }
-
   .designer-five {
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+    width: 100%;
   }
   .designer-five img {
     width: 100px;
     height: 100px;
-    border: 3px #e0e0e0;
+    border: 3px solid #e0e0e0;
+    margin: 0px 5px;
   }
   .designer-five img:hover {
-    border: 3px #27bdbe;
+    border: 3px solid #27bdbe;
+  }
+  .designer-five-title {
+    width: 100%;
+    text-align: center;
+    font-size: 22pt;
+    text-transform: uppercase;
+  }
+  .col-img img {
+    width: 100%;
+    height: 300px;
+  }
+  .col-txt {
+    font-size: 12pt;
+  }
+  .row {
+    margin-bottom: 10px;
+  }
+  .row-bottom {
+    margin: 10px;
   }
 </style>
 {% endblock %}
@@ -76,28 +98,40 @@
       </div>
     </div>
   </div>
+  <p class="designer-five-title">{{ user.first_name }}'s work</p>
 
+  <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-8">{{ user.bio.rendered|safe }}</div>
-    <div class="col-lg-4">Picture 1</div>
+    <div class="col-md-8 col-txt">{{ user.bio.rendered|safe }}</div>
+    <div class="col-md-4 col-img">
+      {% if photos[0] %}{{ sorlimgtag(photos[0].photo, "425x300", crop="center") }}{% endif %}
+    </div>
   </div>
 
   <div class="row">
-    <div class="col-lg-8">Picture 2</div>
-    <div class="col-lg-4">Picture 3</div>
+    <div class="col-md-8 col-img">
+      {% if photos[1] %}{{ sorlimgtag(photos[1].photo, "800x300", crop="center") }}{% endif %}
+    </div>
+    <div class="col-md-4 col-img">
+      {% if photos[2] %}{{ sorlimgtag(photos[2].photo, "425x300", crop="center") }}{% endif %}
+    </div>
   </div>
 
   <div class="row">
-    <div class="col-lg-8">{{ user.about_studio.rendered|safe }}</div>
-    <div class="col-lg-4">Picture 4</div>
+    <div class="col-md-8 col-txt">{{ user.about_studio.rendered|safe }}</div>
+    <div class="col-md-4 col-img">
+      {% if photos[3] %}{{ sorlimgtag(photos[3].photo, "425x300", crop="center") }}{% endif %}
+    </div>
+  </div>
   </div>
 
-  <div class="border-wrapper"><div class="border-primary">COLLECTIONS</div><div class="border-span"></div></div>
-  COLLECTIONS
-
-  <div class="border-wrapper"><div class="border-primary">COMMUNITY</div><div class="border-span"></div></div>
-  <div id="disqus_thread"></div>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  <div class="row-bottom">
+    <div class="border-wrapper"><div class="border-primary">COLLECTIONS</div><div class="border-span"></div></div>
+    COLLECTIONS
+    <div class="border-wrapper"><div class="border-primary">COMMUNITY</div><div class="border-span"></div></div>
+    <div id="disqus_thread"></div>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
 
   {#<div class="container-fluid">
         <div class="row">

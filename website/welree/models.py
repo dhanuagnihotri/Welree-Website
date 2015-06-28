@@ -59,7 +59,7 @@ class CustomUser(AbstractUser):
 
     def get_absolute_url(self):
         return "{}{}/".format(reverse("profile", kwargs={"pk": self.id}), defaultfilters.slugify(self.full_name))
-    
+
     @classmethod
     def signup(cls, signup_form):
         password = signup_form.cleaned_data['password']

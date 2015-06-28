@@ -112,8 +112,14 @@ def collection(request, coll_pk):
 
 def profile(request, pk):
     user = get_object_or_404(models.CustomUser, pk=pk)
+    if user.is_designer:
+        return profile_designer(request, user)
     collections = [c.annotated() for c in user.collections.all()[:10]]
-    return r2r('{}/profile.jinja'.format('designer' if user.is_designer else 'consumer'), request, locals())
+    return r2r('consumer/profile.jinja', request, locals())
+
+def profile_designer(request, user):
+    photos = user.photos.all()
+    return r2r('designer/profile.jinja', request, locals())
 
 @login_required
 def my(request):
@@ -137,7 +143,7 @@ def my(request):
 
     formClass = DesignerProfileForm if request.user.is_designer else ProfileForm
     from django.forms.models import inlineformset_factory
-    photo_factory = inlineformset_factory(models.CustomUser, models.UserPhoto, exclude=["order"], extra=3, max_num=3, can_delete=False)
+    photo_factory = inlineformset_factory(models.CustomUser, models.UserPhoto, exclude=["order"], extra=4, max_num=4, can_delete=False)
     inline_photos = photo_factory(instance=request.user, prefix="photos")
 
     profile_form = formClass(instance=request.user)
