@@ -1,6 +1,10 @@
 <div class="container-responsive view-collection">
   <div class="row">
-    {{ macros.hr(collection.name.upper()) }}
+    <div class="col-md-12">
+      {{ macros.hr(collection.name.upper()) }}
+    </div>
+  </div>
+  <div class="row gradient">
     <div class="col-md-8">
       {{ macros.grid_items(items) }}
     </div>

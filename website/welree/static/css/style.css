@@ -339,19 +339,25 @@ div.collection-slider .slider-collection-new {
 }
 .border-wrapper {
   position: relative;
+  overflow-x: hidden;
+}
+.border-primary, .border-mid, .border-span {
+    display: inline-block;
+    margin: 0px;
+    padding: 0px;
 }
 .border-primary {
     font-size: 1.5em;
     font-weight: bold;
     border-bottom: 10px solid #27bdbe;
     width: 20%;
-    display: inline-block;
+}
+.border-mid {
+    width: 1%;
 }
 .border-span {
     border-bottom: 10px solid #e0e0e0;
-    width: 79%;
-    display: inline-block;
     position: absolute;
-    margin-left: 5px;
     bottom: 0px;
+    width: 79%;
 }
