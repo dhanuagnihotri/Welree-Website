@@ -1,9 +1,12 @@
-<div class="container-responsive">
+<div class="container-responsive view-collection">
   <div class="row">
     {{ macros.hr(collection.name.upper()) }}
     <div class="col-md-8">
+      {{ macros.grid_items(items) }}
     </div>
     <div class="col-md-4">
+      <p class="collection-title">{{ collection.name }}</p>
+      <p class="collection-description">{{ collection.description }}</p>
     </div>
   </div>
 </div>

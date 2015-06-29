@@ -335,6 +335,7 @@ div.collection-slider .slider-collection-new {
 .phase2-border {
   border: 3px solid #e0e0e0;
   margin: 12.5px;
+  position: relative;
 }
 .border-wrapper {
   position: relative;

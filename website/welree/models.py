@@ -187,7 +187,7 @@ class JewelryCollection(models.Model):
     name = models.CharField(max_length=63)
     description = models.TextField()
     items = models.ManyToManyField('welree.JewelryItem', related_name="collections")
-    
+
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
