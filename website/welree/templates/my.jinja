@@ -104,6 +104,7 @@
 {% endblock %}
 {% block below_container %}
   <p class="text-error">{{ error_msg }}</p>
+  {{ macros.tastypie_modal_form('collection-new-main', '/api/v1/collection/', form_collection_new, 'New Collection', 'Create Collection') }}
   <div class="my-header">
     <h1 class="font-special">
       <span class="glyphicon glyphicon-{{ "sunglasses" if request.user.is_designer else "user" }} " aria-hidden="true"></span>
@@ -119,7 +120,7 @@
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="mywelree">
       <div class="border-wrapper"><div class="border-primary">{{ len(collections) }} IDEABOOKS</div><div class="border-span"></div></div>
-      {{ macros.grid_ideabooks(collections, form_collection_new, max=3) }}
+      {{ macros.grid_ideabooks(collections, max=3, my=True) }}
       <div class="border-wrapper"><div class="border-primary">{{ len(relevant_likes) }} LIKES</div><div class="border-span"></div></div>
       {{ macros.grid_likes(relevant_likes, max=8) }}
       <div class="border-wrapper"><div class="border-primary">{{ len(relevant_follows) }} {{ "FOLLOWERS" if request.user.is_designer else "FOLLOWING" }}</div><div class="border-span"></div></div>
@@ -165,25 +166,11 @@
       {% endif %}
     </div>
     <div role="tabpanel" class="tab-pane" id="ideabooks">
-      {% if collections %}
-        <div class="row">
-            <div class="col-md-12 slider">
-                {{ macros.slider(collections, form_collection_new) }}
-            </div>
-        </div>
-        <div class="row">
-          <div class="col-md-7">
-            {% for item in list(collection.items.all())*3 %}
-              {{ sorlimgtag(item.primary_photo, "190x190", crop="center") }}
-            {% endfor %}
-          </div>
-          <div class="col-md-5 right collection-description">
-            <h1>{{ collection.name }}</h1>
-            <p>{{ collection.description }}</p>
-          </div>
-        </div>
+      {% if collection %}
+        {% include "my_collection.jinja" %}
       {% else %}
-        You don't currently have any collections. Create one!
+        {{ macros.hr("{} IDEABOOKS".format(len(collections))) }}
+        {{ macros.grid_ideabooks(collections, max=999, my=True) }}
       {% endif %}
     </div>
     <div role="tabpanel" class="tab-pane" id="styleme">Style Me</div>

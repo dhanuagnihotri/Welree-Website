@@ -31,23 +31,6 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro slider(items, form) %}
-  <div class="collection-slider">
-    <a href="#"><div class="chevron"><img src="/static/img/chevron-left.png" class="chevron"></div></a>
-    {% for item in items %}
-      <a href="?collection={{item.id}}">
-        <div class="slider-collection">
-          {% if item.annotated_photos %}{{ sorlimgtag(item.annotated_photos[0], "200x100", crop="center") }}{% endif %}
-          <span>{{ item.name }}</span>
-        </div>
-      </a>
-    {% endfor %}
-    <a href="#"><div class="chevron"><img src="/static/img/chevron-right.png" class="chevron"></div></a>
-    <a href="#" data-toggle="modal" data-target="#modal-collection-new"><div class="slider-collection slider-collection-new"><span>+ IDEA BOOK</span></div></a>
-    {{ tastypie_modal_form('collection-new', '/api/v1/collection/', form, 'New Collection', 'Create Collection') }}
-  </div>
-{% endmacro %}
-
 {% macro individual_carousel(likes, collection, jewelryitem, w=580, h=400) %}
 <div>
     <div id="top-carousel" class="carousel slide">
@@ -175,7 +158,7 @@
       </div>
 {% endmacro %}
 
-{% macro grid_ideabooks(ideabooks, form, max=999) %}
+{% macro grid_ideabooks(ideabooks, max=999, w=200, h=150, my=False) %}
   <div class="clearfix">
     <div class="tile-ideabook tile-ideabook-create">
       <a href="#" data-toggle="modal" data-target="#modal-collection-new-main">
@@ -185,10 +168,10 @@
         <div>CREATE IDEABOOK</div>
       </a>
     </div>
-    {{ tastypie_modal_form('collection-new-main', '/api/v1/collection/', form, 'New Collection', 'Create Collection') }}
     {% for book in ideabooks[:max] %}
       {% set image = book.annotated_photos[0] if book.annotated_photos else None %}
-      {{ tile(image, book.name, book.get_absolute_url()) }}
+      {% set url = '?collection={}'.format(book.id) if my else book.get_absolute_url() %}
+      {{ tile(image, book.name, url, w, h) }}
     {% endfor %}
   </div>
 {% endmacro %}
@@ -203,4 +186,8 @@
   <div class="clearfix">{% for item in items[:max] %}
     {{ tile(item.photo, item.username, item.get_absolute_url(), default_image="/static/img/person.svg.png") }}
   {% endfor %}</div>
+{% endmacro %}
+
+{% macro hr(title) %}
+  <div class="border-wrapper"><div class="border-primary">{{ title }}</div><div class="border-span"></div></div>
 {% endmacro %}

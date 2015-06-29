@@ -130,8 +130,10 @@ def my(request):
     try:
         cid = int(request.GET['collection'])
         collection = request.user.collections.get(id=cid)
+        owner = collection.owner
+        items = collection.items.all()
     except:
-        collection = collections[0] if collections else None
+        collection = None
 
     followingcollections = models.JewelryCollection.objects.filter(owner__in=request.user.following.all()).order_by('-added')
     followingcollections = [c.annotated() for c in followingcollections]
@@ -160,6 +162,7 @@ def my(request):
                     instance.owner = request.user
                     instance.save()
             messages.success(request, 'You\'ve successfully updated your profile!')
+            return redirect('my')
 
     return r2r('my.jinja', request, locals())
 
