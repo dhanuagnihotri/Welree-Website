@@ -13,4 +13,13 @@
       <p class="collection-description">{{ collection.description }}</p>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-12">
+      {{ macros.hr("COMMUNITY") }}
+      <div id="disqus_thread"></div>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </div>
+  </div>
 </div>
+{% set disqus_url = collection.get_absolute_url()[:-1] %}
+{% include "disqus.jinja" %}
