@@ -10,7 +10,7 @@
   .designer-image .img {
     width: 100%;
     height: 850px;
-    background-image: url("{{ user.photo.url|safe if user.photo else "/static/img/person.svg.png" }}");
+    background-image: url("{{ user.cover_photo.url|safe if user.cover_photo else "/static/img/person.svg.png" }}");
     background-size: cover;
   }
   .designer-name, .designer-blurb {
@@ -88,9 +88,15 @@
   <div class="designer-container">
     <div class="designer-image">
       <div class="img"></div>
-      <div class="designer-name">{{ user.full_name }}</div>
+      <div class="designer-name">
+        {% if user.logo %}
+          {{ sorlimgtag(user.logo, "350x185", crop="center") }}
+        {% else %}
+          {{ user.full_name }}
+        {% endif %}
+      </div>
       <div class="designer-blurb">
-        <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg">
+        <img src="{{ user.photo.url|safe if user.photo else "/static/img/person.svg.png" }}>
         <p class="subtitle">Subtitle for Sydney Joe</p>
         <div class="blurb">{{ user.bio.rendered|truncatechars(280)|safe }}</div>
       </div>
@@ -130,7 +136,7 @@
 
   <div class="row-bottom">
     <div class="border-wrapper"><div class="border-primary">COLLECTIONS</div><div class="border-span"></div></div>
-    {{ macros.collection_rows(collections) }}
+    {{ macros.grid_ideabooks(collections) }}
     <div class="border-wrapper border-community"><div class="border-primary">COMMUNITY</div><div class="border-span"></div></div>
     <div id="disqus_thread"></div>
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>

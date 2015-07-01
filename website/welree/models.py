@@ -21,10 +21,12 @@ class CustomUser(AbstractUser):
     is_designer = models.BooleanField(default=False, verbose_name="I'm a jewelry designer", help_text="We'll use this to customize your experience on Welree.")
     email_confirmed = models.BooleanField(default=False)
     bio = MarkupField(default="", markup_type="markdown", help_text=MARKDOWN_ALLOWED, blank=True, null=True)
-    photo = SorlImageField(upload_to="profiles", blank=True, null=True)
+    photo = SorlImageField(upload_to="profiles", blank=True, null=True, help_text="A photo of you that we'll display on your profile.")
     following = models.ManyToManyField('self', related_name="followers", symmetrical=False, blank=True)
     activity = generic.GenericRelation('UserActivity')
     about_studio = MarkupField(default="", markup_type="markdown", help_text=MARKDOWN_ALLOWED, blank=True, null=True)
+    cover_photo = SorlImageField(upload_to="profiles", blank=True, null=True, help_text="A wide, high resolution image to display at the top of your profile.")
+    logo = SorlImageField(upload_to="profiles", blank=True, null=True, help_text="An optional business card sized logo for your profile.")
 
     def email_user(self, subject, message, from_email=None, ignore_confirmed=False):
         if not (ignore_confirmed or self.email_confirmed):
