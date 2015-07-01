@@ -233,7 +233,9 @@
 <script>
   $(function() {
     var fade = 0;
+    var redirect_check = function() {};
     $('.my-header a.tab').on('click', function(e) {
+      redirect_check(this);
       $('.my-header a').removeClass('active');
       var target = $(this).addClass('active').attr('href');
       $('.tab-pane.active').stop(true, true).fadeOut(fade, function() {
@@ -244,9 +246,15 @@
     if (window.location.hash) {
       $('a[href='+window.location.hash+']').click();
     } else {
+      window.location.hash = 'ideabooks';
       $('a[href=#ideabooks]').click();
     }
     fade = 300;
+    redirect_check = function(that) {
+      if ($(that).attr('href') == '#ideabooks' && window.location.href.indexOf('?collection=') !== -1) {
+        window.location.href = '/my/#ideabooks';
+      }
+    }
   });
 </script>
 {% endblock %}
