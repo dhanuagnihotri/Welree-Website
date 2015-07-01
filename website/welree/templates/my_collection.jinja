@@ -6,7 +6,7 @@
   </div>
   <div class="row gradient">
     <div class="col-md-8">
-      {{ macros.grid_items(items) }}
+      {{ macros.grid_items(items, request.user.get_upload_url(collection)) }}
     </div>
     <div class="col-md-4">
       <p class="collection-title">{{ collection.name }}</p>

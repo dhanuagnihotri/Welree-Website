@@ -207,9 +207,10 @@ def search(request):
 
 @login_required
 def consumer_upload(request):
+    collection = request.GET.get('collection')
     form_ideabook_new = CollectionForm(initial={'kind': models.JewelryCollection.KIND_IDEABOOK})
     form_jewelbox_new = CollectionForm(initial={'kind': models.JewelryCollection.KIND_JEWELBOX})
-    form_jewelryitem_new = JewelryItemForm(owner=request.user)
+    form_jewelryitem_new = JewelryItemForm(owner=request.user, initial={'collection': collection})
     collections = request.user.collections.all()
     ideabooks = request.user.ideabooks.all()
     jewelboxes = request.user.jewelboxes.all()
@@ -217,8 +218,9 @@ def consumer_upload(request):
 
 @login_required
 def designer_upload(request):
+    collection = request.GET.get('collection')
     form_collection_new = CollectionForm(initial={'kind': models.JewelryCollection.KIND_DESIGNER})
-    form_jewelryitem_new = JewelryItemForm(owner=request.user)
+    form_jewelryitem_new = JewelryItemForm(owner=request.user, initial={'collection': collection})
     collections = request.user.collections.filter(kind=models.JewelryCollection.KIND_DESIGNER)
     return r2r('designer/upload.jinja', request, locals())
 

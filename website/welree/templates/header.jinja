@@ -67,7 +67,7 @@
                 {% else %}
                   <li><a href="{{ url("my") }}">My Welree</a></li>
                   <li class="divider"></li>
-                  <li><a href="{{ url("designer_upload") if request.user.is_designer else url("consumer_upload") }}">Upload Photos</a></li>
+                  <li><a href="{{ request.user.get_upload_url() }}">Upload Photos</a></li>
                   <li class="divider"></li>
                   <li><a href="/logout/">Sign out</a></li>
                 {% endif %}

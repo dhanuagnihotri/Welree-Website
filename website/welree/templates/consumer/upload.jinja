@@ -7,7 +7,7 @@
     <p class="text-error">{{ error_msg }}</p>
 
     <div class="container-fluid">
-        <div class="row">
+        <div class="row {{ "hidden" if collections else "" }}">
             <div class="col-lg-6 well ideabooks">
                 <h4>IdeaBooks:</h4>
                 <a href="#" data-toggle="modal" data-target="#modal-ideabook-new"><div class="collection-item collection-new">+ Add New</div></a>

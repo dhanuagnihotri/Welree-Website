@@ -7,7 +7,8 @@
     <p class="text-error">{{ error_msg }}</p>
 
     <div class="container-fluid">
-        <div class="row"><div class="col-lg-12 well">
+      <div class="row {{ "hidden" if collection else "" }}">
+        <div class="col-lg-12 well">
             <h4>Collections:</h4>
             <a href="#" data-toggle="modal" data-target="#modal-collection-new"><div class="collection-item collection-new">+ Add New</div></a>
             {% for collection in collections %}
@@ -15,22 +16,23 @@
             {% endfor %}
 
             {{ macros.tastypie_modal_form('collection-new', '/api/v1/collection/', form_collection_new, 'New Designer Collection', 'Create Collection') }}
-        </div></div>
-        <div class="row">
-            <div class="col-lg-8 well">
-                <h4>Add a new piece:</h4>
-                <form class="form-tastypie" action="/api/v1/jewelry/" enctype="multipart/form-data" redirect="{{ url("item", coll_pk=888, item_pk=999) }}">{% csrf_token %}
-                    <p class="text-error"></p>
-                    {{ form_jewelryitem_new|as_bootstrap() }}
-                    <input type="submit" value="Upload" class="btn btn-primary pull-right">
-                </form>
-            </div>
-
-            <div class="col-lg-4 upload-sidebar">
-                <div class="well">Guidance on photo resolution, sizes, etc.</div>
-                <div class="well">Social sharing options.</div>
-                <div class="well">Copyright notice.</div>
-            </div>
         </div>
+      </div>
+      <div class="row">
+          <div class="col-lg-8 well">
+              <h4>Add a new piece:</h4>
+              <form class="form-tastypie" action="/api/v1/jewelry/" enctype="multipart/form-data" redirect="{{ url("item", coll_pk=888, item_pk=999) }}">{% csrf_token %}
+                  <p class="text-error"></p>
+                  {{ form_jewelryitem_new|as_bootstrap() }}
+                  <input type="submit" value="Upload" class="btn btn-primary pull-right">
+              </form>
+          </div>
+
+          <div class="col-lg-4 upload-sidebar">
+              <div class="well">Guidance on photo resolution, sizes, etc.</div>
+              <div class="well">Social sharing options.</div>
+              <div class="well">Copyright notice.</div>
+          </div>
+      </div>
     </div>
 {% endblock %}

@@ -264,6 +264,7 @@ class welreeTests(ExtendedTestCase):
 
         other_user = create_and_login_user(self)
         user = create_and_login_user(self)
+        self.assertEquals(user.get_upload_url(), '/consumer/upload/')
         response = self.get('/consumer/upload/')
         self.assertTrue('form_ideabook_new' in response.context)
         self.assertTrue('form_jewelbox_new' in response.context)
@@ -295,6 +296,7 @@ class welreeTests(ExtendedTestCase):
         self.assertStatus(301, '/designer/upload')
 
         user = create_and_login_user(self, is_designer=True)
+        self.assertEquals(user.get_upload_url(), '/designer/upload/')
         response = self.get('/designer/upload/')
         self.assertTrue('form_collection_new' in response.context)
         self.assertTrue('form_jewelryitem_new' in response.context)

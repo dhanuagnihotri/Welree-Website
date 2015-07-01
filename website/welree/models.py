@@ -60,6 +60,12 @@ class CustomUser(AbstractUser):
     def get_absolute_url(self):
         return "{}{}/".format(reverse("profile", kwargs={"pk": self.id}), defaultfilters.slugify(self.full_name))
 
+    def get_upload_url(self, collection=None):
+        url = reverse("designer_upload") if self.is_designer else reverse("consumer_upload")
+        if collection:
+            url = "{}?collection={}".format(url, collection.id)
+        return url
+
     @classmethod
     def signup(cls, signup_form):
         password = signup_form.cleaned_data['password']
