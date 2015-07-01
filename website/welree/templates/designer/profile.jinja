@@ -33,7 +33,7 @@
     opacity: 0.85;
   }
   .designer-blurb img {
-    width: 100%;
+    width: 350px;
     height: 170px;
   }
   .designer-blurb .subtitle {
@@ -96,7 +96,11 @@
         {% endif %}
       </div>
       <div class="designer-blurb">
-        <img src="{{ user.photo.url|safe if user.photo else "/static/img/person.svg.png" }}>
+        {% if user.photo %}
+          {{ sorlimgtag(user.photo, "350x170", crop="center") }}
+        {% else %}
+          <img src="/static/img/person.svg.png">
+        {% endif %}
         <p class="subtitle">Subtitle for Sydney Joe</p>
         <div class="blurb">{{ user.bio.rendered|truncatechars(280)|safe }}</div>
       </div>
