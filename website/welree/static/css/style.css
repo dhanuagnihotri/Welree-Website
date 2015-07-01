@@ -363,6 +363,9 @@ div.collection-slider .slider-collection-new {
 }
 
 /* macros.grid_ideabook */
+.tile-ideabook-create a {
+  color: #000;
+}
 .tile-ideabook-create img {
   width: 100px;
   margin-top: 25px;
