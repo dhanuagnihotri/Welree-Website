@@ -160,16 +160,16 @@
       </div>
 {% endmacro %}
 
-{% macro grid_items(items, url) %}
+{% macro grid_items(items, url, add=True) %}
   <div class="clearfix">
-    <div class="tile-ideabook tile-ideabook-create">
+    {% if add %}<div class="tile-ideabook tile-ideabook-create">
       <a href="{{ url }}">
         <div class="phase2-border">
           <img src="/static/img/icon-new-ideabook.png">
           <div style="position: absolute; bottom: 0px; text-align: center; width: 100%">ADD PHOTO</div>
         </div>
       </a>
-    </div>
+    </div>{% endif %}
     {% for item in items %}
       {{ tile(item.primary_photo, "foo", "#") }}
     {% endfor %}

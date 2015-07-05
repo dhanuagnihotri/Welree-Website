@@ -1,58 +1,55 @@
 {% extends "base.jinja" %}
 {% import "macros.jinja" as macros %}
 {% block extra_css %}
+<link rel="stylesheet" type="text/css" href="/static/css/designer.css"/>
 <style type="text/css">
-    .row {
-        overflow: hidden;
-    }
-    [class*="col-"] {
-        margin-bottom: -99999px;
-        padding-bottom: 99999px;
-    }
-
-    img.img-thumbnail {
-        height: 140px;
-        width: 140px;
-    }
-
-    .container-fluid a {
-      color: #27bdbe;
-    }
+  .designer-image .img {
+    background-image: url("{{ item.primary_photo.url|safe if item.primary_photo else "/static/img/person.svg.png" }}");
+  }
+  .designer-blurb {
+    top: 70px;
+  }
+  .border-primary {
+    font-size: 1.2em;
+  }
 </style>
 {% endblock %}
-{% block below_container %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6">
-                {{ macros.individual_carousel(likes, collection, item) }}
-            </div>
-            <div class="col-lg-6 well">
-                <h4>Details:</h4>
-                <p>{{ item.description }} by <a href="{{ collection.owner.get_absolute_url() }}">{{ collection.owner.full_name }}</a></p>
-                <p>Part of collection <a href="{{ collection.get_absolute_url() }}">{{ collection.name }}</a></p>
-                {% if item.url %}<p>From: {{ item.url|urlize }}</p>{% endif %}
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-lg-6">
-                <h4>About this {{ owner.noun }}:</h4>
-                {{ owner.bio.rendered|safe }}
-            </div>
-            <div class="col-lg-6">
-                <div>
-                    <h4>Photos in this collection:</h4>
-                    {{ macros.thumb_row(related_collection, collection) }}
-                </div>
-                <div>
-                    <h4>Similar to this photo:</h4>
-                    {{ macros.thumb_row(related_similar, collection) }}
-                </div>
-            </div>
-        </div>
+
+{% block above_container %}
+  <div class="designer-container">
+    <div class="designer-image">
+      <div class="img"></div>
+      <div class="designer-blurb">
+        <p class="subtitle">{{ collection.name }}</p>
+        <div class="blurb">{{ item.description|truncatechars(280)|safe }}</div>
+      </div>
+      <div class="designer-five">
+        {% for item in related_collection[:5] %}
+          <a href="{{ item.get_absolute_url() }}">{{ sorlimgtag(item.primary_photo, "100x100", crop="center") }}</a>
+        {% endfor %}
+      </div>
+      <div class="carousel-actions">
+        {% if item.id in likes %}
+          <a href="#" class="action-unlike"><img src="/static/img/heart-active.png"></a>
+        {% else %}
+          <a href="#" class="action-like"><img src="/static/img/action-heart.png"></a>
+        {% endif %}
+        <a href="#" class="action-add" data-collection-id="{{ collection.id }}" data-item-id="{{ item.id }}"><img src="/static/img/action-add.png"></a>
+      </div>
     </div>
+    </div>
+  </div>
+  <p class="designer-five-title">COLLECTION IMAGES</p>
+
+  <div class="row-bottom">
+    <div class="border-wrapper"><div class="border-primary">PHOTOS IN THIS COLLECTION</div><div class="border-span"></div></div>
+    {{ macros.grid_items(related_collection, "#", add=False) }}
+    <div class="border-wrapper"><div class="border-primary">SIMILAR TO "{{ item.description }}"</div><div class="border-span"></div></div>
+    {{ macros.grid_items(related_similar, "#", add=False) }}
+    <div class="border-wrapper border-community"><div class="border-primary">COMMUNITY</div><div class="border-span"></div></div>
     <div id="disqus_thread"></div>
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
 {% endblock %}
 {% block extra_js %}
     {% include "disqus.jinja" %}
@@ -62,3 +59,4 @@
         });
     </script>
 {% endblock %}
+

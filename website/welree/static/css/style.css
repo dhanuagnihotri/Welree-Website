@@ -256,12 +256,12 @@ a:hover {
     left: 20px;
     font-size: 32pt;
 }
-.carousel .carousel-actions {
+ .carousel-actions {
     position: absolute;
     bottom: 10px;
     right: 10px;
 }
-.carousel .carousel-actions img {
+ .carousel-actions img {
     height: 20px;
     width: 20px;
     margin-right: 5px;
