@@ -70,7 +70,7 @@
           {% endif %}
         </div>
         <div class="col-md-4">
-          <p style="font-size: 18pt; font-weight: bold;">{{ owner.full_name }}</p>
+          <p style="font-size: 18pt; font-weight: bold; margin-top: 20px;">{{ owner.full_name }}</p>
           <p style="font-size: 12pt;">{{ owner.bio.rendered|truncatechars(560)|safe }}</p>
         </div>
         <div class="col-md-4 visit-profile"><a class="btn btn-primary" href="{{ owner.get_absolute_url() }}">VISIT PROFILE</a></div>
