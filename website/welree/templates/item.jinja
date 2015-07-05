@@ -12,6 +12,17 @@
   .border-primary {
     font-size: 1.2em;
   }
+  .visit-profile {
+    text-align: center;
+    padding-top: 120px;
+  }
+  .col-md-4 {
+    background-color: #ddecf0;
+    height: 300px;
+  }
+  .border-wrapper {
+    margin-top: 10px;
+  }
 </style>
 {% endblock %}
 
@@ -44,8 +55,28 @@
   <div class="row-bottom">
     <div class="border-wrapper"><div class="border-primary">PHOTOS IN THIS COLLECTION</div><div class="border-span"></div></div>
     {{ macros.grid_items(related_collection, "#", add=False) }}
+
     <div class="border-wrapper"><div class="border-primary">SIMILAR TO "{{ item.description }}"</div><div class="border-span"></div></div>
     {{ macros.grid_items(related_similar, "#", add=False) }}
+
+    <div class="border-wrapper"><div class="border-primary">ARTIST</div><div class="border-span"></div></div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4" style="padding-left: 0px;">
+          {% if owner.photo %}
+            {{ sorlimgtag(owner.photo, "400x300", crop="center") }}
+          {% else %}
+            <img src="/static/img/person.svg.png">
+          {% endif %}
+        </div>
+        <div class="col-md-4">
+          <p style="font-size: 18pt; font-weight: bold;">{{ owner.full_name }}</p>
+          <p style="font-size: 12pt;">{{ owner.bio.rendered|truncatechars(560)|safe }}</p>
+        </div>
+        <div class="col-md-4 visit-profile"><a class="btn btn-primary" href="{{ owner.get_absolute_url() }}">VISIT PROFILE</a></div>
+      </div>
+    </div>
+
     <div class="border-wrapper border-community"><div class="border-primary">COMMUNITY</div><div class="border-span"></div></div>
     <div id="disqus_thread"></div>
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
