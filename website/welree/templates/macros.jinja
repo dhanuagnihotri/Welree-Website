@@ -171,7 +171,7 @@
       </a>
     </div>{% endif %}
     {% for item in items %}
-      {{ tile(item.primary_photo, "foo", "#") }}
+      {{ tile(item.primary_photo, item.description, item.get_absolute_url()) }}
     {% endfor %}
   </div>
 {% endmacro %}
