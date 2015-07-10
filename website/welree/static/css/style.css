@@ -392,5 +392,7 @@ div.collection-slider .slider-collection-new {
     height: 156px;
 }
 .tile-name {
-    word-wrap: break-word;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
