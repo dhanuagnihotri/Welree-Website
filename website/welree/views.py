@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, JsonResponse, HttpResponseForbidden, HttpResponseServerError
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from haystack.query import SearchQuerySet
@@ -284,3 +285,10 @@ def password_reset_done(request):
     messages.success(request, message)
     return redirect('home')
 
+@csrf_exempt
+def github(request):
+    from django.conf import settings
+    import subprocess
+    subprocess.check_call(["git", "pull"], cwd=settings.WEBSITE_DIR)
+    subprocess.check_call(["pbdeploy"], cwd=settings.WEBSITE_DIR)
+    return HttpResponse()

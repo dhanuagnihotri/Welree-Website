@@ -20,6 +20,7 @@ app_urls = (
         'consumer/upload',
         'search',
         'my',
+        'github',
     )
 )
 
