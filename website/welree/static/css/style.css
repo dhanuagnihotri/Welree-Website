@@ -69,6 +69,7 @@ body, p, h1, h2, h3, h4, h5, h6 {
 #header img.triple {
     height: 28px;
     padding-top: 4px;
+    position: absolute;
 }
 #header input[type=search] {
     height: 1em;
@@ -110,9 +111,49 @@ body, p, h1, h2, h3, h4, h5, h6 {
 #header.expanded img.logo-contracted {
     display: none;
 }
+#header ul.facets {
+    padding-left: 28px;
+}
 #header li a {
     padding-top: 8px;
     padding-bottom: 5px;
+}
+#header li.search-facet {
+  list-style-type: none;
+  font-size: 0.9em;
+}
+#header li.active-facet span.facet-title {
+  color: #27bdbe;
+}
+.arrow_box {
+	position: relative;
+	background: #fff;
+	border: 1px solid #ccc;
+  margin-top: 42px;
+  margin-left: -13px;
+}
+.arrow_box:after, .arrow_box:before {
+	bottom: 100%;
+	left: 26px;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.arrow_box:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-bottom-color: #fff;
+	border-width: 15px;
+	margin-left: -15px;
+}
+.arrow_box:before {
+	border-color: rgba(204, 204, 204, 0);
+	border-bottom-color: #ccc;
+	border-width: 16px;
+	margin-left: -16px;
 }
 #header button.navbar-toggle {
     padding: 2px;

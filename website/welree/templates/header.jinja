@@ -14,15 +14,15 @@
           {% macro searchdrop(title, values) %}
             <li role="presentation"><a href="#" class="search-category">
                 <span class="glyphicon glyphicon-plus"></span>
-                {{ title.title() }}
-                <ul style="display:none;">
+                <span class="facet-title">{{ title.upper() }}</span>
+                <ul class="facets" style="display:none;">
                     {% for value in values %}
                         <li class="search-facet" data-facet="{{title}}" data-facet-value="{{value}}">{{ value }}</li>
                     {% endfor %}
                 </ul></a>
             </li>
           {% endmacro %}
-          <ul class="dropdown-menu" role="menu">
+          <ul class="dropdown-menu arrow_box" role="menu">
               {% for facet, values in welree_facets.items() %}
                   {{ searchdrop(facet, values) }}
               {% endfor %}
