@@ -6,6 +6,9 @@
 .designer-image .img {
   background-image: url("{{ user.cover_photo.url|safe if user.cover_photo else "/static/img/person.svg.png" }}");
 }
+.tile-ideabook-create {
+  display: none;
+}
 </style>
 {% endblock %}
 

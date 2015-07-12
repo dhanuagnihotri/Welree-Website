@@ -1,6 +1,7 @@
 {% extends "base.jinja" %}
 {% import "macros.jinja" as macros %}
 {% block extra_css %}
+<link rel="stylesheet" type="text/css" href="/static/css/view_collection.css"/>
 <style type="text/css">
   .my-header {
     text-align: bottom;
@@ -73,24 +74,6 @@
     color: #27bdbe !important;
     text-decoration: none;
   }
-
-  .view-collection .collection-title {
-    font-size: 22pt;
-    font-weight: bold;
-  }
-  .view-collection .collection-description {
-    font-size: 18pt;
-  }
-  .view-collection .gradient {
-    background: -moz-linear-gradient(top, #e0e0e0 0%, #fff 15%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e0e0e0), color-stop(15%,#fff)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #e0e0e0 0%, #fff 15%);
-    background: linear-gradient(top, #e0e0e0 0%, #fff 15%); /* W3c */
-  }
-  .view-collection .col-md-12 {
-    padding: 0px !important;
-  }
-
 </style>
 {% endblock %}
 {% block below_container %}

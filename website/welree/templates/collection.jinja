@@ -1,26 +1,12 @@
 {% extends "base.jinja" %}
-{% import "macros.jinja" as macros %}
 {% block extra_css %}
-<style type="text/css">
-  h1 a, h1 a:hover, h1 a:visited {
-    color: #999;
-  }
-</style>
+    <link rel="stylesheet" type="text/css" href="/static/css/view_collection.css"/>
+    <style type="text/css">
+      .tile-ideabook-create {
+        display: none;
+      }
+    </style>
 {% endblock %}
 {% block below_container %}
-    <div class="container-fluid">
-        <h1>{{ collection.name }} <small>by <a href="{{ owner.get_absolute_url() }}">{{ owner.full_name }}<a/></small></h1>
-        <hr>
-        <div class="row">
-            <div class="col-lg-12">
-                <h4>Photos in this collection:</h4>
-                {{ macros.thumb_row(items, collection) }}
-            </div>
-        </div>
-    </div>
-    <div id="disqus_thread"></div>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-{% endblock %}
-{% block extra_js %}
-    {% include "disqus.jinja" %}
+    {% include "my_collection.jinja" %}
 {% endblock %}
