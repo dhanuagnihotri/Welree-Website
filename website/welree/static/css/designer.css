@@ -6,7 +6,6 @@
 .designer-image .img {
   width: 100%;
   height: 850px;
-  background-image: url("{{ user.cover_photo.url|safe if user.cover_photo else "/static/img/person.svg.png" }}");
   background-size: cover;
   background-position: center center;
 }

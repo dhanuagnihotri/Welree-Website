@@ -2,6 +2,11 @@
 {% import "macros.jinja" as macros %}
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="/static/css/designer.css"/>
+<style type="text/css">
+.designer-image .img {
+  background-image: url("{{ user.cover_photo.url|safe if user.cover_photo else "/static/img/person.svg.png" }}");
+}
+</style>
 {% endblock %}
 
 {% block above_container %}
