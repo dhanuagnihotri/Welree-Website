@@ -48,6 +48,18 @@ body, p, h1, h2, h3, h4, h5, h6 {
     background-color: #fff;
     color: #000;
 }
+#header .menu-icon {
+    height: 14px;
+    width: 14px;
+    background-size: 100% 100%;
+    display: inline-block;
+}
+#header .menu-icon.menu-minus {
+    background-image: url('/static/img/menu-minus.png');
+}
+#header .menu-icon.menu-plus {
+    background-image: url('/static/img/menu-plus.png');
+}
 #header .navbar-collapse.collapsing,
 #header .navbar-collapse.collapse.in {
     text-align: right;

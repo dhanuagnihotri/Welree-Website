@@ -184,7 +184,7 @@ $(function() {
     });
     $('#header .search-category').on('click', function(e) {
         e.preventDefault(); e.stopPropagation();
-        $(this).find('.glyphicon').toggleClass('glyphicon-plus glyphicon-minus').closest('li').toggleClass('active-facet');
+        $(this).find('.menu-icon').toggleClass('menu-plus menu-minus').closest('li').toggleClass('active-facet');
         $(this).find('ul').slideToggle();
     });
     $('#header .search-category li.search-facet').on('click', function(e) {
