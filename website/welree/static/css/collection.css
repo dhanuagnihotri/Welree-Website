@@ -17,7 +17,7 @@
 }
 .featured-collection > div {
     float: left;
-    height: 100px;
+    height: 150px;
     width: 25%;
 }
 .featured-collection .inner {
@@ -62,7 +62,7 @@
     position: absolute;
     top: -12px;
     width: 100px;
-    height: 124px;
+    height: 174px;
     z-index: -1;
 }
 .featured-collection img.collection-border-left {
