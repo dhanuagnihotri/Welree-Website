@@ -80,9 +80,6 @@
                   {{ sorlimgtag(item.primary_photo, "%sx%s"%(w,h), crop="center") }}
               </a>
               <a href="{{ url }}">
-                  <div class="carousel-caption">
-                    <h4>{{ item.description|truncatechars(80) }}</h4>
-                  </div>
                   <div class="carousel-designer font-special"><a href="{{ collection.owner.get_absolute_url() }}">{{ collection.owner.full_name }}</a></div>
               </a>
           </div>
