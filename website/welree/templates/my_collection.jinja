@@ -7,7 +7,7 @@
   </div>
   <div class="row gradient">
     <div class="col-md-8">
-      {{ macros.grid_items(items, request.user.get_upload_url(collection) if request.user.is_authenticated() else "#") }}
+      {{ macros.grid_items(items, "#modal-addtocollection" if request.user.is_authenticated() else "#") }}
     </div>
     <div class="col-md-4">
       <p class="collection-title">{{ collection.name }}</p>
@@ -22,5 +22,21 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="modal-addtocollection">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4 class="modal-title">ADD TO IDEABOOK</h4>
+        BODY
+        {#{{ macros.grid_items(items, request.user.get_upload_url(collection) if request.user.is_authenticated() else "#") }}#}
+        <div class="modal-footer-buttons">
+          <button type="button" class="btn btn-primary">+ ADD PHOTO TO IDEABOOK</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">CANCEL</button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 {% set disqus_url = collection.get_absolute_url()[:-1] %}
 {% include "disqus.jinja" %}

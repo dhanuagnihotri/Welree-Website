@@ -74,6 +74,32 @@
     color: #27bdbe !important;
     text-decoration: none;
   }
+
+  #modal-addtocollection .modal-dialog {
+    margin-top: 70px;
+  }
+  #modal-addtocollection .modal-title {
+    position: absolute;
+    top: -30px;
+    left: 0px;
+    color: #fff;
+  }
+  #modal-addtocollection .modal-footer-buttons {
+    position: absolute;
+    bottom: -50px;
+    right: 0px;
+  }
+  #modal-addtocollection .modal-body {
+    position: relative;
+  }
+  #modal-addtocollection .btn-primary {
+    background-color: #27bdbe;
+    border-color: #27bdbe;
+  }
+  #modal-addtocollection .btn-danger {
+    background-color: #d25e60;
+    border-color: #d25e60;
+  }
 </style>
 {% endblock %}
 {% block below_container %}
@@ -210,6 +236,7 @@
         window.location.href = '/my/#ideabooks';
       }
     }
+    $('a[href="#modal-addtocollection"]').attr('data-toggle', 'modal');
   });
 </script>
 {% endblock %}
