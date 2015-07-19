@@ -191,9 +191,9 @@
   </div>
 {% endmacro %}
 
-{% macro grid_likes(items, max=999) %}
+{% macro grid_likes(items, max=999, w=200, h=150) %}
   <div class="clearfix">{% for item in items[:max] %}
-    {{ tile(item.get_primary_photo(), item.item.description, item.get_absolute_url()) }}
+    {{ tile(item.get_primary_photo(), item.item.description, item.get_absolute_url(), w=w, h=h) }}
   {% endfor %}</div>
 {% endmacro %}
 

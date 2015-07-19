@@ -77,6 +77,7 @@
 
   #modal-addtocollection .modal-dialog {
     margin-top: 70px;
+    width: 900px;
   }
   #modal-addtocollection .modal-title {
     position: absolute;
@@ -99,6 +100,12 @@
   #modal-addtocollection .btn-danger {
     background-color: #d25e60;
     border-color: #d25e60;
+  }
+  #modal-addtocollection .tile-name {
+    display: none;
+  }
+  #modal-addtocollection .tile-image, #modal-addtocollection .tile-ideabook {
+    width: 156px;
   }
 </style>
 {% endblock %}
@@ -209,6 +216,21 @@
         </form>
     </div>
   </div>
+  <div class="modal fade" id="modal-addtocollection">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h4 class="modal-title">ADD TO IDEABOOK</h4>
+          {{ macros.grid_likes(my_likes, w=150, h=150) }}
+          {#{{ macros.grid_items(items, request.user.get_upload_url(collection) if request.user.is_authenticated() else "#") }}#}
+          <div class="modal-footer-buttons">
+            <button type="button" class="btn btn-primary">+ ADD PHOTO TO IDEABOOK</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">CANCEL</button>
+          </div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 {% endblock %}
 {% block extra_js %}
 <script>
