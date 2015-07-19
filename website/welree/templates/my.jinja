@@ -77,21 +77,23 @@
 
   #modal-addtocollection .modal-dialog {
     margin-top: 70px;
-    width: 900px;
+    width: 873px;
+  }
+  #modal-addtocollection .modal-body {
+    position: relative;
+    padding-right: 8.5px;
   }
   #modal-addtocollection .modal-title {
     position: absolute;
     top: -30px;
     left: 0px;
     color: #fff;
+    font-weight: bold;
   }
   #modal-addtocollection .modal-footer-buttons {
     position: absolute;
     bottom: -50px;
     right: 0px;
-  }
-  #modal-addtocollection .modal-body {
-    position: relative;
   }
   #modal-addtocollection .btn-primary {
     background-color: #27bdbe;
@@ -104,8 +106,12 @@
   #modal-addtocollection .tile-name {
     display: none;
   }
-  #modal-addtocollection .tile-image, #modal-addtocollection .tile-ideabook {
+  #modal-addtocollection .tile-image, #modal-addtocollection .tile-ideabook, #modal-addtocollection .phase2-border {
     width: 156px;
+    color: #fff;
+  }
+  #modal-addtocollection .tile-image.selected, #modal-addtocollection .tile-image:hover {
+    border-color: #27bdbe;
   }
 </style>
 {% endblock %}
@@ -216,21 +222,30 @@
         </form>
     </div>
   </div>
+
   <div class="modal fade" id="modal-addtocollection">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body">
           <h4 class="modal-title">ADD TO IDEABOOK</h4>
+          <div class="tile-ideabook tile-ideabook-create">
+            <a href="{{ request.user.get_upload_url(collection) if request.user.is_authenticated() else "#" }}">
+              <div class="phase2-border">
+                <img src="/static/img/icon-new-ideabook.png">
+                <div style="position: absolute; bottom: 0px; text-align: center; width: 100%">UPLOAD PHOTO</div>
+              </div>
+            </a>
+          </div>
           {{ macros.grid_likes(my_likes, w=150, h=150) }}
-          {#{{ macros.grid_items(items, request.user.get_upload_url(collection) if request.user.is_authenticated() else "#") }}#}
           <div class="modal-footer-buttons">
-            <button type="button" class="btn btn-primary">+ ADD PHOTO TO IDEABOOK</button>
+            <button type="button" class="btn btn-primary btn-add-photos">+ ADD PHOTOS TO IDEABOOK</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">CANCEL</button>
           </div>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
+
 {% endblock %}
 {% block extra_js %}
 <script>
@@ -259,6 +274,19 @@
       }
     }
     $('a[href="#modal-addtocollection"]').attr('data-toggle', 'modal');
+    $('#modal-addtocollection .tile-image').on('click', function(e) {
+      e.preventDefault();
+      $(this).toggleClass('selected');
+    });
+    $('#modal-addtocollection .btn-add-photos').on('click', function(e) {
+      e.preventDefault();
+      var selected = $('#modal-addtocollection .tile-image.selected');
+      selected.each(function(i, el) {
+        var item_id = $(this).closest('.tile-ideabook').attr('data-item-id');
+        var url = welree.add_to_collection({{ collection.id if collection else 0 }}, item_id, i == selected.length - 1);
+      });
+    });
+
   });
 </script>
 {% endblock %}

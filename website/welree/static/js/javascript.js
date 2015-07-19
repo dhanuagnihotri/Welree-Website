@@ -50,6 +50,25 @@ welree.like = function(button, liked) {
   }
 };
 
+welree.add_to_collection = function(collection_id, item_id, redirect) {
+    var data = {'collection': collection_id, 'item': item_id};
+    var redirect_url;
+    $.ajax({
+        type: 'POST',
+        url: '/api/v1/collection/add/',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        processData: false,
+    }).done(function(data, status, xhr) {
+        if (redirect === true ) {
+          window.location.href = data.redirect;
+        }
+    }).fail(function(data, status) {
+        console.log('fail', data, status);
+        alert('Please log in or sign up to add this item to a collection.');
+    });
+}
+
 welree.wire_action_buttons = function(item_getter, placement) {
     var selector_add = 'a.action-add';
     var selector_like = 'a.action-like';
@@ -69,19 +88,7 @@ welree.wire_action_buttons = function(item_getter, placement) {
         e.preventDefault();
         var collection = $(this).data('collection');
         var item = item_getter().data('item-id');
-        var data = {'collection': collection, 'item': item};
-        $.ajax({
-            type: 'POST',
-            url: '/api/v1/collection/add/',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            processData: false,
-        }).done(function(data, status, xhr) {
-            window.location.href = data.redirect;
-        }).fail(function(data, status) {
-            console.log('fail', data, status);
-            alert('Please log in or sign up to add this item to a collection.');
-        });
+        welree.add_to_collection(collection, item, true);
     });
     $(selector_like).on('click', function(e) {
         e.preventDefault();

@@ -127,7 +127,7 @@ def profile_designer(request, user):
 @login_required
 def my(request):
     form_collection_new = CollectionForm(initial={'kind': models.JewelryCollection.KIND_IDEABOOK})
-    collections = [c.annotated() for c in request.user.collections.all()]
+    collections = [c.annotated() for c in request.user.collections.order_by('-id')]
     try:
         cid = int(request.GET['collection'])
         collection = request.user.collections.get(id=cid)
