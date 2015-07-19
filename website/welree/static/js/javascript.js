@@ -95,14 +95,20 @@ welree.wire_action_buttons = function(item_getter, placement) {
         var item = item_getter().data('item-id');
         var collection = item_getter().data('collection-id');
         var data = {'collection': collection, 'item': item};
+        var liking = welree.likes.indexOf(parseInt(item)) === -1;
         $.ajax({
             type: 'POST',
-            url: '/api/v1/jewelry/like/',
+            url: '/api/v1/jewelry/' + (liking ? 'like' : 'unlike') + '/',
             data: JSON.stringify(data),
             contentType: 'application/json',
             processData: false,
         }).done(function(data, status, xhr) {
-            welree.like(selector_like, true);
+            welree.like(selector_like, liking);
+            if (liking) {
+              welree.likes.push(item);
+            } else {
+              welree.likes.splice(welree.likes.indexOf(item), 1);
+            }
         }).fail(function(data, status) {
             console.log('fail', data, status);
             alert('Please log in or sign up to like this item.');

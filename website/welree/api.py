@@ -201,6 +201,16 @@ class JewelryItemResource(OwnerModelResource):
                     "collection": {"type": "string", "required": True},
                     "item": {"type": "string", "required": True},
                 }
+            },
+            {
+                "name": "unlike",
+                "http_method": "POST",
+                "description": "unlike a jewelry item",
+                "resource_type": "list",
+                "fields": {
+                    "collection": {"type": "string", "required": True},
+                    "item": {"type": "string", "required": True},
+                }
             }
         ]
 
@@ -217,6 +227,9 @@ class JewelryItemResource(OwnerModelResource):
             url(r'^(?P<resource_name>%s)/like%s$' %
                 (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('like'), name='api_likecollectionitem'),
+            url(r'^(?P<resource_name>%s)/unlike%s$' %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('unlike'), name='api_unlikecollectionitem'),
         ]
 
     def like(self, request, **kwargs):
@@ -227,6 +240,15 @@ class JewelryItemResource(OwnerModelResource):
         item_obj = models.JewelryItem.objects.get(id=item_id)
         if not models.JewelryLike.objects.filter(owner=request.user, item=item_obj).exists():
             models.JewelryLike.objects.create(owner=request.user, collection=collection_obj, item=item_obj)
+        return self.create_response(request, {'success': True})
+
+    def unlike(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+        data = self.deserialize(request, request.body)
+        collection_obj = get_collection(request, data)
+        item_id = data.get('item', '')
+        item_obj = models.JewelryItem.objects.get(id=item_id)
+        models.JewelryLike.objects.filter(owner=request.user, collection=collection_obj, item=item_obj).delete()
         return self.create_response(request, {'success': True})
 
 class UserResource(MultipartResource, ModelResource):
