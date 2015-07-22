@@ -449,3 +449,25 @@ div.collection-slider .slider-collection-new {
     white-space: nowrap;
     overflow: hidden;
 }
+
+.tile-image .inner {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.tile-image img.border {
+    position: absolute;
+    top: -10px;
+    width: 100px;
+    height: 174px;
+    z-index: -1;
+}
+
+.tile-image img.border-left {
+    left: -12px;
+}
+
+.tile-image img.border-right {
+    right: -14px;
+}

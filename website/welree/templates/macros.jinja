@@ -145,12 +145,16 @@
 {% macro tile(item_id, image, title, url, default_image=None, w=200, h=150) %}
       <div class="tile-ideabook" data-item-id="{{ item_id }}">
         <a href="{{ url }}">
-        <div class="tile-image phase2-border">
-          {% if image %}
-            {{ sorlimgtag(image, "{}x{}".format(w, h), crop="center") }}
-          {% elif default_image %}
-            <img src="{{ default_image }}" width="{{w}}" height="{{h}}">
-          {% endif %}
+        <div class="tile-image ">
+          <div class="inner">
+            <img class="border border-left" src="/static/img/collection-bg-left.png">
+            <img class="border border-right" src="/static/img/collection-bg-right.png">
+            {% if image %}
+              {{ sorlimgtag(image, "{}x{}".format(w, h), crop="center") }}
+            {% elif default_image %}
+              <img src="{{ default_image }}" width="{{w}}" height="{{h}}">
+            {% endif %}
+          </div>    
         </div>
         </a>
         <div class="tile-name">{{ title }}</div>
