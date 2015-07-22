@@ -438,8 +438,10 @@ div.collection-slider .slider-collection-new {
   text-transform: uppercase;
   text-align: center;
   margin-top: 12.5px;
-  margin-right: 12.5px;
+  margin-right: 20px;
+  margin-left: 10px;
 }
+
 .tile-image {
     width: 206px;
     height: 156px;
@@ -456,16 +458,21 @@ div.collection-slider .slider-collection-new {
     position: relative;
 }
 
+.tile-image img {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
 .tile-image img.border {
     position: absolute;
     top: -10px;
-    width: 100px;
-    height: 174px;
+    width: 245px;
+    height: 180px;
     z-index: -1;
 }
 
 .tile-image img.border-left {
-    left: -12px;
+    left: -18px;
 }
 
 .tile-image img.border-right {
