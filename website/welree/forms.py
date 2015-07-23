@@ -95,8 +95,6 @@ class JewelryItemForm(forms.ModelForm):
 
         if owner:
             qs_kwargs = {'owner': owner}
-            if owner.is_designer:
-                qs_kwargs['kind'] = models.JewelryCollection.KIND_DESIGNER
             self.fields['collection'].queryset = models.JewelryCollection.objects.filter(**qs_kwargs)
 
 class TastyJewelryItemForm(forms.ModelForm):

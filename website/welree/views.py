@@ -126,7 +126,7 @@ def profile_designer(request, user):
 
 @login_required
 def my(request):
-    form_collection_new = CollectionForm(initial={'kind': models.JewelryCollection.KIND_IDEABOOK})
+    form_collection_new = CollectionForm(initial={'kind': models.JewelryCollection.KIND_DESIGNER if request.user.is_designer else models.JewelryCollection.KIND_IDEABOOK})
     collections = [c.annotated() for c in request.user.collections.order_by('-id')]
     try:
         cid = int(request.GET['collection'])
@@ -222,7 +222,7 @@ def designer_upload(request):
     collection = request.GET.get('collection')
     form_collection_new = CollectionForm(initial={'kind': models.JewelryCollection.KIND_DESIGNER})
     form_jewelryitem_new = JewelryItemForm(owner=request.user, initial={'collection': collection})
-    collections = request.user.collections.filter(kind=models.JewelryCollection.KIND_DESIGNER)
+    collections = request.user.collections.all()
     return r2r('designer/upload.jinja', request, locals())
 
 @login_required
