@@ -39,7 +39,7 @@ def home(request):
     featuredobjects = models.FeaturedCollection.objects.select_related('collection')[:2]
     featuredcollections = [f.collection.annotated() for f in featuredobjects]
     for featured, collection in zip(featuredobjects, featuredcollections):
-        collection.secondary = (featured.item1, featured.item2)
+        collection.secondary = (featured.item1.primary_photo, featured.item2.primary_photo)
     return r2r("index.jinja", request, locals())
 
 def events(request):
