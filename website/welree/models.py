@@ -169,6 +169,8 @@ class JewelryLike(models.Model):
 class FeaturedCollection(models.Model):
     collection = models.ForeignKey('welree.JewelryCollection')
     order = models.PositiveIntegerField(default=0, blank=False, null=False)
+    item1 = models.ForeignKey('welree.JewelryItem', related_name='featured_first')
+    item2 = models.ForeignKey('welree.JewelryItem', related_name='featured_second')
 
     class Meta(object):
         ordering = ('order',)
@@ -204,6 +206,7 @@ class JewelryCollection(models.Model):
 
     def annotated(self):
         self.annotated_photos = [item.primary_photo for item in self.items.all()[:3]]
+        self.secondary = ()
         return self
 
     def get_absolute_url(self):

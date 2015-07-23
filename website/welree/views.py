@@ -36,7 +36,10 @@ def superuser_required(function):
 def home(request):
     curated = models.JewelryItem.curated.order_by('-id')
     editorials = models.Editorial.objects.all()[:4]
-    featuredcollections = [f.collection.annotated() for f in models.FeaturedCollection.objects.select_related('collection')[:2]]
+    featuredobjects = models.FeaturedCollection.objects.select_related('collection')[:2]
+    featuredcollections = [f.collection.annotated() for f in featuredobjects]
+    for featured, collection in zip(featuredobjects, featuredcollections):
+        collection.secondary = (featured.item1, featured.item2)
     return r2r("index.jinja", request, locals())
 
 def events(request):

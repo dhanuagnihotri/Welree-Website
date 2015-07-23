@@ -122,20 +122,16 @@
       <a href="{{ collection.get_absolute_url() }}">
       <div class="featured-collection clearfix">
           {% if loop.index is odd %}{{ collection_primary(collection) }}{% endif %}
-          <div class="secondary"><div class="inner">
-              {% if collection.annotated_photos[1] %}
-                  {{ sorlimgtag(collection.annotated_photos[1], "256x100", crop="center", classes="collection") }}
-              {% else %}
-                  <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg" class="collection">
-              {% endif %}
-          </div></div>
-          <div class="secondary"><div class="inner">
-              {% if collection.annotated_photos[2] %}
-                  {{ sorlimgtag(collection.annotated_photos[2], "256x100", crop="center", classes="collection") }}
-              {% else %}
-                  <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg" class="collection">
-              {% endif %}
-          </div></div>
+          {% for i in range(2) %}
+            <div class="secondary"><div class="inner">
+                {% set secondary = collection.secondary[i] or collection.annotated_photos[i+1] %}
+                {% if secondary %}
+                    {{ sorlimgtag(secondary, "256x100", crop="center", classes="collection") }}
+                {% else %}
+                    <img src="https://farm8.staticflickr.com/7634/16557874227_3ab8190bdd_b.jpg" class="collection">
+                {% endif %}
+            </div></div>
+          {% endfor %}
           {% if loop.index is even %}{{ collection_primary(collection) }}{% endif %}
       </div>
       </a>
