@@ -176,7 +176,7 @@
                 </h5>
               </div>
             {% endif %}
-          {% endif %}  
+          {% endif %}
         {% endfor %}
       {% endif %}
     </div>
@@ -265,9 +265,6 @@
     });
     if (window.location.hash) {
       $('a[href='+window.location.hash+']').click();
-    } else {
-      window.location.hash = 'ideabooks';
-      $('a[href=#ideabooks]').click();
     }
     fade = 300;
     redirect_check = function(that) {

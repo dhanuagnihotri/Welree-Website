@@ -75,12 +75,12 @@ class CollectionForm(forms.ModelForm):
 
     class Meta:
         model = models.JewelryCollection
-        fields = ['name']
+        fields = ['name', 'description']
 
 class TastyCollectionForm(CollectionForm):
     class Meta:
         model = models.JewelryCollection
-        fields = ['owner', 'name']
+        fields = ['owner', 'name', 'description']
 
 class JewelryItemForm(forms.ModelForm):
     collection = forms.ModelChoiceField(queryset=models.JewelryCollection.objects.none())
