@@ -181,7 +181,7 @@
     </div>
     {% for book in ideabooks[:max] %}
       {% set image = book.annotated_photos[0] if book.annotated_photos else None %}
-      {% set url = '?collection={}'.format(book.id) if my else book.get_absolute_url() %}
+      {% set url = '?collection={}#ideabooks'.format(book.id) if my else book.get_absolute_url() %}
       {{ tile(book.id, image, book.name, url, w=w, h=h) }}
     {% endfor %}
   </div>

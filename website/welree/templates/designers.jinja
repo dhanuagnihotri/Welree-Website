@@ -43,7 +43,7 @@
 
 {% endblock %}
 
-{% block below_container %}        
+{% block below_container %}
     <div class="designers">
         {% for person in users %}
                 <a href="{{ person.get_absolute_url() }}" target="_blank">
@@ -72,4 +72,4 @@
                 </div>
         {% endfor %}
     </div>
-{% endblock %}              
+{% endblock %}

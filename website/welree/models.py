@@ -26,7 +26,7 @@ class CustomUser(AbstractUser):
     activity = generic.GenericRelation('UserActivity')
     about_studio = MarkupField(default="", markup_type="markdown", help_text=MARKDOWN_ALLOWED, blank=True, null=True)
     cover_photo = SorlImageField(upload_to="profiles", blank=True, null=True, help_text="A wide, high resolution image to display at the top of your profile.")
-    logo = SorlImageField(upload_to="profiles", blank=True, null=True, help_text="An optional business card sized logo for your profile.")
+    logo = SorlImageField(upload_to="profiles", blank=True, null=True, help_text="An optional business card sized logo (350px x 185px) for your profile.")
 
     def email_user(self, subject, message, from_email=None, ignore_confirmed=False):
         if not (ignore_confirmed or self.email_confirmed):
@@ -223,7 +223,7 @@ class JewelryCollection(models.Model):
 
     def __unicode__(self):
         return self.name
-    
+
 class JewelryItem(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="jewelryitems")
     primary_photo = SorlImageField(upload_to='jewelry')
@@ -236,7 +236,7 @@ class JewelryItem(models.Model):
     material = models.CharField(max_length=255)
     occasion = models.CharField(max_length=255, blank=True, null=True)
     tags = models.CharField(max_length=255, help_text="Separate multiple hashtags with spaces", blank=True, null=True)
-    
+
     is_approved = models.BooleanField(default=False)
 
     objects = models.Manager()
@@ -269,7 +269,7 @@ def add_activity_add_item(sender, **kwargs):
                                                 object_id=instance.id,
                                                 owner=kwargs.get('instance').owner,
                                                 kind=UserActivity.TYPE_MODIFY_IDEABOOK)
-    logger.error("Post save got called for adding new item !")    
+    logger.error("Post save got called for adding new item !")
 
 def add_activity_new_collection(sender, **kwargs):
     if 'created' in kwargs:
@@ -280,7 +280,7 @@ def add_activity_new_collection(sender, **kwargs):
                                                 object_id=instance.id,
                                                 owner=kwargs.get('instance').owner,
                                                 kind=UserActivity.TYPE_CREATE_IDEABOOK)
-    logger.error("Post save got called for creating a new collection!")    
+    logger.error("Post save got called for creating a new collection!")
 
 post_save.connect(add_activity_new_collection, sender=JewelryCollection)
 post_save.connect(add_activity_add_item, sender=JewelryItem)

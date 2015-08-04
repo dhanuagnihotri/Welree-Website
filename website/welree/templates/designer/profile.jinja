@@ -29,7 +29,7 @@
         {% else %}
           <img src="/static/img/person.svg.png">
         {% endif %}
-        <p class="subtitle">Subtitle for Sydney Joe</p>
+        <p class="subtitle">{{ user.full_name }}</p>
         <div class="blurb">{{ user.bio.rendered|truncatechars(280)|safe }}</div>
       </div>
       <div class="designer-five">
