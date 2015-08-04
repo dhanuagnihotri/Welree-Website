@@ -104,8 +104,8 @@ def item(request, coll_pk, item_pk):
     item = get_object_or_404(models.JewelryItem, pk=item_pk)
     collection = get_object_or_404(models.JewelryCollection, pk=coll_pk)
     owner = item.owner
-    related_collection = list(collection.items.exclude(id=item.id).exclude(primary_photo=None))
-    related_similar = [similar.object for similar in SearchQuerySet().models(models.JewelryItem).more_like_this(item)]
+    related_collection = list(collection.items.exclude(id=item.id).exclude(primary_photo=None))[:6]
+    related_similar = [similar.object for similar in SearchQuerySet().models(models.JewelryItem).more_like_this(item)][:6]
     return r2r('item.jinja', request, locals())
 
 def collection(request, coll_pk):
